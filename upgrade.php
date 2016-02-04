@@ -61,84 +61,84 @@ $settingstable = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_g
 $settings = $settingstable->fetchRow();
 
 // If not already there, add new fields to the existing settings table
-echo'<span class="good"><b>Adding new fields to the settings table</b></span><br />';
+echo '<span class="good"><b>Adding new fields to the settings table</b></span><br />';
 
 if(!isset($settings['gfooter'])){
 	if($database->query("ALTER TABLE `".TABLE_PREFIX."mod_download_gallery_settings` ADD `gfooter` TEXT NOT NULL AFTER `userupload`")) {
-		echo '<span class="good">Database Field gfooter added successfully</a><br />';
+		echo '<span class="good">Database Field "gfooter" added successfully</a><br />';
 	}
     if($database->is_error()) {
 		echo '<span class="bad">'.$database->get_error().'</span><br />';
     }
 } else {
-    echo '<span class="ok">Database Field gfooter exists update not needed</span><br />';
+    echo '<span class="ok">Database Field "gfooter" exists, update not needed</span><br />';
 }
 
 if(!isset($settings['gloop'])){
 	if($database->query("ALTER TABLE `".TABLE_PREFIX."mod_download_gallery_settings` ADD `gloop` TEXT NOT NULL AFTER `userupload`")) {
-		echo '<span class="good">Database Field gloop added successfully</span><br />';
+		echo '<span class="good">Database Field "gloop" added successfully</span><br />';
 	}
 	if($database->is_error()) {
 		echo '<span class="bad">'.$database->get_error().'</span><br />';
     }
 } else {
-    echo '<span class="ok">Database Field gloop exists update not needed</span><br />';
+    echo '<span class="ok">Database Field "gloop" exists, update not needed</span><br />';
 }
 
 if(!isset($settings['gheader'])){
 	if($database->query("ALTER TABLE `".TABLE_PREFIX."mod_download_gallery_settings` ADD `gheader` TEXT NOT NULL AFTER `userupload`")) {
-		echo '<span class="good">Database Field gheader added successfully</span><br />';
+		echo '<span class="good">Database Field "gheader" added successfully</span><br />';
 	}
 	if($database->is_error()) {
 		echo '<span class="bad">'.$database->get_error().'</span><br />';
     }
 } else {
-    echo '<span class="ok">Database Field gheader exists update not needed</span><br />';
+    echo '<span class="ok">Database Field "gheader" exists, update not needed</span><br />';
 }
 
 if(!isset($settings['search_filter'])){
 	if($database->query("ALTER TABLE `".TABLE_PREFIX."mod_download_gallery_settings` ADD `search_filter` TEXT NOT NULL AFTER `gfooter`")) {
-		echo '<span class="good">Database Field search_filter added successfully</span><br />';
+		echo '<span class="good">Database Field "search_filter" added successfully</span><br />';
 	}
 	if($database->is_error()) {
 		echo '<span class="bad">'.$database->get_error().'</span><br />';
     }
 } else {
-    echo '<span class="ok">Database Field search_filter exists update not needed</span><br />';
+    echo '<span class="ok">Database Field "search_filter" exists, update not needed</span><br />';
 }
 
 
 if(!isset($settings['search_layout'])){
 	if($database->query("ALTER TABLE `".TABLE_PREFIX."mod_download_gallery_settings` ADD `search_layout` TEXT NOT NULL AFTER `search_filter`")) {
-		echo '<span class="good">Database Field search_layout added successfully</span><br />';
+		echo '<span class="good">Database Field "search_layout" added successfully</span><br />';
 	}
 	if($database->is_error()) {
 		echo '<span class="bad">'.$database->get_error().'</span><br />';
     }
 } else {
-    echo '<span class="ok">Database Field search_layout exists update not needed</span><br />';
+    echo '<span class="ok">Database Field "search_layout" exists, update not needed</span><br />';
 }
 
 if(!isset($settings['use_captcha'])){
 	if($database->query("ALTER TABLE `".TABLE_PREFIX."mod_download_gallery_settings` ADD `use_captcha` TINYINT( 3 ) NOT NULL DEFAULT 0 AFTER `search_layout`")) {
-		echo '<span class="good">Database Field use_captcha added successfully</span><br />';
+		echo '<span class="good">Database Field "use_captcha" added successfully</span><br />';
 	}
 	if($database->is_error()) {
 		echo '<span class="bad">'.$database->get_error().'</span><br />';
     }
 } else {
-    echo '<span class="ok">Database Field suse_captcha exists update not needed</span><br />';
+    echo '<span class="ok">Database Field "suse_captcha" exists, update not needed</span><br />';
 }
 
 if(!isset($settings['pushmode'])){
 	if($database->query("ALTER TABLE `".TABLE_PREFIX."mod_download_gallery_settings` ADD `pushmode` TINYINT( 3 ) NOT NULL DEFAULT 0 AFTER `search_layout`")) {
-		echo '<span class="good">Database Field pushmode added successfully</span><br />';
+		echo '<span class="good">Database Field "pushmode" added successfully</span><br />';
 	}
     if($database->is_error()) {
 		echo '<span class="bad">'.$database->get_error().'</span><br />';
     }
 } else {
-    echo '<span class="ok">Database Field pushmode exists update not needed</span><br />';
+    echo '<span class="ok">Database Field "pushmode" exists, update not needed</span><br />';
 }
 
 echo"<br />";
