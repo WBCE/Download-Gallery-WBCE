@@ -156,22 +156,22 @@ $footer = addslashes('<table cellpadding="0" cellspacing="0" border="0" width="9
 
 $file_header = addslashes('<table cellpadding="0" cellspacing="0" border="0">
 <tr>
-<td class="mod_download_gallery_line_f"> [THTITLE] </td>
-<td class="mod_download_gallery_line_rightalign_f"> [THCHANGED] </td>
-<td class="mod_download_gallery_line_rightalign_f"> [THRELEASED] </td>
-<td class="mod_download_gallery_line_rightalign_f"> [THSIZE] </td>
-<td class="mod_download_gallery_line_rightalign_f"> [THCOUNT]  </td>
+<td class="line_f"> [THTITLE] </td>
+<td class="line_rightalign_f"> [THCHANGED] </td>
+<td class="line_rightalign_f"> [THRELEASED] </td>
+<td class="line_rightalign_f"> [THSIZE] </td>
+<td class="line_rightalign_f"> [THCOUNT]  </td>
 </tr>');
 
 $files_loop = addslashes('<tr>
-<td class="mod_download_gallery_line_f"><img src="[FTIMAGE]" alt="" /> <a href="[LINK]" target="dlg"><b>[TITLE]</b></a></td>
-<td class="mod_download_gallery_line_rightalign_f"> [DATE]</td>
-<td class="mod_download_gallery_line_rightalign_f"> [RELEASED]</td>
-<td class="mod_download_gallery_line_rightalign_f"> [SIZE]</td>
-<td class="mod_download_gallery_line_rightalign_f"> [DL] </td>
+<td class="line_f"><img src="[FTIMAGE]" alt="" /> <a href="[LINK]" target="dlg"><b>[TITLE]</b></a></td>
+<td class="line_rightalign_f"> [DATE]</td>
+<td class="line_rightalign_f"> [RELEASED]</td>
+<td class="line_rightalign_f"> [SIZE]</td>
+<td class="line_rightalign_f"> [DL] </td>
 </tr>
 <tr>
-<td class="mod_download_gallery_line_text_f" colspan="5">[DESCRIPTION]</td>
+<td class="line_text_f" colspan="5">[DESCRIPTION]</td>
 </tr>');
 
 $file_footer = addslashes('</table>');
@@ -180,7 +180,7 @@ $gloop = addslashes('<tr>
 <td colspan="5">&nbsp;</td>
 </tr>
 <tr>
-<td class="mod_download_gallery_dgheader_f" colspan="5">[GROUPTITLE]</td>
+<td class="dgheader_f" colspan="5">[GROUPTITLE]</td>
 </tr>');
 
 $search_layout = addslashes('[SEARCHBOX] [SEARCHSUBMIT] [SEARCHRESULT]');
