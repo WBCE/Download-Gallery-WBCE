@@ -1,0 +1,263 @@
+<div class="mod_download_gallery">
+    <script type="text/javascript">
+    //<![CDATA[
+    function showpopup(URL, w, h) {
+    	day = new Date();
+    	id = day.getTime();
+    	var winl = (screen.width - w) / 2;
+    	var wint = (screen.height - h) / 2;
+    	eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width='+w+',height='+h+',left='+winl+',top='+wint);");
+    }
+
+    function process(element){
+    	switch(element.value){
+    		case "0":
+    			document.getElementById('extorder').style.display = "none";
+    			break;
+    		case "1":
+    			document.getElementById('extorder').style.display = "";
+    			break;
+    	}
+    }
+
+    function process2(element){
+    	switch(element.value){
+    		case "0":
+    			document.getElementById('tr_captcha').style.display = "none";
+    			break;
+    		case "1":
+    		case "2":
+    			document.getElementById('tr_captcha').style.display = "";
+    			break;
+    	}
+    }
+    //]]>
+    </script>
+
+    <form name="modify" action="<?php echo $data->self_link ?>/save_settings.php" method="post">
+    	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+    	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
+    	<table class="settings">
+            <thead>
+        		<tr>
+        			<th colspan="2"><?php echo $DGTEXT['GSETTINGS']; ?></th>
+        		</tr>
+            </thead>
+            <tbody>
+        		<tr>
+        			<td width="25%"><label for="files_per_page"><?php echo $DGTEXT['FILES_PER_PAGE']; ?>:</label></td>
+        			<td><input type="text" id="files_per_page" name="files_per_page" value="<?php echo $data->settings['files_per_page']; ?>" style="width: 30px" /> 0 = <?php echo $TEXT['UNLIMITED']; ?></td>
+        		</tr>
+        		<tr>
+        			<td width="25%"><label for="search_filter"><?php echo $DGTEXT['SEARCHFILTER']; ?>:</label></td>
+        			<td>
+        		        <?php
+        		        if ($data->settings['search_filter'] == '1') {
+        		            $checked = 'checked="checked"';
+        		        } else {
+        		            $checked = '';
+        		        }
+        		        ?>
+        		        <input type="checkbox" value="1" name="search_filter" id="search_filter" <?php echo $checked; ?> />
+        		    </td>
+        		</tr>
+        		<tr>
+        			<td width="25%"><label for="file_size_round"><?php echo $DGTEXT['FILE_ROUNDUP']; ?>:</label></td>
+        			<td>
+        		        <?php
+        		        if ($data->settings['file_size_roundup'] == '1') {
+        		            $checked = 'checked="checked"';
+        		        } else {
+        		            $checked = '';
+        		        }
+        		        ?>
+        		        <input type="checkbox" value="1" name="file_size_round" id="file_size_round" <?php echo $checked; ?> />
+        		    </td>
+        		</tr>
+                <tr>
+        			<td width="25%"><label for="file_size_decimals"><?php echo $DGTEXT['FILE_DECIMALS']; ?>:</label></td>
+        			<td>
+        				<?php $decicount = stripslashes($data->settings['file_size_decimals']); ?>
+        				<?php if ($decicount == "") { $decicount = 0; } ?>
+        				<select name="file_size_decimals" id="file_size_decimals">
+        					<option value ="0" <?php if ($decicount == 0) { echo "selected='selected'"; } ?> >0</option>
+        					<option value ="1" <?php if ($decicount == 1) { echo "selected='selected'"; } ?> >1</option>
+        					<option value ="2" <?php if ($decicount == 2) { echo "selected='selected'"; } ?> >2</option>
+        					<option value ="3" <?php if ($decicount == 3) { echo "selected='selected'"; } ?> >3</option>
+        					<option value ="4" <?php if ($decicount == 4) { echo "selected='selected'"; } ?> >4</option>
+        				</select>
+        		    </td>
+        		</tr>
+        		<tr>
+        			<td width="25%"><?php echo $DGTEXT['FILE_TYPE_EXT']; ?>:<br />
+                        <span class="smaller"><?php echo $DGTEXT['FILE_TYPE_EXT_INFO'] ?></span></td>
+        			<td>
+        				<table width="98%">
+        				<?php foreach($data->fileext as $ext): ?>
+        					<tr>
+        						<td width="20" style="padding-left: 5px;">
+        							<a href="javascript:showpopup('<?php echo $data->self_link ?>/modify_extensions.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;fileext_id=<?php echo $ext['fileext_id']; ?>',800,400)" title="<?php echo $TEXT['MODIFY']; ?>">
+        								<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="Modify - " />
+        							</a>
+        						</td>
+        						<td><?php echo $DGTEXT['FILE_TYPE'].": ".$ext['file_type']; ?></td>
+        						<td><?php
+        							$temp = (strlen($ext['extensions']) > 55) ? "..." : "";
+        							echo substr($ext['extensions'], 0, 55) . $temp;?>
+        						</td>
+        					</tr>
+        				<?php endforeach; ?>
+        				</table>
+        			</td>
+        		</tr>
+                <tr>
+                    <td><label for="template_dir"><?php echo $DGTEXT['TPLDIR'] ?>:</label></td>
+                    <td>
+                        <select id="template_dir" name="template_dir">
+                        <?php foreach($data->tpldirs as $dir): ?>
+                            <option value="<?php echo $dir ?>"><?php echo $dir ?></option>
+                        <?php endforeach; ?>
+                        </select>&nbsp;&nbsp;
+                        <input type="checkbox" name="use_default_css" id="use_default_css" />
+                        <label for="use_default_css"> <?php echo $DGTEXT['TPLCSS'] ?></label>
+                    </td>
+                </tr>
+        		<tr>
+        			<td width="25%"><label for="ordering"><?php echo $DGTEXT['ORDERING']; ?>:</label></td>
+        			<td>
+        				<select name="ordering" id="ordering">
+        					<?php
+        					if (
+        					    $data->settings['ordering'] == '0' or $data->settings['ordering'] == '2'
+                            ) {
+        						$selected_asc = 'selected="selected"';
+        						$selected_desc = '';
+        					} else {
+        						$selected_asc = '';
+        						$selected_desc = 'selected="selected"';
+        					}
+        					?>
+        					<option value="0" <?php echo $selected_asc; ?>><?php echo $DGTEXT['ASCENDING']; ?></option>
+        					<option value="1" <?php echo $selected_desc; ?>><?php echo $DGTEXT['DESCENDING']; ?></option>
+        				</select>
+        			</td>
+        		</tr>
+        		<tr>
+        			<td width="25%"><label for="orderby"><?php echo $DGTEXT['ORDERBY']; ?>:</label></td>
+        			<td>
+        				<select name="orderby" id="orderby" onchange="process(this);">
+        	            <?php
+        	    		if ($data->settings['ordering'] == '0' or $data->settings['ordering'] == '1')	{
+        	                $selected_position = 'selected="selected"';
+        	                $selected_title = '';
+        	                $visible='none';
+        				} else {
+        	                $selected_position = '';
+        	                $selected_title = 'selected="selected"';
+          	                $visible='';
+        				}
+        	            ?>
+        	            <option value="0" <?php echo $selected_position; ?>><?php echo $DGTEXT['POSITION']; ?></option>
+        	            <option value="1" <?php echo $selected_title; ?>><?php echo $DGTEXT['TITLE']; ?></option>
+        				</select>
+        			</td>
+        		</tr>
+        		<tr id="extorder" style="display:<?php echo $visible; ?>;">
+        			<td width="25%"><label for="extordering"><?php echo $DGTEXT['EXTORDERING']; ?>:</label></td>
+        			<td>
+        				<select name="extordering" id="extordering">
+        	            <?php
+        	            if ( $data->settings['extordering'] == '0' or $data->settings['extordering'] == '' ) {
+        	                $extselected_asc = 'selected="selected"';
+        	                $extselected_desc = '';
+        	                $extselected_none = '';
+        	            } elseif ($data->settings['extordering'] == '1' ) {
+        	                $extselected_asc = '';
+        	                $extselected_desc = 'selected="selected"';
+        	                $extselected_none = '';
+        	            } else {
+           	                $extselected_asc = '';
+        	                $extselected_desc = '';
+        	                $extselected_none = 'selected="selected"';
+        				}
+        	            ?>
+        	            <option value="9" <?php echo $extselected_none; ?>><?php echo $DGTEXT['NOSORT']; ?></option>
+        	            <option value="0" <?php echo $extselected_asc; ?>><?php echo $DGTEXT['ASCENDING']; ?></option>
+        	            <option value="1" <?php echo $extselected_desc; ?>><?php echo $DGTEXT['DESCENDING']; ?></option>
+        				</select> <?php echo $DGTEXT['EXTINFO']; ?>
+        			</td>
+        		</tr>
+
+        		<tr>
+        			<td width="25%"><label for="pushmode"><?php echo $DGTEXT['PUSHMODE']; ?>:</label></td>
+        			<td>
+        				<select name="pushmode" id="pushmode" style="width: 200px">
+        	            <?php
+        	    		if ($data->settings['pushmode'] == '0')	{
+        	                $selected_0 = 'selected="selected"';
+        	                $selected_1 = '';
+        				} else {
+        	                $selected_0 = '';
+        	                $selected_1 = 'selected="selected"';
+        				}
+        	            ?>
+        	            <option value="0" <?php echo $selected_0; ?>><?php echo $DGTEXT['DL_view']; ?></option>
+        	            <option value="1" <?php echo $selected_1; ?>><?php echo $DGTEXT['DL_save']; ?></option>
+        				</select><br />
+        				<?php echo $DGTEXT['PM_HELP']; ?><br />
+        			</td>
+        		</tr>
+
+        		<tr>
+        			<td width="25%"><?php echo $DGTEXT['USERUPLOAD']; ?>:</td>
+        			<td>
+        				<?php
+        					$uploadpub="";
+        					$uploadreg="";
+        					$uploadno="";
+        				if ($data->settings['userupload'] == '1') {
+        					$uploadpub="checked='checked'";
+        	                $visible2 = '';
+        				} elseif ($data->settings['userupload'] == '2') {
+        					$uploadreg="checked='checked'";
+        	                $visible2 = '';
+        				}else {
+        					$uploadno="checked='checked'";
+        	                $visible2 = 'none';
+        				}
+        				?>
+        				<input type="radio" name="userupload" class="userupload" value="0" <?php echo $uploadno; ?>  onchange="process2(this);" /><?php echo $DGTEXT['NOT']; ?>
+        				<input type="radio" name="userupload" class="userupload" value="2" <?php echo $uploadreg; ?> onchange="process2(this);" /><?php echo $DGTEXT['REGISTERED']; ?>
+        				<input type="radio" name="userupload" class="userupload" value="1" <?php echo $uploadpub; ?> onchange="process2(this);" /><?php echo $TEXT['PUBLIC']; ?>
+        			</td>
+        		</tr>
+        		<tr id="tr_captcha" style="display:<?php echo $visible2; ?>;">
+        			<td width="25%"><?php echo $TEXT['CAPTCHA_VERIFICATION']; ?>:</td>
+        			<td>
+        				<?php
+        					$use_captcha_true_checked = '';
+        					$use_captcha_false_checked = '';
+        					if ($fetch_content['use_captcha'] == '1') {
+        						$use_captcha_true_checked = "checked='checked'";
+        					} else {
+        						$use_captcha_false_checked = "checked='checked'";
+        					}
+        				?>
+        				<input type="radio" name="use_captcha" id="use_captcha_true" value="1" <?php echo $use_captcha_true_checked;  ?> />
+        				<label for="use_captcha_true"><?php echo $TEXT['ENABLED']; ?></label>
+        				<input type="radio" name="use_captcha" id="use_captcha_false" value="0" <?php echo $use_captcha_false_checked;  ?> />
+        				<label for="use_captcha_false"><?php echo $TEXT['DISABLED']; ?></label>
+        			</td>
+        		</tr>
+        		<tr class="gradient2">
+        			<td>
+        				<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" class="gradient1" />
+        			</td>
+        			<td style="text-align:right">
+        				<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" class="gradient1" onclick="javascript:window.location='<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id; ?>';" />
+        			</td>
+        		</tr>
+            </tbody>
+    	</table>
+    </form>
+</div>

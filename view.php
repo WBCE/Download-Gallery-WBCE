@@ -30,10 +30,15 @@ $data = array(
     'FTAN'        => (method_exists($admin,'getFTAN') ? $admin->getFTAN() : ''),
     'self_link'   => $selflink,
     'mod_version' => $module_version,
-    'groups'      => array(),
-    'gr2name'     => array(),
-    'ext2img'     => dlg_ext2img($section_id),
+    'groups'      => array(), // list of groups
+    'gr2name'     => array(), // maps group_id to group_name
+    'ext2img'     => dlg_ext2img($section_id), // maps file extension to icon
+    'filecount'   => 0,
+    'currcount'   => 0,
 );
+
+// get settings
+$data['settings'] = dlg_getsettings($section_id);
 
 // get groups
 list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id);
@@ -51,30 +56,27 @@ if($query_users->numRows() > 0) {
 	}
 }
 
-// Get settings
-$query_settings = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_settings` WHERE `section_id` = '$section_id'");
-if($query_settings->numRows() > 0) {
-	$settings = $query_settings->fetchRow();
-} else {
+// fix settings
+if(!count($data['settings'])) {
     // initialize vars that will be used later, but may not be set if the
     // DB statement fails or has no data
     include_once(WB_PATH.'/modules/download_gallery/functions.php');
-    $settings['ordering'] = 0;
-	$settings['extordering'] = 0;
-	$settings['files_per_page'] = 0;
-	$settings['file_size_decimals'] = 0;
-	$settings['file_size_roundup'] = 0;
-	$settings['ordering'] = 0;
-	$settings['userupload'] = 0;
+    $data['settings']['ordering'] = 0;
+	$data['settings']['extordering'] = 0;
+	$data['settings']['files_per_page'] = 0;
+	$data['settings']['file_size_decimals'] = 0;
+	$data['settings']['file_size_roundup'] = 0;
+	$data['settings']['ordering'] = 0;
+	$data['settings']['userupload'] = 0;
 }
 
-if($settings['ordering'] == '2' or $settings['ordering'] == '3') {
+if($data['settings']['ordering'] == '2' or $data['settings']['ordering'] == '3') {
 	$orderby = TABLE_PREFIX."mod_download_gallery_files.title";
 } else {
 	$orderby = TABLE_PREFIX."mod_download_gallery_files.position";
 }
 
-if ($settings['ordering'] == '0' or $settings['ordering'] == '2') {
+if ($data['settings']['ordering'] == '0' or $data['settings']['ordering'] == '2') {
 	$ordering = "ASC";
 } else {
 	$ordering = "DESC";
@@ -84,24 +86,24 @@ if ($settings['ordering'] == '0' or $settings['ordering'] == '2') {
 
 // Get total number of available download entries
 $query_total_num = $database->query("SELECT `file_id` FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `section_id` = '$section_id' AND `active` = '1' AND `title` != ''");
-$total_num = $query_total_num->numRows();
+$data['filecount'] = $query_total_num->numRows();
 
 // limit results?
-if($settings['files_per_page'] != 0) {
-	$limit_sql = " LIMIT $position, ".$settings['files_per_page'];
+if($data['settings']['files_per_page'] != 0) {
+	$limit_sql = " LIMIT $position, ".$data['settings']['files_per_page'];
 } else {
 	$limit_sql = "";
 }
 
-            // Query for search results
-            $searchfor = '';
-            $dlsearch = '';
-            if ($searchfor!="") {
-                $dlsearch = " AND (`".TABLE_PREFIX."mod_download_gallery_files`.`title`       LIKE '%$searchfor%' "
-            			  . "  OR  `".TABLE_PREFIX."mod_download_gallery_files`.`description` LIKE '%$searchfor%')";
-                $query_filter_num = $database->query("SELECT `file_id` FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `section_id` = '$section_id' AND `active` = '1' AND `title` != '' " .$dlsearch);
-                $search_num = $query_filter_num->numRows();
-            }
+                // Query for search results
+                $searchfor = '';
+                $dlsearch = '';
+                if ($searchfor!="") {
+                    $dlsearch = " AND (`".TABLE_PREFIX."mod_download_gallery_files`.`title`       LIKE '%$searchfor%' "
+                			  . "  OR  `".TABLE_PREFIX."mod_download_gallery_files`.`description` LIKE '%$searchfor%')";
+                    $query_filter_num = $database->query("SELECT `file_id` FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `section_id` = '$section_id' AND `active` = '1' AND `title` != '' " .$dlsearch);
+                    $search_num = $query_filter_num->numRows();
+                }
 
 // Query files (for this page)
 $query_files = $database->query(
@@ -128,6 +130,15 @@ if($query_files->numRows() > 0) {
     }
 }
 
-$data = (object) $data;
+$data['currcount'] = ( $data['settings']['files_per_page'] != 0 )
+    ? $data['settings']['files_per_page']
+    : $data['num_files'];
 
-include dirname(__FILE__).'/templates/frontend/tableview/view.phtml';
+$DGTEXT['SHOWING'] = str_replace(
+    array('{{count}}','{{sum}}'),
+    array($data['currcount'],$data['filecount']),
+    $DGTEXT['SHOWING']
+);
+
+$data = (object) $data;
+include dirname(__FILE__).'/templates/frontend/'.$data->settings['tpldir'].'/view.phtml';

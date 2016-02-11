@@ -1,0 +1,40 @@
+<?php
+    foreach ( $data->files as $i => $file ): // set the icon for the current file type
+        $image = ( isset($data->ext2img[$file['extension']]) ? $data->ext2img[$file['extension']] : 'unknown.gif' );
+
+        if($lastgroup != $file['group_id']): // print the group header
+            if($lastgroup != 0): echo "   </tbody>\n"; endif;
+?>
+    <thead id="dlg_thead_gr<?php echo $file['group_id'] ?>">
+        <tr>
+            <th colspan="6" class="groupheader hide_on_mobile"><?php echo ( isset($data->gr2name[$file['group_id']]) ? $data->gr2name[$file['group_id']] : $TEXT['NONE'] ) ?></th>
+        </tr>
+        <tr>
+            <th class="hide_on_mobile"></th>
+            <th class="th_name"><?php echo $DGTEXT['THTITLE'] ?></th>
+            <th class="th_modified hide_on_mobile"><?php echo $DGTEXT['THCHANGED'] ?></th>
+            <th class="th_released hide_on_mobile"><?php echo $DGTEXT['THRELEASED'] ?></th>
+            <th class="th_size"><?php echo $DGTEXT['THSIZE'] ?></th>
+            <th class="th_dlcount hide_on_mobile"><?php echo $DGTEXT['THCOUNT'] ?></th>
+        </tr>
+    </thead>
+    <tbody id="dlg_tbody_gr<?php echo $file['group_id'] ?>">
+<?php
+        endif; // end printing group header
+?>
+    <tr<?php if($i % 2): echo ' class="row_a"'; endif; ?> id="td_<?php echo $file['file_id'] ?>">
+        <td rowspan="2" style="vertical-align:top" class="hide_on_mobile">
+            <img src="<?php echo WB_URL ?>/modules/download_gallery/images/<?php echo $image ?>" alt="" />
+        </td>
+        <td class="item_name" data-th="<?php echo $DGTEXT['THTITLE'] ?>">
+            <a href="<?php echo $file['link'] ?>"><?php echo $file['title'] ?></a>
+        </td>
+        <td class="hide_on_mobile item_modified" data-th="<?php echo $DGTEXT['THCHANGED'] ?>"><?php echo date(DATE_FORMAT, $file['modified_when']) ?></td>
+        <td class="hide_on_mobile item_released" data-th="<?php echo $DGTEXT['THRELEASED'] ?>"><?php echo $file['released'] ?></td>
+        <td class="item_size" data-th="<?php echo $DGTEXT['THSIZE'] ?>"><?php echo ( ( $file['size'] > 0 ) ? human_file_size($file['size']) : 0 )?></td>
+        <td class="hide_on_mobile item_dlcount" data-th="<?php echo $DGTEXT['THCOUNT'] ?>"><?php echo $file['dlcount'] ?></td>
+    </tr>
+    <tr<?php if($i % 2): echo ' class="row_a"'; endif; ?> id="td2_<?php echo $file['file_id'] ?>">
+        <td class="item_description" colspan="5" data-th="<?php echo $TEXT['DESCRIPTION'] ?>"><?php echo $file['description'] ?></td>
+    </tr>
+<?php $lastgroup = $file['group_id']; endforeach; ?>

@@ -1,0 +1,132 @@
+<div class="mod_download_gallery">
+    <div>
+        <div style="float:left">
+            <a href="<?php echo $data->self_link ?>/add_file.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>">
+                <img alt="[?]" src="<?php echo $data->self_link ?>/images/add_new.png"> <?php echo $TEXT['ADD'] ?> <?php echo $TEXT['FILE'] ?>
+            </a>
+            &nbsp;|&nbsp;
+            <a href="<?php echo $data->self_link ?>/add_group.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>">
+                <img alt="[?]" src="<?php echo $data->self_link ?>/images/add_group.png"> <?php echo $TEXT['ADD'] ?> <?php echo $TEXT['GROUP'] ?>
+            </a>
+        </div>
+        <div style="float:right;">
+            <a href="<?php echo $data->self_link ?>/help.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>">
+                <img alt="[?]" src="<?php echo $data->self_link ?>/images/help.gif"> <?php echo $MENU['HELP'] ?>
+            </a>
+            &nbsp;|&nbsp;
+            <a href="<?php echo $data->self_link ?>/modify_settings.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>">
+                <img alt="[?]" src="<?php echo $data->self_link ?>/images/config.png"> <?php echo $DGTEXT['GSETTINGS'] ?>
+            </a>
+        </div>
+    </div><br style="clear:both" />
+
+<?php if(!count($data->files)): ?>
+
+<?php else: $lastgroup = 0; ?>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="9" style="text-align:center"><?php echo $TEXT['FILES']?></th>
+            </tr>
+            <tr class="level2">
+                <th></th>
+                <th><?php echo $TEXT['EXTENSION'] ?></th>
+                <th><?php echo $TEXT['FILE'] ?></span></th>
+                <th><?php echo $TEXT['FILE'] ?> ID</th>
+                <th><?php echo $DGTEXT['THSIZE'] ?></th>
+                <th style="text-align:right">Downloads</th>
+                <th style="text-align:center"><?php echo $TEXT['ACTIVE']?>?</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody class="ui-sortable">
+    <?php foreach($data->files as $i => $file): $image = ( isset($data->ext2img[$file['extension']]) ? $data->ext2img[$file['extension']] : 'unknown.gif' ); ?>
+        <?php if($lastgroup != $file['group_id']): ?>
+            <tr class="level2">
+                <th colspan="9"><?php echo $MENU['GROUP'] ?>: <?php echo ( isset($data->gr2name[$file['group_id']]) ? $data->gr2name[$file['group_id']] : $TEXT['NONE'] ) ?></th>
+            </tr>
+       <?php endif; ?>
+            <tr<?php if($i % 2): echo ' class="gradient1"'; endif;?>>
+                <td class="dragdrop_download_gallery dragdrop_handle"><span></span></td>
+                <td><img alt="[<?php echo $image ?>" src="<?php echo $data->self_link ?>/images/<?php echo $image ?>"> <small><?php if(isset($file['extension']) && $file['extension'] != ''): ?>*.<?php echo $file['extension'] ?><?php endif; ?></small></td>
+                <td><a href="<?php echo $data->self_link ?>/modify_file.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;file_id=<?php echo $file['file_id'] ?>"><?php echo $file['title'] ?></a></td>
+                <td><?php echo $file['file_id'] ?></td>
+                <td><?php echo ( ( $file['size'] > 0 ) ? human_file_size($file['size']) : 0 )?></td>
+                <td style="text-align:right"><?php echo $file['dlcount'] ?></td>
+                <td style="text-align:center;padding-top:3px">
+                    <input type="checkbox" id="switch<?php echo $file['file_id'] ?>"<?php if($file['active']): echo 'checked'; endif;?> switch="bool" class="small" />
+                    <label for="switch<?php echo $file['file_id'] ?>" data-on-label="<?php echo $TEXT['YES'] ?>" data-off-label="<?php echo $TEXT['NO'] ?>" onclick="toggleActive('file_id','<?php echo $file['file_id'] ?>','<?php echo $file['active'] ?>')"></label>
+                </td>
+                <td style="text-align:right;">
+                    <a title="<?php echo $TEXT['DELETE'], ' ', $TEXT['FILE'] ?>" href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE'] ?>', '<?php echo $data->self_link ?>/delete_file.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;file_id=<?php echo $file['file_id'] ?>')">
+                        <img alt="[x]" src="<?php echo $data->self_link ?>/images/delete_16.png">
+                    </a>
+                    <img alt="" src="<?php echo $data->self_link ?>/images/empty.gif">
+                </td>
+                <td class="dragdrop_download_gallery dragdrop_handle" style="text-align:right;"><span></span></td>
+            </tr>
+    <?php $lastgroup = $file['group_id']; endforeach; ?>
+            <tr><td colspan="11">&nbsp;</td></tr>
+<?php endif; ?>
+
+<?php if(!count($data->groups)): ?>
+            <tr>
+                <td colspan="9">
+                    <?php echo $MESSAGE['GROUPS_NO_GROUPS_FOUND'] ?>
+                </td>
+            </tr>
+<?php else: ?>
+        <tr>
+            <th colspan="9" style="text-align:center"><?php echo $DGTEXT['GROUPS']?></th>
+        </tr>
+        <tr class="level2">
+            <th colspan="2"></th>
+            <th><?php echo $MENU['GROUP'] ?></th>
+            <th><?php echo $MENU['GROUP'] ?> ID</th>
+            <th><?php echo $TEXT['FILES'] ?></th>
+            <th style="text-align:right">Downloads</th>
+            <th style="text-align:center"><?php echo $TEXT['ACTIVE']?>?</th>
+            <th colspan="3"></th>
+        </tr>
+    <?php foreach($data->groups as $i => $group): ?>
+        <tr class="gradient1">
+            <td class="dragdrop_download_gallery dragdrop_handle"><span></span></td>
+            <td><img alt="&gt;&gt;" src="<?php echo $data->self_link ?>/images/group.png"></td>
+            <td>
+                <a title="" href="<?php echo $data->self_link ?>/modify_group.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;group_id=<?php echo $group['group_id'] ?>" class="internal"><?php echo $group['title'] ?></a>
+            </td>
+            <td><?php echo $group['group_id'] ?></td>
+            <td><?php echo $data->grfiles[$group['group_id']] ?></td>
+            <td style="text-align:right"><?php echo $data->dlpergroup[$group['group_id']] ?></td>
+            <td style="text-align:center;padding-top:3px">
+                <input type="checkbox" id="grswitch<?php echo $group['group_id'] ?>"<?php if($group['active']): echo 'checked'; endif;?> switch="bool" class="small" />
+                <label for="grswitch<?php echo $group['group_id'] ?>" data-on-label="<?php echo $TEXT['YES'] ?>" data-off-label="<?php echo $TEXT['NO'] ?>" onclick="toggleActive('group_id','<?php echo $group['group_id'] ?>','<?php echo $group['active'] ?>')"></label>
+            </td>
+            <td style="text-align:right;">
+                <a title="<?php echo $TEXT['DELETE'], ' ', $TEXT['GROUP'] ?>" href="<?php echo $data->self_link ?>/delete_group.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;group_id=<?php echo $group['group_id'] ?>" class="internal">
+                    <img alt="[x]" src="<?php echo $data->self_link ?>/images/delete_16.png" />
+                </a>
+                <a title="<?php echo $TEXT['ADD'], ' ', $TEXT['FILE']?>" href="<?php echo $data->self_link ?>/add_file.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;group_id=<?php echo $group['group_id'] ?>" class="internal">
+                    <img alt="" src="<?php echo $data->self_link ?>/images/add_child.png" />
+                </a>
+            </td>
+            <td class="dragdrop_download_gallery dragdrop_handle" style="text-align:right;"><span></span></td>
+        </tr>
+    <?php endforeach; ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="9" style="padding-top:10px;"><small><?php echo $DGTEXT['NUMBER_GROUPS'] ?>: <?php echo count($data->groups) ?> | <?php echo $DGTEXT['NUMBER_FILES'] ?>: <?php echo count($data->files) ?></small></td>
+            </tr>
+        </tfoot>
+    </table>
+<?php endif; ?>
+
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function toggleActive(type,id,status) {
+        window.location = '<?php echo $data->modify_link ?>?page_id=<?php echo $page_id ?>&' + type + '=' + id + '&status=' + status;
+    }
+//]]>
+</script>

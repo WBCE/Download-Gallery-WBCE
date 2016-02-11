@@ -1,0 +1,177 @@
+div.mod_download_gallery table{width:100%;}
+div.mod_download_gallery tbody td{vertical-align:top;}
+div.mod_download_gallery table:not(.settings) tbody td{border-bottom:1px solid #bfc9df;}
+div.mod_download_gallery table td span{display:inline-block;font-size:smaller;line-height:1.2em;}
+div.mod_download_gallery th,div.mod_download_gallery .gradient2{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#606c88+0,3f4c6b+100;Grey+3D+%232 */
+    background: rgb(96,108,136); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(96,108,136,1) 0%, rgba(63,76,107,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
+    color:#fff;
+    font-weight:900;
+    text-align: left;
+    padding:5px;
+}
+div.mod_download_gallery tr.level2 th, div.mod_download_gallery tr.level2 td{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#929cb2+0,6f81ab+100 */
+    background: rgb(146,156,178); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(146,156,178,1) 0%, rgba(111,129,171,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(146,156,178,1) 0%,rgba(111,129,171,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(146,156,178,1) 0%,rgba(111,129,171,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#929cb2', endColorstr='#6f81ab',GradientType=0 ); /* IE6-9 */
+}
+div.mod_download_gallery .gradient1{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e4ea+0,d8dde8+100 */
+    background: rgb(226,228,234); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(226,228,234,1) 0%, rgba(216,221,232,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(226,228,234,1) 0%,rgba(216,221,232,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(226,228,234,1) 0%,rgba(216,221,232,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e4ea', endColorstr='#d8dde8',GradientType=0 ); /* IE6-9 */
+    color: #000;
+}
+
+div.mod_download_gallery input,div.mod_download_gallery select{margin:auto;padding:1px 1px;}
+div.mod_download_gallery input[type="button"],div.mod_download_gallery input[type="submit"] {width:200px;}
+
+div.mod_download_gallery .dragdrop_handle span{
+  content: '....';
+  width: 10px;
+  height: 20px;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 5px;
+  padding: 3px 4px;
+  cursor: move;
+  vertical-align: middle;
+  margin-top: -.7em;
+  margin-right: .3em;
+  font-size: 12px;
+  font-family: sans-serif;
+  letter-spacing: 2px;
+  color: #cccccc;
+  text-shadow: 1px 0 1px black;
+}
+.dragdrop_handle span::after {
+  content: '.. .. .. ..';
+}
+
+/* http://codepen.io/oobleck/pen/MYjdbx */
+input[switch] {
+  display: none;
+}
+input[switch] + label {
+  font-size: 1em;
+  line-height: 1;
+  width: 4rem;
+  height: 2rem;
+  background-color: #ddd;
+  background-image: none;
+  border-radius: 2rem;
+  padding: 0.16667rem;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2) inset;
+  font-family: inherit;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+input[switch].small + label {
+  width: 3rem;
+  height: 1rem;
+}
+input[switch] + label:before {
+  /* Label */
+  text-transform: uppercase;
+  color: #b7b7b7;
+  content: attr(data-off-label);
+  display: block;
+  font-family: inherit;
+  font-family: FontAwesome, inherit;
+  font-weight: 500;
+  font-size: 0.7rem;
+  line-height: 1.74rem;
+  position: absolute;
+  right: 0.21667rem;
+  margin: 0.21667rem;
+  top: 0;
+  text-align: center;
+  min-width: 1.66667rem;
+  overflow: hidden;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+input[switch].small + label:before {
+    line-height: .8rem;
+}
+input[switch] + label:after {
+  /* Slider */
+  content: '';
+  position: absolute;
+  left: 0.16667rem;
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border-radius: 2rem;
+  height: 1.66667rem;
+  width: 1.66667rem;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+input[switch].small + label::after {
+  height: .9rem;
+  width: .9rem;
+}
+input[switch]:checked + label {
+  background-color: #8fc658;
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.2));
+  background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.2));
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3) inset;
+}
+input[switch]:checked + label:before {
+  color: #fff;
+  content: attr(data-on-label);
+  right: auto;
+  left: 0.21667rem;
+}
+input[switch]:checked + label:after {
+  left: 2.16667rem;
+  background-color: #f7f7f7;
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+input[switch="bool"] + label {
+  background-color: #ee6562;
+}
+input[switch="bool"] + label:before {
+  color: #fff !important;
+}
+input[switch="bool"]:checked + label {
+  background-color: #BCE954;
+}
+input[switch="bool"]:checked + label:before {
+  color: #fff !important;
+}
+
+input[switch="default"]:checked + label {
+  background-color: #a2a2a2;
+}
+input[switch="default"]:checked + label:before {
+  color: #fff !important;
+}
+
+input[switch="success"]:checked + label {
+  background-color: #BCE954;
+}
+input[switch="success"]:checked + label:before {
+  color: #fff !important;
+}
+
+input[switch="warning"]:checked + label {
+  background-color: gold;
+}
+input[switch="warning"]:checked + label:before {
+  color: #fff !important;
+}

@@ -1,0 +1,73 @@
+<?php
+/*
+ * CMS module: Download Gallery 2
+ * Copyright (C) 2004-2006, Ryan Djurovich
+ * Improvements are copyright (c) 2009-2011 Frank Heyne
+ * For more information see info.php
+*/
+
+$DGTEXT['ASCENDING'] = 'Croissant';
+$DGTEXT['CLOSEWINDOW'] = 'Fermer la fenêtre';
+$DGTEXT['DESCENDING'] = 'Décroissant';
+$DGTEXT['DL_save'] = 'Show "Save as" dialogue';
+$DGTEXT['DL_view'] = 'Show file in browser';
+$DGTEXT['EXISTINGFILE'] = 'Media Directory File';
+$DGTEXT['EXTINFO'] = 'Grouper les fichiers par type lors d\'un tri par titre';
+$DGTEXT['EXTORDERING'] = 'Tri par extension';
+$DGTEXT['FILE_DECIMALS'] = 'Nombre de décimales à afficher';
+$DGTEXT['FILE_ROUNDUP'] = 'Arrondir la taille des fichiers';
+$DGTEXT['FILE_STORED'] = 'La modification a été enregistrée';
+$DGTEXT['FILE_TYPE'] = 'Type de fichier';
+$DGTEXT['FILE_TYPE_EXT'] = 'Extensions de fichier autorisées';
+$DGTEXT['FILE_TYPE_EXT_INFO'] = 'Click on the icon to configure the extensions.';
+$DGTEXT['FILES_PER_PAGE'] = 'Nombre de fichiers par page';
+$DGTEXT['GPFOOTER']	= 'Group Footer';
+$DGTEXT['GPHEADER'] = 'Group Header';
+$DGTEXT['GPLOOP'] = 'Group Loop';
+$DGTEXT['GROUPS'] = 'Groups';
+$DGTEXT['GSETTINGS'] = 'Préférences';
+$DGTEXT['ITEMS'] = 'existing entries';
+$DGTEXT['LOKALFILE'] = 'Lokal File';
+$DGTEXT['LSETTINGS'] = 'Mise en page';
+$DGTEXT['MOD_FILE_EXT'] = 'Modification de la liste d\'extensions';
+$DGTEXT['MOD_TITLE'] = 'Administration - Modification de la liste d\'extensions';
+$DGTEXT['MOD_TXT'] = 'Vous pouvez ici modifier la liste des extensions autorisées pour ce type de fichier';
+$DGTEXT['NOGROUP'] = '';
+$DGTEXT['NOMATCH'] = 'No Match Found';
+$DGTEXT['NOSORT'] = 'Pas de tri';
+$DGTEXT['NUMBER_FILES'] = 'File count';
+$DGTEXT['NUMBER_GROUPS'] = 'Group count';
+$DGTEXT['ORDERBY'] = 'Trier par';
+$DGTEXT['ORDERING'] = 'Tri';
+$DGTEXT['OUT_OF1'] = 'hits for';
+$DGTEXT['OUT_OF2'] = 'within';
+$DGTEXT['OVERWRITE'] = 'Ecraser les fichiers';
+$DGTEXT['POSITION'] = 'Tri manuel';
+$DGTEXT['PUSHMODE'] = 'Download Mode';
+$DGTEXT['REMOTE_LINK'] = 'Link (no Upload!)';
+$DGTEXT['RESET_Counter'] = 'Reset download counter to 0';
+$DGTEXT['RESET_TABLE'] = 'Reset table settings to default';
+$DGTEXT['RESTART'] = 'Redémarrer le téléchargement';
+$DGTEXT['SEARCHFILTER'] = 'Search Filter';
+$DGTEXT['SEARCHinLIST'] = 'Search this List';
+$DGTEXT['SEARCHLAYOUT'] = 'Search';
+$DGTEXT['SEARCHMATCH'] = 'Search result: There are';
+$DGTEXT['SHOW_ALL'] = 'Reset Search Filter';
+$DGTEXT['THCHANGED'] = 'Last Change';
+$DGTEXT['THCOUNT'] = 'Downloads';
+$DGTEXT['THRELEASED'] = 'Release date';
+$DGTEXT['THSIZE'] = 'File Size';
+$DGTEXT['THTITLE'] = 'Description';
+$DGTEXT['TITLE'] = 'Tri par titre';
+$DGTEXT['UPLOADFILE'] = 'Uploader le fichier';
+$DGTEXT['USERUPLOAD'] = 'Autoriser les utilisateurs à uploader';
+$DGTEXT['WHEN'] = 'Modifier la date';
+$DGTEXT['PM_HELP'] = '"Show file in browser" will only work when the browser is able to show this file type<br />
+					"Show \"Save as\" dialogue" will work depending on browser settings';
+$DGTEXT['NOT'] = 'No';
+$DGTEXT['REGISTERED'] = 'authorised users only';
+$DGTEXT['Wrong file extension'] = 'File extension not allowed';
+$DGTEXT['Missing file'] = 'No file found for upload';
+
+
+?>
