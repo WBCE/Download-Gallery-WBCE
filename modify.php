@@ -68,7 +68,7 @@ if(isset($_GET['status']) && is_numeric($_GET['status'])) {
 }
 
 // get groups
-list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id);
+list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id,false);
 
 // get files
 $query_files = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `section_id` = '$section_id'");

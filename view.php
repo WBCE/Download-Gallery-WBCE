@@ -33,7 +33,7 @@ $data = array(
     'groups'      => array(), // list of groups
     'gr2name'     => array(), // maps group_id to group_name
     'ext2img'     => dlg_ext2img($section_id), // maps file extension to icon
-    'filecount'   => 0,
+    'filecount'   => dlg_getfilescount($section_id),
     'currcount'   => 0,
 );
 
@@ -85,8 +85,7 @@ if ($data['settings']['ordering'] == '0' or $data['settings']['ordering'] == '2'
 // begin checking user input
 
 // Get total number of available download entries
-$query_total_num = $database->query("SELECT `file_id` FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `section_id` = '$section_id' AND `active` = '1' AND `title` != ''");
-$data['filecount'] = $query_total_num->numRows();
+
 
 // limit results?
 if($data['settings']['files_per_page'] != 0) {
@@ -114,8 +113,9 @@ $query_files = $database->query(
 	LEFT JOIN `".TABLE_PREFIX."mod_download_gallery_groups`
 	    ON (`".TABLE_PREFIX."mod_download_gallery_files`.`group_id` = `".TABLE_PREFIX."mod_download_gallery_groups`.`group_id`)
 	WHERE `".TABLE_PREFIX."mod_download_gallery_files`.`section_id` = '$section_id'
-	    AND  `".TABLE_PREFIX."mod_download_gallery_files`.`active` = '1'
-	    AND  `".TABLE_PREFIX."mod_download_gallery_files`.`title` != ''
+	    AND `".TABLE_PREFIX."mod_download_gallery_files`.`active` = '1'
+	    AND `".TABLE_PREFIX."mod_download_gallery_files`.`title` != ''
+        AND `".TABLE_PREFIX."mod_download_gallery_groups`.`active`=1
 	    ".$dlsearch."
 	ORDER BY `".TABLE_PREFIX."mod_download_gallery_groups`.`position`, $orderby $ordering " . $limit_sql
 );

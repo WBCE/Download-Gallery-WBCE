@@ -6,6 +6,11 @@
       border-collapse:separate;
   }
 }
+div.mod_downloadgallery input.search{
+  background-image: url(../../../images/filter.png);
+  background-repeat:no-repeat;
+  padding-left:20px;
+}
 div.mod_downloadgallery .rwd-table {
   border:0;
   border-collapse:collapse;

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * CMS module: Download Gallery 2
  * Copyright and more information see file info.php
@@ -27,12 +28,49 @@ function dlg_ext2img($section_id)
     return $data;
 }
 
-// get groups
-function dlg_getgroups($section_id)
+/**
+ * get the number of active files; this also omits files that are in
+ * inactive groups
+ *
+ * @access public
+ * @param  integer  $section_id
+ * @return
+ **/
+function dlg_getfilescount($section_id)
+{
+    global $database;
+    $query = "SELECT COUNT(`file_id`) AS `count` "
+           . "FROM `".TABLE_PREFIX."mod_download_gallery_files` AS t1 "
+           . "LEFT JOIN `".TABLE_PREFIX."mod_download_gallery_groups` AS t2 "
+    	   . "ON t1.`group_id`=t2.`group_id` "
+           . "WHERE t1.`section_id`=$section_id "
+           . "AND t1.`active`=1 "
+           . "AND t2.`active`=1 "
+           ." AND t1.`title` != ''"
+           ;
+    $q = $database->query($query);
+    if($q->numRows()) {
+        $result = $q->fetchRow(MYSQL_ASSOC);
+        return $result['count'];
+    }
+    return 0;
+}   // end function dlg_getfilescount()
+
+/**
+ * get groups
+ * @access public
+ * @param  integer  $section_id
+ * @param  boolean  $active_only - false for backend, true for frontend
+ **/
+function dlg_getgroups($section_id,$active_only=true)
 {
     global $database;
     $data = array('groups'=>array(),'gr2name'=>array());
-    $query_groups = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_groups` WHERE `section_id` = '$section_id' ORDER BY `position` ASC");
+    $query_groups = $database->query(
+        "SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_groups` WHERE `section_id` = '$section_id'"
+      . ( $active_only ? " AND active ='1'" : '' )
+      . " ORDER BY `position` ASC"
+    );
     if($query_groups->numRows() > 0) {
         while($group = $query_groups->fetchRow(MYSQL_ASSOC)) {
             $data['groups'][] = $group;

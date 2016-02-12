@@ -41,12 +41,13 @@
                 var text = elems[i].textContent.toLowerCase();
                 // elems[i].parentNode is the <tr>
                 var next_node_id = elems[i].parentNode.id.replace('td_','td2_');
-                if(text.indexOf(search) == -1) {
+                var desc = document.getElementById(next_node_id).getElementsByClassName('item_description')[0].textContent;
+                if(text.indexOf(search) == -1 && desc.indexOf(search) == -1) {
                     elems[i].parentElement.style.display='none';
                     document.getElementById(next_node_id).style.display='none';
                 } else {
-                    elems[i].parentElement.style.display='table-row';
-                    document.getElementById(next_node_id).style.display='table-row';
+                    elems[i].parentElement.style.display='';
+                    document.getElementById(next_node_id).style.display='';
                 }
             }
             // hide empty groups
