@@ -48,7 +48,7 @@ if($query_fileext->numRows())
 }
 
 // get template subdirs
-$tplbase = realpath(dirname(__FILE__).'/templates/frontend');
+$tplbase = realpath(dirname(__FILE__).'/templates/default/frontend');
 $dh      = opendir($tplbase);
 while (false !== ($filename = readdir($dh))) {
     if(substr($filename,0,1)!='.' && is_dir($tplbase.'/'.$filename)) {
@@ -58,6 +58,6 @@ while (false !== ($filename = readdir($dh))) {
 
 $data = (object) $data;
 
-include dirname(__FILE__).'/templates/modify_settings.phtml';
+include dirname(__FILE__).'/templates/default/backend/modify_settings.phtml';
 
 $admin->print_footer();

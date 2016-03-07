@@ -1,0 +1,6 @@
+div#fc_content_container div.mod_download_gallery{margin:15px;}
+div#fc_content_container div.mod_download_gallery form{border:1px solid #ccc;padding:5px;}
+div#fc_content_container div.mod_download_gallery input[switch].small + label {
+  width: 3.1rem;
+  height: 1.3rem;
+}

@@ -1,7 +1,7 @@
 div.mod_download_gallery table{width:100%;}
 div.mod_download_gallery tbody td{vertical-align:top;}
 div.mod_download_gallery table:not(.settings) tbody td{border-bottom:1px solid #bfc9df;}
-div.mod_download_gallery table td span{display:inline-block;font-size:smaller;line-height:1.2em;}
+
 div.mod_download_gallery th,div.mod_download_gallery .gradient2{
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#606c88+0,3f4c6b+100;Grey+3D+%232 */
     background: rgb(96,108,136); /* Old browsers */
@@ -32,7 +32,7 @@ div.mod_download_gallery .gradient1{
     color: #000;
 }
 
-div.mod_download_gallery input,div.mod_download_gallery select{margin:auto;padding:1px 1px;}
+div.mod_download_gallery input[type="text"],div.mod_download_gallery select{margin:auto;padding:1px 1px;min-width:250px;}
 div.mod_download_gallery input[type="button"],div.mod_download_gallery input[type="submit"] {width:200px;}
 
 div.mod_download_gallery .dragdrop_handle span{

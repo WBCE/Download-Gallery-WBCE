@@ -1,0 +1,45 @@
+<div class="mod_download_gallery">
+    <form name="modify" action="<?php echo WB_URL; ?>/modules/download_gallery/save_group.php" method="post">
+        <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+        <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
+        <input type="hidden" name="group_id" value="<?php echo $group_id; ?>" />
+        <?php if($data->FTAN): echo $data->FTAN; endif; ?>
+        <table class="settings">
+        	<thead>
+                <tr>
+            		<th colspan="2"><?php echo $TEXT['MODIFY'].'/'.$TEXT['ADD'].' '.$TEXT['GROUP']; ?></th>
+            	</tr>
+            </thead>
+            <tbody>
+            	<tr>
+            		<td style="width:33%"><label for="title"><?php echo $TEXT['TITLE']; ?></label>:</td>
+            		<td style="width:67%">
+            			<input type="text" name="title" id="title" value="<?php echo $data->title; ?>" maxlength="255" />
+            		</td>
+            	</tr>
+            	<tr>
+            		<td><?php echo $TEXT['ACTIVE']; ?>:</td>
+            		<td>
+            			<input type="radio" name="active" id="active_true" value="1" <?php if($data->active == 1) { echo ' checked="checked"'; } ?> />
+            			<a href="#" onclick="javascript: document.getElementById('active_true').checked = true;">
+            			    <label for="active_true"><?php echo $TEXT['YES']; ?></label>
+            			</a>
+            			&nbsp; &nbsp;
+            			<input type="radio" name="active" id="active_false" value="0" <?php if($data->active == 0) { echo ' checked="checked"'; } ?> />
+            			<a href="#" onclick="javascript: document.getElementById('active_false').checked = true;">
+            			    <label for="active_false"><?php echo $TEXT['NO']; ?></label>
+            			</a>
+            		</td>
+            	</tr>
+            	<tr class="gradient1">
+            		<td align="left">
+            			<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" />
+            		</td>
+            		<td align="right">
+            			<input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id; ?>';" />
+            		</td>
+            	</tr>
+            </tbody>
+        </table>
+    </form>
+</div>

@@ -5,28 +5,43 @@
         var fileref=document.createElement("link");
         fileref.setAttribute("rel", "stylesheet");
         fileref.setAttribute("type", "text/css");
-        fileref.setAttribute("href", "<?php echo WB_URL ?>/modules/download_gallery/templates/frontend/<?php echo $data->settings['tpldir'] ?>/style.css");
+        fileref.setAttribute("href", "<?php echo WB_URL ?>/modules/download_gallery/templates/default/frontend/<?php echo $data->settings['tpldir'] ?>/style.css");
         document.getElementsByTagName("head")[0].appendChild(fileref);
     //]]>
     </script>
 <?php endif; ?>
-<?php if($data->settings['search_filter']): /* add optional search box */ ?>
+<?php if($data->filecount != 0): if($data->settings['search_filter']): /* add optional search box */ ?>
     <label for="dlg_search_<?php echo $section_id ?>" title="<?php echo $DGTEXT['FILTER_INLINE_NOTE'] ?>"><?php echo $DGTEXT['FILTER_INLINE'] ?></label>
     <input class="search" id="dlg_search_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['FILTER'] ?>" />
 <?php endif; ?>
     <table class="rwd-table">
         <?php $lastgroup = 0; ?>
         <?php include 'files_loop.phtml' ?>
-    </table>
+    </table><br />
+
+<?php if($data->filecount != 0): ?>
+    <div class="center"><?php echo $DGTEXT['SHOWING'] ?></div><br />
+<?php endif; ?>
 
 <?php if($data->currcount != $data->filecount): /* show paging only if there are more files */ ?>
     <nav role="navigation">
-		<ul class="cd-pagination animated-buttons custom-icons">
-			<li class="button"><a href="#0"><i>Prev</i></a></li>
-            <li><?php echo $DGTEXT['SHOWING'] ?></li>
-			<li class="button"><a href="#0"><i>Next</i></a></li>
-		</ul>
+		<ul class="bullets">
+            <li class="prev">
+                <a href="<?php echo $data->self_link ?>?page=<?php echo $data->prev?>">&laquo; <?php echo $DGTEXT['PREVIOUS'] ?></a>
+            </li>
+<?php foreach($data->nav_pages as $number): ?>
+            <li<?php if($number == $data->page): ?> class="current"<?php endif; ?>>
+                <a href="<?php echo $data->self_link ?>?page=<?php echo $number?>"><?php echo $number?></a>
+            </li>
+<?php endforeach; if($data->next): ?>
+            <li class="next">
+                <a href="<?php echo $data->self_link ?>?page=<?php echo $data->next?>"><?php echo $DGTEXT['NEXT'] ?> &raquo;</a>
+            </li>
+<?php endif; ?>
+        </ul>
 	</nav>
+<?php endif; else: ?>
+    <div class="info"><?php echo $DGTEXT['FILE_NO_FILES'] ?></div>
 <?php endif; ?>
 
     <script type="text/javascript">
@@ -41,7 +56,7 @@
                 var text = elems[i].textContent.toLowerCase();
                 // elems[i].parentNode is the <tr>
                 var next_node_id = elems[i].parentNode.id.replace('td_','td2_');
-                var desc = document.getElementById(next_node_id).getElementsByClassName('item_description')[0].textContent;
+                var desc = document.getElementById(next_node_id).getElementsByClassName('item_description')[0].textContent.toLowerCase();
                 if(text.indexOf(search) == -1 && desc.indexOf(search) == -1) {
                     elems[i].parentElement.style.display='none';
                     document.getElementById(next_node_id).style.display='none';

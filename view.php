@@ -1,7 +1,7 @@
 <?php
 
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery WBCE
  * Copyright and more information see file info.php
  */
 
@@ -16,25 +16,32 @@ if(LANGUAGE_LOADED) {
 	}
 }
 
-// build current link, should be secure against xss:
-if ((isset($_SERVER['HTTPS'])) and ($_SERVER['HTTPS']=="on")) {
-    $selflink = "https://";
-} else {
-    $selflink = "http://";
+// handle download
+if(isset($_REQUEST['dl']))
+{
+    header_remove();
+    // remove any output buffers before sending the file
+    while (ob_get_level() > 0)
+        ob_end_clean();
+    // send file and exit
+    dlg_download($_REQUEST['dl'],$section_id);
+    exit;
 }
-$selflink .= $_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
 
 // initialize template data
 $dir  = pathinfo(dirname(__FILE__),PATHINFO_BASENAME);
 $data = array(
     'FTAN'        => (method_exists($admin,'getFTAN') ? $admin->getFTAN() : ''),
-    'self_link'   => $selflink,
+    'self_link'   => $_SERVER['SCRIPT_NAME'],
     'mod_version' => $module_version,
     'groups'      => array(), // list of groups
     'gr2name'     => array(), // maps group_id to group_name
     'ext2img'     => dlg_ext2img($section_id), // maps file extension to icon
     'filecount'   => dlg_getfilescount($section_id),
     'currcount'   => 0,
+    'page'        => 1,
+    'prev'        => NULL,
+    'next'        => NULL,
 );
 
 // get settings
@@ -43,7 +50,7 @@ $data['settings'] = dlg_getsettings($section_id);
 // get groups
 list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id);
 
-// Get user's username, display name, email, and id - needed for insertion into download info
+// Get user's username, display name, email, and id - needed for download info
 $users = array();
 $query_users = $database->query("SELECT `user_id`,`username`,`display_name`,`email` FROM `".TABLE_PREFIX."users`");
 if($query_users->numRows() > 0) {
@@ -83,13 +90,16 @@ if ($data['settings']['ordering'] == '0' or $data['settings']['ordering'] == '2'
 }
 
 // begin checking user input
-
-// Get total number of available download entries
-
+$offset = 0;
+$page   = 1;
+if(isset($_GET['page']) && is_numeric($_GET['page'])) {
+    $page   = $_GET['page'];
+    $offset = $data['settings']['files_per_page'] * $_GET['page'] - 1;
+}
 
 // limit results?
 if($data['settings']['files_per_page'] != 0) {
-	$limit_sql = " LIMIT $position, ".$data['settings']['files_per_page'];
+	$limit_sql = " LIMIT $offset, ".$data['settings']['files_per_page'];
 } else {
 	$limit_sql = "";
 }
@@ -105,9 +115,8 @@ if($data['settings']['files_per_page'] != 0) {
                 }
 
 // Query files (for this page)
-$query_files = $database->query(
-    "SELECT
-        `file_id`, `".TABLE_PREFIX."mod_download_gallery_files`.`title`,`link`,`description`,`modified_by`,
+$query = "SELECT
+       `file_id`, `".TABLE_PREFIX."mod_download_gallery_files`.`title`,`link`,`description`,`modified_by`,
 	   `modified_when`,`filename`,`extension`,`dlcount`,`size`,`released`,`".TABLE_PREFIX."mod_download_gallery_files`.`group_id`
 	FROM `".TABLE_PREFIX."mod_download_gallery_files`
 	LEFT JOIN `".TABLE_PREFIX."mod_download_gallery_groups`
@@ -117,15 +126,15 @@ $query_files = $database->query(
 	    AND `".TABLE_PREFIX."mod_download_gallery_files`.`title` != ''
         AND `".TABLE_PREFIX."mod_download_gallery_groups`.`active`=1
 	    ".$dlsearch."
-	ORDER BY `".TABLE_PREFIX."mod_download_gallery_groups`.`position`, $orderby $ordering " . $limit_sql
-);
-if($query_files->numRows() > 0) {
+	ORDER BY `".TABLE_PREFIX."mod_download_gallery_groups`.`position`, $orderby $ordering " . $limit_sql;
+
+$query_files = $database->query($query);
+if(is_object($query_files) && $query_files->numRows() > 0) {
 	$data['num_files'] = $query_files->numRows();
     while($file = $query_files->fetchRow(MYSQL_ASSOC)) {
         $dldescription=$file['description'];
 		$wb->preprocess($dldescription);
         $file['description'] = $dldescription;
-        $file['released']    = ($file['released'] > 0) ? (date('d.m.Y', $file['released'])) : '';
         $data['files'][] = $file;
     }
 }
@@ -140,5 +149,18 @@ $DGTEXT['SHOWING'] = str_replace(
     $DGTEXT['SHOWING']
 );
 
+// pagination
+$number_of_pages = 1;
+$data['nav_pages'] = array();
+if($data['filecount'] > 0 && $data['currcount'] > 0 && $data['filecount'] > $data['currcount'] ) {
+    $number_of_pages = ceil( $data['filecount'] / $data['currcount'] );
+    for($i=1;$i<=$number_of_pages;$i++) {
+        $data['nav_pages'][$i] = $i;
+    }
+    $data['prev'] = ( $page > 1                ? $page - 1 : NULL );
+    $data['next'] = ( $page < $number_of_pages ? $page + 1 : NULL );
+    $data['page'] = $page;
+}
+
 $data = (object) $data;
-include dirname(__FILE__).'/templates/frontend/'.$data->settings['tpldir'].'/view.phtml';
+include dirname(__FILE__).'/templates/default/frontend/'.$data->settings['tpldir'].'/view.phtml';

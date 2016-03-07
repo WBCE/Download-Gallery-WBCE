@@ -7,73 +7,68 @@
 // prevent this file from being accessed directly
 if (!defined('WB_PATH')) die(header('Location: index.php'));
 
-$mod_dl_gallery = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_download_gallery_files` ( '
-				 . '`file_id` INT NOT NULL AUTO_INCREMENT, '
-				 . '`section_id` INT NOT NULL DEFAULT \'0\', '
-				 . '`page_id` INT NOT NULL DEFAULT \'0\',	'
-				 . '`group_id` INT NOT NULL DEFAULT \'0\','
-				 . '`active` INT NOT NULL DEFAULT \'0\', '
-				 . '`position` INT NOT NULL DEFAULT \'0\', '
-				 . '`title` VARCHAR(255) NOT NULL DEFAULT \'\' , '
-				 . '`link` TEXT NOT NULL , '
-				 . '`filename` VARCHAR(250) NOT NULL DEFAULT \'\' , '
-				 . '`extension` VARCHAR(250) NOT NULL DEFAULT \'\' , '
-				 . '`description` TEXT NOT NULL , '
-				 . '`modified_when` INT NOT NULL DEFAULT \'0\', '
-				 . '`modified_by` INT NOT NULL DEFAULT \'0\', '
-				 . '`dlcount` INT NOT NULL DEFAULT \'0\', '
-				 . '`size` INT NOT NULL DEFAULT 0, '
-				 . '`released` INT NOT NULL DEFAULT 0, '
-				 . 'PRIMARY KEY (file_id)'
-				 . ' )';
-$database->query($mod_dl_gallery);
+$mod_dl_gallery = '
+    CREATE TABLE IF NOT EXISTS `%smod_download_gallery_files` (
+    	`file_id` INT(11) NOT NULL AUTO_INCREMENT,
+    	`section_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`page_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`group_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`active` INT(11) NOT NULL DEFAULT \'0\',
+    	`position` INT(11) NOT NULL DEFAULT \'0\',
+    	`title` VARCHAR(255) NOT NULL DEFAULT \'\',
+    	`link` TEXT NULL,
+    	`filename` VARCHAR(250) NOT NULL DEFAULT \'\',
+    	`extension` VARCHAR(250) NOT NULL DEFAULT \'\',
+    	`description` TEXT NULL,
+    	`modified_when` INT(11) NOT NULL DEFAULT \'0\',
+    	`modified_by` INT(11) NOT NULL DEFAULT \'0\',
+    	`dlcount` INT(11) NOT NULL DEFAULT \'0\',
+    	`size` INT(11) NOT NULL DEFAULT \'0\',
+    	`released` INT(11) NOT NULL DEFAULT \'0\',
+    	PRIMARY KEY (`file_id`)
+    );';
+$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX));
 
-$mod_dl_gallery = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_download_gallery_settings` ( '
-				 . '`section_id` INT NOT NULL DEFAULT \'0\','
-				 . '`page_id` INT NOT NULL DEFAULT \'0\','
-				 . '`header` TEXT NOT NULL ,'
-				 . '`files_loop` TEXT NOT NULL ,'
-				 . '`footer` TEXT NOT NULL ,'
-				 . '`files_per_page` INT NOT NULL DEFAULT \'0\','
-				 . '`file_size_roundup` INT NOT NULL DEFAULT \'0\','
-				 . '`file_size_decimals` INT NOT NULL DEFAULT \'0\','
-				 . '`file_header` TEXT NOT NULL ,'
-				 . '`file_footer` TEXT NOT NULL ,'
-				 . '`ordering` TINYINT(3) NOT NULL DEFAULT \'0\','
-				 . '`extordering` TINYINT(3) NOT NULL DEFAULT \'0\','
-				 . '`userupload` TINYINT(3) NOT NULL DEFAULT \'0\','
-				 . '`gheader` TEXT NOT NULL ,'
-				 . '`gloop` TEXT NOT NULL ,'
-				 . '`gfooter` TEXT NOT NULL ,'
-				 . '`search_filter` TEXT NOT NULL ,'						 
-				 . '`search_layout` TEXT NOT NULL ,'
-				 . '`pushmode` TINYINT( 3 ) NOT NULL DEFAULT 0,'
-				 . '`use_captcha` TINYINT( 3 ) NOT NULL DEFAULT 0, '
-				 . 'PRIMARY KEY (section_id)'
-				 . ' )';
-$database->query($mod_dl_gallery);
+$mod_dl_gallery = '
+    CREATE TABLE IF NOT EXISTS `%smod_download_gallery_settings` (
+    	`section_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`page_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`files_per_page` INT(11) NOT NULL DEFAULT \'0\',
+    	`file_size_roundup` INT(11) NOT NULL DEFAULT \'0\',
+    	`file_size_decimals` INT(11) NOT NULL DEFAULT \'0\',
+    	`ordering` TINYINT(3) NOT NULL DEFAULT \'0\',
+    	`extordering` TINYINT(3) NOT NULL DEFAULT \'0\',
+    	`userupload` TINYINT(3) NOT NULL DEFAULT \'0\',
+    	`search_filter` ENUM(\'Y\',\'N\') NOT NULL DEFAULT \'Y\',
+    	`tpldir` VARCHAR(50) NOT NULL DEFAULT \'tableview\',
+    	`tplcss` ENUM(\'Y\',\'N\') NOT NULL DEFAULT \'Y\',
+    	PRIMARY KEY (`section_id`)
+    );';
+$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX));
 
-$mod_dlg = 'CREATE TABLE IF NOT EXISTS `'.TABLE_PREFIX.'mod_download_gallery_groups` ( '
-				 . '`group_id` INT NOT NULL AUTO_INCREMENT,'
-				 . '`section_id` INT NOT NULL DEFAULT \'0\','
-				 . '`page_id` INT NOT NULL DEFAULT \'0\','
-				 . '`position` INT NOT NULL DEFAULT \'0\','
-				 . '`active` INT NOT NULL DEFAULT \'0\','
-				 . '`title` VARCHAR(255) NOT NULL DEFAULT \'\', '
-				 . 'PRIMARY KEY (group_id)'
-				 . ' )';
-$database->query($mod_dlg);
+$mod_dl_gallery = '
+    CREATE TABLE IF NOT EXISTS `%smod_download_gallery_groups` (
+    	`group_id` INT(11) NOT NULL AUTO_INCREMENT,
+    	`section_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`page_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`position` INT(11) NOT NULL DEFAULT \'0\',
+    	`active` INT(11) NOT NULL DEFAULT \'0\',
+    	`title` VARCHAR(255) NOT NULL DEFAULT \'\',
+    	PRIMARY KEY (`group_id`)
+);';
+$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX));
 
-$mod_dl_gallery = 'CREATE TABLE IF NOT EXISTS `' . TABLE_PREFIX . 'mod_download_gallery_file_ext` ( '
-				 . '`fileext_id` INT NOT NULL AUTO_INCREMENT, '
-				 . '`section_id` INT NOT NULL DEFAULT \'0\', '
-				 . '`page_id` INT NOT NULL DEFAULT \'0\', '
-				 . '`file_type` VARCHAR(250) NOT NULL DEFAULT \'\' , '
-				 . '`file_image` VARCHAR(250) NOT NULL DEFAULT \'\' , '
-				 . '`extensions` TEXT NOT NULL, '
-				 . 'PRIMARY KEY (fileext_id)'
-				 . ' )';
-$database->query($mod_dl_gallery);
+$mod_dl_gallery = '
+    CREATE TABLE IF NOT EXISTS `%smod_download_gallery_file_ext` (
+    	`fileext_id` INT(11) NOT NULL AUTO_INCREMENT,
+    	`section_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`page_id` INT(11) NOT NULL DEFAULT \'0\',
+    	`file_type` VARCHAR(250) NOT NULL DEFAULT \'\',
+    	`file_image` VARCHAR(250) NOT NULL DEFAULT \'\',
+    	`extensions` TEXT NOT NULL,
+    	PRIMARY KEY (`fileext_id`)
+    );';
+$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX));
 
 // Insert info into the search table
 // Module query info

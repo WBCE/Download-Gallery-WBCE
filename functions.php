@@ -10,6 +10,67 @@ if (!defined('WB_PATH')) die(header('Location: index.php'));
 
 // General Functions (used in multiple files)
 
+function dlg_download($id,$section_id)
+{
+    global $database;
+
+    // find file in DB
+    $q = $database->query(sprintf(
+        'SELECT * FROM `%smod_download_gallery_files` WHERE `section_id`=%d AND `file_id`="%d"',
+        TABLE_PREFIX,$section_id,$id
+    ));
+    $r = $q->fetchRow(MYSQL_ASSOC);
+
+    if($r)
+    {
+        $count = $r['dlcount']+1;
+	    $database->query(sprintf(
+            'UPDATE `%smod_download_gallery_files` SET `dlcount`=%d WHERE `section_id`=%d AND `file_id`="%d"',
+            TABLE_PREFIX,$count,$section_id,$id
+        ));
+
+        if(!substr_compare($r['link'], WB_URL,0)) {
+            // remote
+            header('Location: '.$r['link']);
+            return; // should never be reached, but just in case...
+        }
+        else {
+            // local
+            $path  = WB_PATH.MEDIA_DIRECTORY.'/download_gallery/'.$r['filename'];
+            
+
+            // open file
+            $fh = @fopen( $path, 'rb' );
+            if ( ! $fh ) {
+        		return false;
+        	}
+
+            if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE"))
+        	{
+        	        header('Content-Type: "application/octet-stream"');
+        	        header('Content-Disposition: attachment; filename="'.basename($path).'"');
+        	        header('Expires: 0');
+        	        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        	        header("Content-Transfer-Encoding: binary");
+        	        header('Pragma: public');
+        	        header("Content-Length: ".filesize($path));
+        	}
+        	else
+        	{
+        	        header('Content-Type: "application/octet-stream"');
+        	        header('Content-Disposition: attachment; filename="'.basename($path).'"');
+        	        header("Content-Transfer-Encoding: binary");
+        	        header('Expires: 0');
+        	        header('Pragma: no-cache');
+        	        header("Content-Length: ".filesize($path));
+        	}
+        	fpassthru($fh);
+        	fclose($fh);
+        }
+    }
+    return;
+}   // end function dlg_download()
+
 // get file type images
 function dlg_ext2img($section_id)
 {
@@ -90,7 +151,7 @@ function dlg_getsettings($section_id)
 }
 
 // resolve upload error number
-function get_upload_error($error)
+function dlg_get_upload_error($error)
 {
     switch ($error) {
         case UPLOAD_ERR_INI_SIZE:
@@ -122,7 +183,7 @@ function get_upload_error($error)
 }
 
 // array multisort
-function array_orderby()
+function dlg_array_orderby()
 {
     $args = func_get_args();
     $data = array_shift($args);
@@ -137,6 +198,51 @@ function array_orderby()
     $args[] = &$data;
     call_user_func_array('array_multisort', $args);
     return array_pop($args);
+}
+
+/**
+ * Returns the size of a file without downloading it, or -1 if the file
+ * size could not be determined.
+ *
+ * @param $url - The location of the remote file to download. Cannot
+ * be null or empty.
+ *
+ * @return The size of the file referenced by $url, or -1 if the size
+ * could not be determined.
+ *
+ * Note: This will fail behind a proxy!
+ */
+function dlg_curl_get_file_size($url) {
+    if(!function_exists('curl_init')) { return -1; }
+
+    // Assume failure.
+    $result = -1;
+    $curl   = curl_init( $url );
+
+    // Issue a HEAD request and follow any redirects.
+    curl_setopt( $curl, CURLOPT_NOBODY, true );
+    curl_setopt( $curl, CURLOPT_HEADER, true );
+    curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
+    curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, true );
+
+    $data = curl_exec( $curl );
+    curl_close( $curl );
+
+    if( $data ) {
+        $content_length = "unknown";
+        $status = "unknown";
+        if( preg_match( "/^HTTP\/1\.[01] (\d\d\d)/", $data, $matches ) ) {
+            $status = (int)$matches[1];
+        }
+        if( preg_match( "/Content-Length: (\d+)/", $data, $matches ) ) {
+            $content_length = (int)$matches[1];
+        }
+        // http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+        if( $status == 200 || ($status > 300 && $status <= 308) ) {
+            $result = $content_length;
+        }
+    }
+    return $result;
 }
 
 // convert file size to formatted size

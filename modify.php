@@ -7,8 +7,8 @@
 
 if (!defined('WB_PATH')) die(header('Location: index.php'));
 
-require 'info.php';
-require 'functions.php';
+require realpath( dirname(__FILE__).'/info.php' );
+require realpath( dirname(__FILE__).'/functions.php' );
 
 require_once WB_PATH .'/framework/module.functions.php';
 require_once realpath( dirname(__FILE__).'/info.php' );
@@ -84,10 +84,11 @@ if($query_files->numRows() > 0) {
 }
 
 // sort files by group and position
-$data['files'] = array_orderby($data['files'], 'group_id', SORT_ASC, 'position', SORT_ASC);
+$data['files'] = dlg_array_orderby($data['files'], 'group_id', SORT_ASC, 'position', SORT_ASC);
 
 $data = (object) $data;
 
-include dirname(__FILE__).'/templates/modify.phtml';
+require dirname(__FILE__).'/templates/default/backend/modify.phtml';
 
-$admin->print_footer();
+if(!defined('CAT_PATH'))
+    $admin->print_footer();

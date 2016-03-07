@@ -37,6 +37,7 @@
     <form name="modify" action="<?php echo $data->self_link ?>/save_settings.php" method="post">
     	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
     	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
+        <?php if($data->FTAN): echo $data->FTAN; endif; ?>
     	<table class="settings">
             <thead>
         		<tr>
@@ -185,26 +186,6 @@
         	            <option value="0" <?php echo $extselected_asc; ?>><?php echo $DGTEXT['ASCENDING']; ?></option>
         	            <option value="1" <?php echo $extselected_desc; ?>><?php echo $DGTEXT['DESCENDING']; ?></option>
         				</select> <?php echo $DGTEXT['EXTINFO']; ?>
-        			</td>
-        		</tr>
-
-        		<tr>
-        			<td width="25%"><label for="pushmode"><?php echo $DGTEXT['PUSHMODE']; ?>:</label></td>
-        			<td>
-        				<select name="pushmode" id="pushmode" style="width: 200px">
-        	            <?php
-        	    		if ($data->settings['pushmode'] == '0')	{
-        	                $selected_0 = 'selected="selected"';
-        	                $selected_1 = '';
-        				} else {
-        	                $selected_0 = '';
-        	                $selected_1 = 'selected="selected"';
-        				}
-        	            ?>
-        	            <option value="0" <?php echo $selected_0; ?>><?php echo $DGTEXT['DL_view']; ?></option>
-        	            <option value="1" <?php echo $selected_1; ?>><?php echo $DGTEXT['DL_save']; ?></option>
-        				</select><br />
-        				<?php echo $DGTEXT['PM_HELP']; ?><br />
         			</td>
         		</tr>
 

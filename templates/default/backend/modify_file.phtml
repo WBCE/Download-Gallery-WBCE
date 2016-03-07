@@ -1,0 +1,120 @@
+<div class="mod_download_gallery">
+    <form name="modify" action="<?php echo WB_URL; ?>/modules/download_gallery/save_file.php" method="post" enctype="multipart/form-data">
+    	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+    	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
+    	<input type="hidden" name="file_id" value="<?php echo $file_id; ?>" />
+    	<input type="hidden" name="link" value="<?php echo $data->link; ?>" />
+        <?php if($data->FTAN): echo $data->FTAN; endif; ?>
+
+    	<table>
+            <thead>
+        		<tr>
+        			<th colspan="2"><strong><?php echo $TEXT['MODIFY'].'/'.$TEXT['DELETE'].' '.$TEXT['FILE']; ?></strong> (ID: <?php echo $data->file_id ?> | Downloads: <?php echo $data->dlcount; ?>)</th>
+        		</tr>
+            </thead>
+            <tbody>
+            	<tr>
+        			<td width="25%"><label accesskey="title"><?php echo $TEXT['TITLE']; ?></label>:</td>
+        			<td>
+        				<input type="text" name="title" id="title" value="<?php echo stripslashes($data->title); ?>" maxlength="255" style="width:100%" />
+        			</td>
+        		</tr>
+<!-- local file: -->
+        		<tr>
+        			<td><?php echo $DGTEXT['LOKALFILE']; ?>:</td>
+    			    <?php if( $data->filename != '' && file_exists(WB_PATH.MEDIA_DIRECTORY.'/download_gallery/'.$data->filename )): ?>
+    				<td>
+    					<?php echo $data->filename; ?><br />
+    					<input type="checkbox" name="delete_file" id="delete_file" value="yes" /><label for="delete_file"><?php echo $TEXT['DELETE']; ?></label><br />
+    					<input type="checkbox" name="delete_counter" id="delete_counter" value="yes" /><label for="delete_counter"><?php echo $DGTEXT['RESET_Counter']; ?></label>
+    				</td>
+    				<?php elseif(strpos($data->filename, ':/') > 1): ?>
+    				<td>
+    					<input type="file" name="file" />
+    				</td>
+    				<?php elseif(trim($data->filename) != ""): ?>
+    				<td>
+    					<input type="hidden" name="existingfile" value="<?php echo $data->link; ?>"><?php echo $data->link; ?>
+    					<input type="checkbox" name="delete_file2" id="delete_file2" value="yes" /><label for="delete_file2"><?php echo $TEXT['DELETE']; ?></label>
+    				</td>
+    				<?php else: ?>
+    				<td>
+    					<input type="file" name="file" />
+    				</td>
+    				<?php endif; ?>
+    		    </tr>
+        		<?php if($data->filename == ""): ?>
+    			<tr>
+    				<td><?php echo $DGTEXT['EXISTINGFILE']; ?>:</td>
+    				<td>
+    					<select name="existingfile" id="existingfile">
+    					    <option value=''>&nbsp;</option>
+    					    <?php foreach(array_values($data->files) as $item): ?>
+                            <option value="<?php echo $item[0] ?>"><?php echo $item[1]; ?></option>
+                            <?php endforeach; ?>
+    					</select>
+    				</td>
+    			</tr>
+    		    <?php endif; ?>
+
+        <!-- alternativ: Remote Link (no Upload) -->
+        		<tr>
+        	  		<td><label for="remote_link"><?php echo $DGTEXT['REMOTE_LINK']; ?></label>:</td>
+        	  		<td><input type="text" name="remote_link" value="<?php if (strpos($data->filename, ':/') > 1): echo $data->filename; endif; ?>" maxlength="255" style="width:100%" /></td>
+                </tr>
+        		<tr>
+        	  		<td><label for="group"><?php echo $TEXT['GROUP']; ?></label>:</td>
+        	  		<td>
+        	  			<select name="group" id="group">
+            				<option value="0"><?php echo $TEXT['NONE']; ?></option>
+                            <?php foreach($data->groups as $group): ?>
+                            <option value="<?php echo $group['group_id']; ?>"<?php if($data->group_id == $group['group_id']): echo ' selected="selected"'; endif; ?>><?php echo $group['title']; ?></option>
+                            <?php endforeach; ?>
+            			</select>
+        	  		</td>
+        		</tr>
+
+    		<tr>
+    			<td><label for="released"><?php echo $DGTEXT['THRELEASED']; ?></label>:</td>
+    			<td>
+    				<input type="text" name="released" id="released" value="<?php if($data->released > 1): echo date('d.m.Y', $data->released); endif; ?>" />
+    			</td>
+    		</tr>
+
+    		<tr>
+    			<td><?php echo $TEXT['ACTIVE']; ?>:</td>
+    			<td>
+    				<input type="radio" name="active" id="active_true" value="1" <?php if($data->active == 1): echo ' checked="checked"'; endif; ?> />
+    				<a href="#" onclick="javascript: document.getElementById('active_true').checked = true;"><label for="active_true"><?php echo $TEXT['YES']; ?></label></a>
+    				&nbsp;
+    				<input type="radio" name="active" id="active_false" value="0" <?php if($data->active == 0): echo ' checked="checked"'; endif; ?> />
+    				<a href="#" onclick="javascript: document.getElementById('active_false').checked = true;"><label for="active_false"><?php echo $TEXT['NO']; ?></label></a>
+    			</td>
+    		</tr>
+
+    		<?php if($data->title == ""): ?>
+    		<tr>
+    			<td><label for="overwrite"><?php echo $DGTEXT['OVERWRITE']; ?></label>:</td>
+    			<td>
+    				<input type="checkbox" name="overwrite" id="overwrite" value="yes" />
+    			</td>
+    		</tr>
+    		<?php endif; ?>
+
+    		<tr>
+    			<td colspan="2">
+    				<?php show_wysiwyg_editor("description","description",htmlspecialchars($data->description), "100%", "400"); ?>
+    			</td>
+    		</tr>
+
+    		<tr>
+    			<td align="left">
+    				<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" />
+    			</td>
+    			<td align="right">
+                    <input type="button" value="<?php echo $TEXT['CANCEL']; ?>" onclick="javascript: window.location = '<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id; ?>';" />
+    			</td>
+    		</tr>
+    	</table>
+    </form>
+</div>

@@ -52,11 +52,6 @@ if (isset($_POST['extordering']) AND is_numeric($_POST['extordering'])) {
 } else {
     $extordering = 0;
 }
-if (isset($_POST['pushmode']) AND ($_POST['pushmode'] == 1)) {
-    $pushmode = 1;
-} else {
-    $pushmode = 0;
-}
 if (isset($_POST['userupload']) AND is_numeric($_POST['userupload'])) {
     $userupload = $_POST['userupload'];
 } else {
@@ -97,9 +92,7 @@ $query = "UPDATE `".TABLE_PREFIX."mod_download_gallery_settings` SET
 	`ordering` = '$ordering',
 	`extordering` = '$extordering',
 	`userupload` = '$userupload',
-    `use_captcha` = '$use_captcha',
-	`search_filter` = '$search_filter',
-    `pushmode` = $pushmode,
+	`search_filter` = '$search_filter'
 	WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'";
 $database->query($query);
 
