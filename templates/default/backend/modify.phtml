@@ -53,7 +53,7 @@
             </tr>
        <?php endif; ?>
             <tr class="draggable<?php if($i % 2): echo ' gradient1'; endif;?>" data-item-id="<?php echo $file['file_id'] ?>" data-group-id="<?php echo $file['group_id'] ?>">
-                <td class="dragdrop_download_gallery dragdrop_handle"><span></span></td>
+                <td class="dragdrop_handle"><span></span></td>
                 <td><img alt="[<?php echo $image ?>" src="<?php echo $data->self_link ?>/images/<?php echo $image ?>"> <small><?php if(isset($file['extension']) && $file['extension'] != ''): ?>*.<?php echo $file['extension'] ?><?php endif; ?></small></td>
                 <td><a href="<?php echo $data->self_link ?>/modify_file.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;file_id=<?php echo $file['file_id'] ?>"><?php echo $file['title'] ?></a></td>
                 <td><?php echo $file['file_id'] ?></td>
@@ -69,7 +69,7 @@
                     </a>
                     <img alt="" src="<?php echo $data->self_link ?>/images/empty.gif">
                 </td>
-                <td class="dragdrop_download_gallery dragdrop_handle" style="text-align:right;"><span></span></td>
+                <td class="dragdrop_handle" style="text-align:right;"><span></span></td>
             </tr>
     <?php $lastgroup = $file['group_id']; endforeach; ?>
             <tr><td colspan="11">&nbsp;</td></tr>
@@ -100,7 +100,7 @@
         <tbody class="ui-sortable">
     <?php foreach($data->groups as $i => $group): ?>
         <tr class="draggable drag_group<?php if($i % 2): echo ' gradient1'; endif;?>" data-group-id="<?php echo $group['group_id'] ?>">
-            <td class="dragdrop_download_gallery dragdrop_handle"><span></span></td>
+            <td class="dragdrop_handle"><span></span></td>
             <td><img alt="&gt;&gt;" src="<?php echo $data->self_link ?>/images/group.png"></td>
             <td>
                 <a title="" href="<?php echo $data->self_link ?>/modify_group.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;group_id=<?php echo $group['group_id'] ?>" class="internal"><?php echo $group['title'] ?></a>
@@ -120,7 +120,7 @@
                     <img alt="" src="<?php echo $data->self_link ?>/images/add_child.png" />
                 </a>
             </td>
-            <td class="dragdrop_download_gallery dragdrop_handle" style="text-align:right;"><span></span></td>
+            <td class="dragdrop_handle" style="text-align:right;"><span></span></td>
         </tr>
     <?php endforeach; ?>
         </tbody>
