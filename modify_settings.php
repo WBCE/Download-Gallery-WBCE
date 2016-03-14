@@ -51,7 +51,7 @@ if($query_fileext->numRows())
 $tplbase = realpath(dirname(__FILE__).'/templates/default/frontend');
 $dh      = opendir($tplbase);
 while (false !== ($filename = readdir($dh))) {
-    if(substr($filename,0,1)!='.' && is_dir($tplbase.'/'.$filename)) {
+    if(substr($filename,0,1)!='.' && is_dir($tplbase.'/'.$filename) && $filename != 'fonts') {
         $data['tpldirs'][] = $filename;
     }
 }

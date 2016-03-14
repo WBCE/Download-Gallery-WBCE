@@ -10,12 +10,37 @@
     //]]>
     </script>
 <?php endif; ?>
-<?php if($data->filecount != 0): if($data->settings['search_filter']): /* add optional search box */ ?>
-    <label for="dlg_search_<?php echo $section_id ?>" title="<?php echo $DGTEXT['FILTER_INLINE_NOTE'] ?>"><?php echo $DGTEXT['FILTER_INLINE'] ?></label>
-    <input class="search" id="dlg_search_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['FILTER'] ?>" />
+
+<?php
+    if($data->filecount != 0):
+        if($data->settings['search_filter']): /* add optional search box */
+?>
+    <div>
+        <div style="float:left">
+            <label for="dlg_filter_<?php echo $section_id ?>" title="<?php echo $DGTEXT['FILTER_INLINE_NOTE'] ?>"><span class="dlg-filter"></span></label>
+            <input class="filter" id="dlg_filter_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['FILTER'] ?>" />
+        </div>
+<?php if($data->filecount != $data->num_files): ?>
+        <div style="float:right;">
+            <form method="post" action="<?php echo $data->self_link ?>">
+                <input type="hidden" name="page" id="page" value="<?php echo $number?>" />
+                <label for="dlg_search_<?php echo $section_id ?>" title="<?php echo $DGTEXT['SEARCH_NOTE'] ?>"><span class="dlg-search"></span></label>
+                <input class="search" id="dlg_search_<?php echo $section_id ?>" name="dlg_search_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['SEARCH'] ?>" />
+                <input type="submit" value="Suchen" />
+            </form>
+        </div>
+<?php endif; /* $data->filecount != $data->num_files */ ?>
+    </div><br style="clear:both" />
+<?php if($data->searchfor): ?>
+    <div class="dlg_search_result">
+        <?php echo $DGTEXT['SEARCHMATCH'], ' ', $data->num_files, ' ', $DGTEXT['OUT_OF1'], ' "', $data->searchfor, '" ', $DGTEXT['OUT_OF2'], ' ', $DGTEXT['ITEMS']; ?>
+        <a class="dlg_button" href="<?php echo $data->self_link ?>">Suche zurücksetzen</a>
+    </div>
 <?php endif; ?>
+<?php endif; /* $data->settings['search_filter'] */ ?>
+
     <table class="rwd-table">
-        <?php $lastgroup = 0; ?>
+        <?php $lastgroup = -1; ?>
         <?php include 'files_loop.phtml' ?>
     </table><br />
 
@@ -23,33 +48,36 @@
     <div class="center"><?php echo $DGTEXT['SHOWING'] ?></div><br />
 <?php endif; ?>
 
-<?php if($data->currcount != $data->filecount): /* show paging only if there are more files */ ?>
+<?php if($data->num_files != $data->filecount): /* show paging only if there are more files */ ?>
     <nav role="navigation">
 		<ul class="bullets">
             <li class="prev">
+                <?php if($data->prev): ?>
                 <a href="<?php echo $data->self_link ?>?page=<?php echo $data->prev?>">&laquo; <?php echo $DGTEXT['PREVIOUS'] ?></a>
+                <?php else: echo '&nbsp;'; endif; ?>
             </li>
 <?php foreach($data->nav_pages as $number): ?>
             <li<?php if($number == $data->page): ?> class="current"<?php endif; ?>>
                 <a href="<?php echo $data->self_link ?>?page=<?php echo $number?>"><?php echo $number?></a>
             </li>
-<?php endforeach; if($data->next): ?>
+<?php endforeach; ?>
             <li class="next">
+                <?php if($data->next): ?>
                 <a href="<?php echo $data->self_link ?>?page=<?php echo $data->next?>"><?php echo $DGTEXT['NEXT'] ?> &raquo;</a>
+                <?php else: echo '&nbsp;'; endif; ?>
             </li>
-<?php endif; ?>
         </ul>
 	</nav>
-<?php endif; else: ?>
+<?php endif; /* $data->num_files != $data->filecount */ else: ?>
     <div class="info"><?php echo $DGTEXT['FILE_NO_FILES'] ?></div>
 <?php endif; ?>
 
     <script type="text/javascript">
     //<![CDATA[
         var lastlength = 0;
-        document.getElementById('dlg_search_<?php echo $section_id ?>').addEventListener('keyup', function(e) {
+        document.getElementById('dlg_filter_<?php echo $section_id ?>').addEventListener('keyup', function(e) {
             var target = e.target || e.srcElement;
-            var search = target.value;
+            var filter = target.value;
             var elems  = document.getElementById('dlg<?php echo $section_id ?>').getElementsByClassName('item_name');
             for(var i = 0; i < elems.length; i++)
             {
@@ -57,7 +85,7 @@
                 // elems[i].parentNode is the <tr>
                 var next_node_id = elems[i].parentNode.id.replace('td_','td2_');
                 var desc = document.getElementById(next_node_id).getElementsByClassName('item_description')[0].textContent.toLowerCase();
-                if(text.indexOf(search) == -1 && desc.indexOf(search) == -1) {
+                if(text.indexOf(filter) == -1 && desc.indexOf(filter) == -1) {
                     elems[i].parentElement.style.display='none';
                     document.getElementById(next_node_id).style.display='none';
                 } else {
@@ -90,7 +118,13 @@
                     groupheaders[l].parentNode.parentNode.style.display='table-header-group';
                 }
             }
-            lastlength = search.length;
+            // update counter
+            var elements = document.getElementById('dlg<?php echo $section_id ?>').getElementsByClassName('item_name');
+            var myCollection = Array.prototype.slice.call(elements).filter(function (element) {
+                return (element.parentElement.style.display != "none");
+            });
+            document.getElementsByClassName('dlg_count_<?php echo $section_id ?>')[0].textContent = myCollection.length;
+            lastlength = filter.length;
         });
     //]]>
     </script>

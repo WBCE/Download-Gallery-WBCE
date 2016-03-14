@@ -29,6 +29,7 @@ $DGTEXT['GSETTINGS'] = 'Préférences';
 $DGTEXT['ITEMS'] = 'existing entries';
 $DGTEXT['LOKALFILE'] = 'Lokal File';
 $DGTEXT['LSETTINGS'] = 'Mise en page';
+$DGTEXT['Missing file'] = 'No file found for upload';
 $DGTEXT['MOD_FILE_EXT'] = 'Modification de la liste d\'extensions';
 $DGTEXT['MOD_TITLE'] = 'Administration - Modification de la liste d\'extensions';
 $DGTEXT['MOD_TXT'] = 'Vous pouvez ici modifier la liste des extensions autorisées pour ce type de fichier';
@@ -36,6 +37,7 @@ $DGTEXT['NEXT'] = 'Next';
 $DGTEXT['NOGROUP'] = '';
 $DGTEXT['NOMATCH'] = 'No Match Found';
 $DGTEXT['NOSORT'] = 'Pas de tri';
+$DGTEXT['NOT'] = 'No';
 $DGTEXT['NUMBER_FILES'] = 'File count';
 $DGTEXT['NUMBER_GROUPS'] = 'Group count';
 $DGTEXT['ORDERBY'] = 'Trier par';
@@ -45,6 +47,7 @@ $DGTEXT['OUT_OF2'] = 'within';
 $DGTEXT['OVERWRITE'] = 'Ecraser les fichiers';
 $DGTEXT['POSITION'] = 'Tri manuel';
 $DGTEXT['PREVIOUS'] = 'Previous';
+$DGTEXT['REGISTERED'] = 'authorised users only';
 $DGTEXT['REMOTE_LINK'] = 'Link (no Upload!)';
 $DGTEXT['RESET_Counter'] = 'Reset download counter to 0';
 $DGTEXT['RESET_TABLE'] = 'Reset table settings to default';
@@ -54,6 +57,7 @@ $DGTEXT['SEARCHinLIST'] = 'Search this List';
 $DGTEXT['SEARCHLAYOUT'] = 'Search';
 $DGTEXT['SEARCHMATCH'] = 'Search result: There are';
 $DGTEXT['SHOW_ALL'] = 'Reset Search Filter';
+$DGTEXT['SHOWING'] = 'Showing -<span class="dlg_count_{{section}}">{{count}}</span>- out of -{{sum}}- files';
 $DGTEXT['THCHANGED'] = 'Last Change';
 $DGTEXT['THCOUNT'] = 'Downloads';
 $DGTEXT['THRELEASED'] = 'Release date';
@@ -63,12 +67,4 @@ $DGTEXT['TITLE'] = 'Tri par titre';
 $DGTEXT['UPLOADFILE'] = 'Uploader le fichier';
 $DGTEXT['USERUPLOAD'] = 'Autoriser les utilisateurs à uploader';
 $DGTEXT['WHEN'] = 'Modifier la date';
-$DGTEXT['PM_HELP'] = '"Show file in browser" will only work when the browser is able to show this file type<br />
-					"Show \"Save as\" dialogue" will work depending on browser settings';
-$DGTEXT['NOT'] = 'No';
-$DGTEXT['REGISTERED'] = 'authorised users only';
 $DGTEXT['Wrong file extension'] = 'File extension not allowed';
-$DGTEXT['Missing file'] = 'No file found for upload';
-
-
-?>

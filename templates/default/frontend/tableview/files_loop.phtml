@@ -1,9 +1,10 @@
 <?php
+
     foreach ( $data->files as $i => $file ): // set the icon for the current file type
         $image = ( isset($data->ext2img[$file['extension']]) ? $data->ext2img[$file['extension']] : 'unknown.gif' );
 
         if($lastgroup != $file['group_id']): // print the group header
-            if($lastgroup != 0): echo "   </tbody>\n"; endif;
+            if($lastgroup != -1): echo "   </tbody>\n"; endif;
 ?>
     <thead id="dlg_thead_gr<?php echo $file['group_id'] ?>">
         <tr>

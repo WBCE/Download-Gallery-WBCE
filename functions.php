@@ -102,12 +102,12 @@ function dlg_getfilescount($section_id)
     global $database;
     $query = "SELECT COUNT(`file_id`) AS `count` "
            . "FROM `".TABLE_PREFIX."mod_download_gallery_files` AS t1 "
-           . "LEFT JOIN `".TABLE_PREFIX."mod_download_gallery_groups` AS t2 "
+           . "LEFT OUTER JOIN `".TABLE_PREFIX."mod_download_gallery_groups` AS t2 "
     	   . "ON t1.`group_id`=t2.`group_id` "
            . "WHERE t1.`section_id`=$section_id "
            . "AND t1.`active`=1 "
-           . "AND t2.`active`=1 "
            ." AND t1.`title` != ''"
+           ." AND ( `t1`.`group_id`=0 OR `t2`.`active`=1 )"
            ;
     $q = $database->query($query);
     if($q->numRows()) {

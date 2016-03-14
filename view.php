@@ -38,7 +38,7 @@ $data = array(
     'gr2name'     => array(), // maps group_id to group_name
     'ext2img'     => dlg_ext2img($section_id), // maps file extension to icon
     'filecount'   => dlg_getfilescount($section_id),
-    'currcount'   => 0,
+    'num_files'   => 0,
     'page'        => 1,
     'prev'        => NULL,
     'next'        => NULL,
@@ -78,9 +78,9 @@ if(!count($data['settings'])) {
 }
 
 if($data['settings']['ordering'] == '2' or $data['settings']['ordering'] == '3') {
-	$orderby = TABLE_PREFIX."mod_download_gallery_files.title";
+	$orderby = '`t1`.`title`';
 } else {
-	$orderby = TABLE_PREFIX."mod_download_gallery_files.position";
+	$orderby = '`t1`.`position`';
 }
 
 if ($data['settings']['ordering'] == '0' or $data['settings']['ordering'] == '2') {
@@ -97,38 +97,46 @@ if(isset($_GET['page']) && is_numeric($_GET['page'])) {
     $offset = $data['settings']['files_per_page'] * $_GET['page'] - 1;
 }
 
-// limit results?
-if($data['settings']['files_per_page'] != 0) {
+// search
+if(isset($_POST['dlg_search_'.$section_id])) {
+    // Query for search results
+    $data['searchfor'] = htmlentities($_POST['dlg_search_'.$section_id], ENT_QUOTES, 'UTF-8');
+    $dlsearch  = " AND (`t1`.`title` LIKE '%%".$data['searchfor']."%%' OR `t1`.`description` LIKE '%%".$data['searchfor']."%%')";
+}
+
+// limit results? no limit for search!
+if($data['settings']['files_per_page'] != 0 && $dlsearch == '') {
 	$limit_sql = " LIMIT $offset, ".$data['settings']['files_per_page'];
 } else {
 	$limit_sql = "";
 }
 
-                // Query for search results
-                $searchfor = '';
-                $dlsearch = '';
-                if ($searchfor!="") {
-                    $dlsearch = " AND (`".TABLE_PREFIX."mod_download_gallery_files`.`title`       LIKE '%$searchfor%' "
-                			  . "  OR  `".TABLE_PREFIX."mod_download_gallery_files`.`description` LIKE '%$searchfor%')";
-                    $query_filter_num = $database->query("SELECT `file_id` FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `section_id` = '$section_id' AND `active` = '1' AND `title` != '' " .$dlsearch);
-                    $search_num = $query_filter_num->numRows();
-                }
-
 // Query files (for this page)
-$query = "SELECT
-       `file_id`, `".TABLE_PREFIX."mod_download_gallery_files`.`title`,`link`,`description`,`modified_by`,
-	   `modified_when`,`filename`,`extension`,`dlcount`,`size`,`released`,`".TABLE_PREFIX."mod_download_gallery_files`.`group_id`
-	FROM `".TABLE_PREFIX."mod_download_gallery_files`
-	LEFT JOIN `".TABLE_PREFIX."mod_download_gallery_groups`
-	    ON (`".TABLE_PREFIX."mod_download_gallery_files`.`group_id` = `".TABLE_PREFIX."mod_download_gallery_groups`.`group_id`)
-	WHERE `".TABLE_PREFIX."mod_download_gallery_files`.`section_id` = '$section_id'
-	    AND `".TABLE_PREFIX."mod_download_gallery_files`.`active` = '1'
-	    AND `".TABLE_PREFIX."mod_download_gallery_files`.`title` != ''
-        AND `".TABLE_PREFIX."mod_download_gallery_groups`.`active`=1
-	    ".$dlsearch."
-	ORDER BY `".TABLE_PREFIX."mod_download_gallery_groups`.`position`, $orderby $ordering " . $limit_sql;
+$query =
+"SELECT
+    `file_id`,
+    `t1`.`group_id`,
+    `t1`.`title`,
+    `link`,
+    `description`,
+    `modified_by`,
+    `modified_when`,
+    `filename`,
+    `extension`,
+    `dlcount`,
+    `size`,
+    `released`
+FROM `%smod_download_gallery_files` AS t1
+LEFT OUTER JOIN `%smod_download_gallery_groups` AS t2
+ON `t1`.`group_id` = `t2`.`group_id`
+WHERE `t1`.`section_id` = '$section_id'
+    AND `t1`.`active` = '1'
+    AND `t1`.`title` != ''
+    AND ( `t1`.`group_id`=0 OR `t2`.`active`=1 ) ".$dlsearch."
+ORDER BY `t2`.`position`, $orderby $ordering ".$limit_sql;
 
-$query_files = $database->query($query);
+$query_files = $database->query(sprintf($query,TABLE_PREFIX,TABLE_PREFIX));
+
 if(is_object($query_files) && $query_files->numRows() > 0) {
 	$data['num_files'] = $query_files->numRows();
     while($file = $query_files->fetchRow(MYSQL_ASSOC)) {
@@ -139,21 +147,17 @@ if(is_object($query_files) && $query_files->numRows() > 0) {
     }
 }
 
-$data['currcount'] = ( $data['settings']['files_per_page'] != 0 )
-    ? $data['settings']['files_per_page']
-    : $data['num_files'];
-
 $DGTEXT['SHOWING'] = str_replace(
-    array('{{count}}','{{sum}}'),
-    array($data['currcount'],$data['filecount']),
+    array('{{section}}','{{count}}','{{sum}}'),
+    array($section_id,$data['num_files'],$data['filecount']),
     $DGTEXT['SHOWING']
 );
 
 // pagination
 $number_of_pages = 1;
 $data['nav_pages'] = array();
-if($data['filecount'] > 0 && $data['currcount'] > 0 && $data['filecount'] > $data['currcount'] ) {
-    $number_of_pages = ceil( $data['filecount'] / $data['currcount'] );
+if($data['filecount'] > 0 && $data['num_files'] > 0 && $data['filecount'] > $data['num_files']  && $dlsearch == '' ) {
+    $number_of_pages = ceil( $data['filecount'] / $data['num_files'] );
     for($i=1;$i<=$number_of_pages;$i++) {
         $data['nav_pages'][$i] = $i;
     }

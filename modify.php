@@ -89,6 +89,3 @@ $data['files'] = dlg_array_orderby($data['files'], 'group_id', SORT_ASC, 'positi
 $data = (object) $data;
 
 require dirname(__FILE__).'/templates/default/backend/modify.phtml';
-
-if(!defined('CAT_PATH'))
-    $admin->print_footer();

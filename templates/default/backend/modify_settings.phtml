@@ -116,10 +116,10 @@
                     <td>
                         <select id="template_dir" name="template_dir">
                         <?php foreach($data->tpldirs as $dir): ?>
-                            <option value="<?php echo $dir ?>"><?php echo $dir ?></option>
+                            <option value="<?php echo $dir ?>"<?php if($data->settings['tpldir'] == $dir): echo ' selected="selected"'; endif;?>><?php echo $dir ?></option>
                         <?php endforeach; ?>
                         </select>&nbsp;&nbsp;
-                        <input type="checkbox" name="use_default_css" id="use_default_css" />
+                        <input type="checkbox" name="use_default_css" id="use_default_css"<?php if($data->settings['tplcss'] == 'Y'): echo ' checked="checked"'; endif;?> />
                         <label for="use_default_css"> <?php echo $DGTEXT['TPLCSS'] ?></label>
                     </td>
                 </tr>

@@ -33,7 +33,7 @@
 $module_name			= 'Download Gallery WBCE';
 $module_directory		= 'download_gallery';
 $module_function		= 'page';
-$module_version			= '2.99.4';
+$module_version			= '2.99.5';
 $module_platform 	    = '2.8';
 $wbce_platform 	        = '1.1';
 $module_status		    = 'beta';
