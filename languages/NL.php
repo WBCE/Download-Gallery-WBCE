@@ -19,6 +19,7 @@ $DGTEXT['FILE_ROUNDUP'] = 'Bestandsext. afronden';
 $DGTEXT['FILE_STORED'] = 'De aanpassingen zijn succesvol opgeslagen';
 $DGTEXT['FILE_TYPE'] = 'Bestands type';
 $DGTEXT['FILE_TYPE_EXT'] = 'Bestandstype extensies';
+$DGTEXT['FILE_TYPE_EXT_ERROR'] = "Please enter only letter and numeric characters in the 'File Extensions' field. These extensions should be seperated with a comma.";
 $DGTEXT['FILE_TYPE_EXT_INFO'] = 'Click on the icon to configure the extensions.';
 $DGTEXT['FILES_PER_PAGE'] = 'bestanden per pag.';
 $DGTEXT['GPFOOTER']	= 'Groep Footer';

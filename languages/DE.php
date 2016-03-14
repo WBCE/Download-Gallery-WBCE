@@ -20,6 +20,7 @@ $DGTEXT['FILE_STORED'] = 'Die &Auml;nderungen wurden erfolgreich in der Datenban
 $DGTEXT['FILE_TYPE'] = 'Dateityp';
 $DGTEXT['FILE_TYPE_EXT'] = 'Dateiendungen';
 $DGTEXT['FILE_TYPE_EXT_INFO'] = 'Durch Klick auf das Icon kann die Liste bearbeitet werden.';
+$DGTEXT['FILE_TYPE_EXT_ERROR'] = "Please enter only letter and numeric characters in the 'File Extensions' field. These extensions should be seperated with a comma.";
 $DGTEXT['FILES_PER_PAGE'] = 'Dateien pro Seite';
 $DGTEXT['FILTER'] = 'Filter';
 $DGTEXT['FILTER_INLINE'] = 'Liste filtern';

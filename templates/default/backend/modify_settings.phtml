@@ -1,14 +1,6 @@
 <div class="mod_download_gallery">
     <script type="text/javascript">
     //<![CDATA[
-    function showpopup(URL, w, h) {
-    	day = new Date();
-    	id = day.getTime();
-    	var winl = (screen.width - w) / 2;
-    	var wint = (screen.height - h) / 2;
-    	eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width='+w+',height='+h+',left='+winl+',top='+wint);");
-    }
-
     function process(element){
     	switch(element.value){
     		case "0":
@@ -97,7 +89,7 @@
         				<?php foreach($data->fileext as $ext): ?>
         					<tr>
         						<td width="20" style="padding-left: 5px;">
-        							<a href="javascript:showpopup('<?php echo $data->self_link ?>/modify_extensions.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;fileext_id=<?php echo $ext['fileext_id']; ?>',800,400)" title="<?php echo $TEXT['MODIFY']; ?>">
+        							<a href="<?php echo $data->self_link ?>/modify_extensions.php?page_id=<?php echo $page_id; ?>&amp;section_id=<?php echo $section_id; ?>&amp;fileext_id=<?php echo $ext['fileext_id']; ?>" title="<?php echo $TEXT['MODIFY']; ?>">
         								<img src="<?php echo THEME_URL; ?>/images/modify_16.png" border="0" alt="Modify - " />
         							</a>
         						</td>

@@ -19,6 +19,7 @@ $DGTEXT['FILE_ROUNDUP'] = 'Arrondir la taille des fichiers';
 $DGTEXT['FILE_STORED'] = 'La modification a été enregistrée';
 $DGTEXT['FILE_TYPE'] = 'Type de fichier';
 $DGTEXT['FILE_TYPE_EXT'] = 'Extensions de fichier autorisées';
+$DGTEXT['FILE_TYPE_EXT_ERROR'] = "Please enter only letter and numeric characters in the 'File Extensions' field. These extensions should be seperated with a comma.";
 $DGTEXT['FILE_TYPE_EXT_INFO'] = 'Click on the icon to configure the extensions.';
 $DGTEXT['FILES_PER_PAGE'] = 'Nombre de fichiers par page';
 $DGTEXT['GPFOOTER']	= 'Group Footer';

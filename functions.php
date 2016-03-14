@@ -117,6 +117,19 @@ function dlg_getfilescount($section_id)
     return 0;
 }   // end function dlg_getfilescount()
 
+function dlg_getfileext($fileext_id,$section_id)
+{
+    global $database, $page_id;
+    $query_fileext 	= $database->query(
+        "SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_file_ext`
+         WHERE `fileext_id` = '$fileext_id'
+         AND `section_id`   = '$section_id'
+         AND `page_id`      = '$page_id'"
+    );
+    $extdetails 	= $query_fileext->fetchRow(MYSQL_ASSOC);
+    return $extdetails;
+}   // end function dlg_getfileext()
+
 /**
  * get groups
  * @access public
