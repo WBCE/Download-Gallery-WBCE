@@ -1,6 +1,6 @@
 <?php
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
 */
 
@@ -13,8 +13,8 @@ function download_gallery_search($func_vars) {
 	$result = false;
 	
 	// fetch all active download-gallery-items (from active groups) from this section
-	$table_files = "`".TABLE_PREFIX."mod_download_gallery_files`";
-	$table_groups = "`".TABLE_PREFIX."mod_download_gallery_groups`";
+	$table_files = "`".TABLE_PREFIX.$tablename."_files`";
+	$table_groups = "`".TABLE_PREFIX.$tablename."_groups`";
 	$query = $func_database->query("
 		SELECT `f`.`title`, `f`.`filename`, `f`.`description`, `f`.`modified_when`, `f`.`modified_by`
 		FROM $table_files AS f LEFT OUTER JOIN $table_groups AS g ON `f`.`group_id` = `g`.`group_id`
@@ -45,8 +45,8 @@ function download_gallery_search($func_vars) {
 	}
 	
 	// now fetch group-titles - ignore those without (active) items
-	$table_groups = "`".TABLE_PREFIX."mod_download_gallery_groups`";
-	$table_files = "`".TABLE_PREFIX."mod_download_gallery_files`";
+	$table_groups = "`".TABLE_PREFIX.$tablename."_groups`";
+	$table_files = "`".TABLE_PREFIX.$tablename."_files`";
 	$query = $func_database->query("
 		SELECT `g`.`title`
 		FROM $table_groups AS g INNER JOIN $table_files AS f ON `g`.`group_id` = `f`.`group_id`

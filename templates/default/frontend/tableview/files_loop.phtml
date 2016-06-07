@@ -25,7 +25,7 @@
 ?>
     <tr<?php if($i % 2): echo ' class="row_a"'; endif; ?> id="td_<?php echo $file['file_id'] ?>">
         <td rowspan="2" style="vertical-align:top" class="hide_on_mobile">
-            <img src="<?php echo WB_URL ?>/modules/download_gallery/images/<?php echo $image ?>" alt="" />
+            <img src="<?php echo WB_URL ?>/modules/<?php echo $dlgmodname; ?>/images/<?php echo $image ?>" alt="" />
         </td>
         <td class="item_name" data-th="<?php echo $DGTEXT['THTITLE'] ?>">
             <a href="<?php echo $data->self_link ?>?dl=<?php echo $file['file_id'] ?>"><?php echo $file['title'] ?></a>

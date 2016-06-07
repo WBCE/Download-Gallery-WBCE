@@ -1,18 +1,20 @@
 <?php
 
 /*
- * CMS module: Download Gallery WBCE
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  */
 
-require_once WB_PATH.'/modules/download_gallery/functions.php';
-require_once WB_PATH.'/modules/download_gallery/info.php'; // allows to print the module version
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+
+require_once WB_PATH.'/modules/'.$dlgmodname.'/functions.php';
+require_once WB_PATH.'/modules/'.$dlgmodname.'/info.php'; // allows to print the module version
 
 if(LANGUAGE_LOADED) {
-	if(!file_exists(WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/download_gallery/languages/EN.php';
+	if(!file_exists(WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
 	} else {
-		require WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php';
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
 	}
 }
 
@@ -67,14 +69,13 @@ if($query_users->numRows() > 0) {
 if(!count($data['settings'])) {
     // initialize vars that will be used later, but may not be set if the
     // DB statement fails or has no data
-    include_once(WB_PATH.'/modules/download_gallery/functions.php');
+    include_once(WB_PATH.'/modules/'.$dlgmodname.'/functions.php');
     $data['settings']['ordering'] = 0;
 	$data['settings']['extordering'] = 0;
 	$data['settings']['files_per_page'] = 0;
 	$data['settings']['file_size_decimals'] = 0;
 	$data['settings']['file_size_roundup'] = 0;
 	$data['settings']['ordering'] = 0;
-	$data['settings']['userupload'] = 0;
 }
 
 if($data['settings']['ordering'] == '2' or $data['settings']['ordering'] == '3') {
@@ -98,10 +99,11 @@ if(isset($_GET['page']) && is_numeric($_GET['page'])) {
 }
 
 // search
+$dlsearch = $data['searchfor'] = NULL;
 if(isset($_POST['dlg_search_'.$section_id])) {
     // Query for search results
     $data['searchfor'] = htmlentities($_POST['dlg_search_'.$section_id], ENT_QUOTES, 'UTF-8');
-    $dlsearch  = " AND (`t1`.`title` LIKE '%%".$data['searchfor']."%%' OR `t1`.`description` LIKE '%%".$data['searchfor']."%%')";
+    $dlsearch = " AND (`t1`.`title` LIKE '%%".$data['searchfor']."%%' OR `t1`.`description` LIKE '%%".$data['searchfor']."%%')";
 }
 
 // limit results? no limit for search!
@@ -126,8 +128,8 @@ $query =
     `dlcount`,
     `size`,
     `released`
-FROM `%smod_download_gallery_files` AS t1
-LEFT OUTER JOIN `%smod_download_gallery_groups` AS t2
+FROM `%s%s_files` AS t1
+LEFT OUTER JOIN `%s%s_groups` AS t2
 ON `t1`.`group_id` = `t2`.`group_id`
 WHERE `t1`.`section_id` = '$section_id'
     AND `t1`.`active` = '1'
@@ -135,7 +137,7 @@ WHERE `t1`.`section_id` = '$section_id'
     AND ( `t1`.`group_id`=0 OR `t2`.`active`=1 ) ".$dlsearch."
 ORDER BY `t2`.`position`, $orderby $ordering ".$limit_sql;
 
-$query_files = $database->query(sprintf($query,TABLE_PREFIX,TABLE_PREFIX));
+$query_files = $database->query(sprintf($query,TABLE_PREFIX,$tablename,TABLE_PREFIX,$tablename));
 
 if(is_object($query_files) && $query_files->numRows() > 0) {
 	$data['num_files'] = $query_files->numRows();

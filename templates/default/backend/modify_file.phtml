@@ -1,5 +1,5 @@
 <div class="mod_download_gallery">
-    <form name="modify" action="<?php echo WB_URL; ?>/modules/download_gallery/save_file.php" method="post" enctype="multipart/form-data">
+    <form name="modify" action="<?php echo WB_URL; ?>/modules/<?php echo $dlgmodname; ?>/save_file.php" method="post" enctype="multipart/form-data">
     	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
     	<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
     	<input type="hidden" name="file_id" value="<?php echo $file_id; ?>" />
@@ -16,13 +16,14 @@
             	<tr>
         			<td width="25%"><label accesskey="title"><?php echo $TEXT['TITLE']; ?></label>:</td>
         			<td>
+                        <span id="use_filename_span"><input type="checkbox" name="use_filename" id="use_filename" /> <?php echo $DGTEXT['USE_FILENAME']; ?><br /></span>
         				<input type="text" name="title" id="title" value="<?php echo stripslashes($data->title); ?>" maxlength="255" style="width:100%" />
         			</td>
         		</tr>
 <!-- local file: -->
         		<tr>
         			<td><?php echo $DGTEXT['LOKALFILE']; ?>:</td>
-    			    <?php if( $data->filename != '' && file_exists(WB_PATH.MEDIA_DIRECTORY.'/download_gallery/'.$data->filename )): ?>
+    			    <?php if( $data->filename != '' && file_exists(WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$data->filename )): ?>
     				<td>
     					<?php echo $data->filename; ?><br />
     					<input type="checkbox" name="delete_file" id="delete_file" value="yes" /><label for="delete_file"><?php echo $TEXT['DELETE']; ?></label><br />

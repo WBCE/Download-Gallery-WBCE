@@ -1,16 +1,18 @@
 <?php
 
 /**
- * CMS module: Download Gallery WBCE
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  **/
 
 require_once '../../config.php';
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+
 // Include WB admin wrapper script
 $update_when_modified = true; // Tells script to update when this page was last updated
 require WB_PATH.'/modules/admin.php';
-include_once WB_PATH.'/modules/download_gallery/functions.php';
+include_once WB_PATH.'/modules/'.$dlgmodname.'/functions.php';
 
 // This code removes any php tags and adds slashes
 $friendly = array('&lt;', '&gt;', '?php');
@@ -52,16 +54,6 @@ if (isset($_POST['extordering']) AND is_numeric($_POST['extordering'])) {
 } else {
     $extordering = 0;
 }
-if (isset($_POST['userupload']) AND is_numeric($_POST['userupload'])) {
-    $userupload = $_POST['userupload'];
-} else {
-    $userupload = 0;
-}
-if (isset($_POST['use_captcha']) AND is_numeric($_POST['use_captcha'])) {
-    $use_captcha = $_POST['use_captcha'];
-} else {
-    $use_captcha = 0;
-}
 
 // Update settings
 /*['ordering']
@@ -85,13 +77,12 @@ if($ordering==1 and $orderby==0){$ordering=1;}
 if($ordering==0 and $orderby==1){$ordering=2;}
 if($ordering==1 and $orderby==1){$ordering=3;}
 
-$query = "UPDATE `".TABLE_PREFIX."mod_download_gallery_settings` SET
+$query = "UPDATE `".TABLE_PREFIX.$tablename."_settings` SET
 	`files_per_page` = '$files_per_page',
 	`file_size_roundup` = '$file_size_roundup',
 	`file_size_decimals` = '$file_size_decimals',
 	`ordering` = '$ordering',
 	`extordering` = '$extordering',
-	`userupload` = '$userupload',
 	`search_filter` = '$search_filter'
 	WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'";
 $database->query($query);

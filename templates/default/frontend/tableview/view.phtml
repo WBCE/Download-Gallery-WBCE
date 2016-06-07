@@ -5,7 +5,7 @@
         var fileref=document.createElement("link");
         fileref.setAttribute("rel", "stylesheet");
         fileref.setAttribute("type", "text/css");
-        fileref.setAttribute("href", "<?php echo WB_URL ?>/modules/download_gallery/templates/default/frontend/<?php echo $data->settings['tpldir'] ?>/style.css");
+        fileref.setAttribute("href", "<?php echo WB_URL ?>/modules/<?php echo $dlgmodname; ?>/templates/default/frontend/<?php echo $data->settings['tpldir'] ?>/style.css");
         document.getElementsByTagName("head")[0].appendChild(fileref);
     //]]>
     </script>
@@ -23,7 +23,7 @@
 <?php if($data->filecount != $data->num_files): ?>
         <div style="float:right;">
             <form method="post" action="<?php echo $data->self_link ?>">
-                <input type="hidden" name="page" id="page" value="<?php echo $number?>" />
+                <input type="hidden" name="page" id="page" value="<?php echo $page?>" />
                 <label for="dlg_search_<?php echo $section_id ?>" title="<?php echo $DGTEXT['SEARCH_NOTE'] ?>"><span class="dlg-search"></span></label>
                 <input class="search" id="dlg_search_<?php echo $section_id ?>" name="dlg_search_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['SEARCH'] ?>" />
                 <input type="submit" value="Suchen" />

@@ -1,16 +1,18 @@
 <?php
 
 /**
- * CMS module: Download Gallery WBCE
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  **/
 
 require_once '../../config.php';
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+
 if(LANGUAGE_LOADED) {
-	require WB_PATH.'/modules/download_gallery/languages/EN.php';
-	if (file_exists (WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php';
+	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
+	if (file_exists (WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
 	}
 }
 
@@ -25,7 +27,7 @@ if(!$page_id || !$section_id || !$group_id) {
 // Include WB admin wrapper script
 require_once WB_PATH.'/modules/admin.php';
 
-$query_content = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_groups` WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
+$query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_groups` WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
 $fetch_content = $query_content->fetchRow(MYSQL_ASSOC);
 
 // initialize template data

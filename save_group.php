@@ -1,16 +1,18 @@
 <?php
 
 /**
- * CMS module: Download Gallery WBCE
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  **/
 
 require_once '../../config.php';
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+
 if(LANGUAGE_LOADED) {
-	require WB_PATH.'/modules/download_gallery/languages/EN.php';
-	if (file_exists (WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php';
+	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
+	if (file_exists (WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
 	}
 }
 
@@ -37,17 +39,17 @@ $update_when_modified = true;
 
 // Validate all fields
 if($admin->get_post('title') == '') {
-	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/download_gallery/modify_group.php?page_id='.$page_id.'&section_id='.$section_id.'&group_id='.$group_id);
+	$admin->print_error($MESSAGE['GENERIC']['FILL_IN_ALL'], WB_URL.'/modules/'.$dlgmodname.'/modify_group.php?page_id='.$page_id.'&section_id='.$section_id.'&group_id='.$group_id);
 } else {
 	$title = $admin->add_slashes(strip_tags($admin->get_post('title')));
 }
 
 // Update row
-$database->query("UPDATE `".TABLE_PREFIX."mod_download_gallery_groups` SET `title` = '$title', `active` = '$active' WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
+$database->query("UPDATE `".TABLE_PREFIX.$tablename."_groups` SET `title` = '$title', `active` = '$active' WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
 
 // Check for DB error
 if($database->is_error()) {
-	$admin->print_error($database->get_error(), WB_URL.'/modules/download_gallery/modify_group.php?page_id='.$page_id.'&section_id='.$section_id.'&group_id='.$group_id);
+	$admin->print_error($database->get_error(), WB_URL.'/modules/'.$dlgmodname.'/modify_group.php?page_id='.$page_id.'&section_id='.$section_id.'&group_id='.$group_id);
 } else {
 	$admin->print_success($TEXT['SUCCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }

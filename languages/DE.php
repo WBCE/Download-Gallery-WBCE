@@ -1,7 +1,7 @@
 <?php
 
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
 */
 
@@ -9,7 +9,9 @@ $DGTEXT['ASCENDING'] = 'aufsteigend';
 $DGTEXT['CLOSEWINDOW'] = 'Fenster schlie&szlig;en';
 $DGTEXT['DESCENDING'] = 'absteigend';
 $DGTEXT['DL_save'] = 'Speicherdialog anzeigen';
+$DGTEXT['DL_SUM'] = 'Downloads gesamt';
 $DGTEXT['DL_view'] = 'Datei im Browser &ouml;ffnen';
+$DGTEXT['DLG_VERSION'] = 'Download Gallery Version';
 $DGTEXT['EXISTINGFILE'] = 'Medienverzeichnis Datei';
 $DGTEXT['EXTINFO'] = 'zus&auml;tzlich nach Dateiendungen gruppieren';
 $DGTEXT['EXTORDERING'] = 'Gruppierung';
@@ -67,7 +69,6 @@ $DGTEXT['THTITLE'] = 'Kurzbezeichnung';
 $DGTEXT['TITLE'] = 'automatisch nach Dateiname';
 $DGTEXT['TPLCSS'] = 'Standard-CSS verwenden';
 $DGTEXT['TPLDIR'] = 'Verwende Templates aus Verzeichnis';
-$DGTEXT['UPLOADFILE'] = 'Dateien hochladen';
-$DGTEXT['USERUPLOAD'] = 'Hochladen erlauben';
+$DGTEXT['USE_FILENAME'] = 'Dateinamen verwenden';
 $DGTEXT['WHEN'] = 'zuletzt g&auml;ndert';
 $DGTEXT['Wrong file extension'] = 'Dieser Dateityp ist hier nicht erlaubt!';

@@ -35,7 +35,7 @@ div.mod_download_gallery .gradient1{
 div.mod_download_gallery input[type="text"],div.mod_download_gallery select{margin:auto;padding:1px 1px;min-width:250px;}
 div.mod_download_gallery input[type="button"],div.mod_download_gallery input[type="submit"] {width:200px;}
 
-div.mod_download_gallery . span{
+div.mod_download_gallery .dragdrop_handle span{
   content: '....';
   width: 10px;
   height: 20px;

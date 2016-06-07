@@ -1,23 +1,27 @@
 <?php
 
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
 */
 
 // prevent this file from being accessed directly
 if (!defined('WB_PATH')) die(header('Location: index.php'));
 
+global $dlgmodname, $tablename;
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
+
 // General Functions (used in multiple files)
 
 function dlg_download($id,$section_id)
 {
-    global $database;
+    global $database, $dlgmodname, $tablename;
 
     // find file in DB
     $q = $database->query(sprintf(
-        'SELECT * FROM `%smod_download_gallery_files` WHERE `section_id`=%d AND `file_id`="%d"',
-        TABLE_PREFIX,$section_id,$id
+        'SELECT * FROM `%s%s_files` WHERE `section_id`=%d AND `file_id`="%d"',
+        TABLE_PREFIX,$tablename,$section_id,$id
     ));
     $r = $q->fetchRow(MYSQL_ASSOC);
 
@@ -25,8 +29,8 @@ function dlg_download($id,$section_id)
     {
         $count = $r['dlcount']+1;
 	    $database->query(sprintf(
-            'UPDATE `%smod_download_gallery_files` SET `dlcount`=%d WHERE `section_id`=%d AND `file_id`="%d"',
-            TABLE_PREFIX,$count,$section_id,$id
+            'UPDATE `%s%s_files` SET `dlcount`=%d WHERE `section_id`=%d AND `file_id`="%d"',
+            TABLE_PREFIX,$tablename,$count,$section_id,$id
         ));
 
         if(!substr_compare($r['link'], WB_URL,0)) {
@@ -36,8 +40,7 @@ function dlg_download($id,$section_id)
         }
         else {
             // local
-            $path  = WB_PATH.MEDIA_DIRECTORY.'/download_gallery/'.$r['filename'];
-            
+            $path  = WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$r['filename'];
 
             // open file
             $fh = @fopen( $path, 'rb' );
@@ -74,9 +77,9 @@ function dlg_download($id,$section_id)
 // get file type images
 function dlg_ext2img($section_id)
 {
-    global $database;
-    $data      = array();
-    $query_ext = $database->query("SELECT `file_image`,`extensions` FROM `".TABLE_PREFIX."mod_download_gallery_file_ext` WHERE `section_id` = '$section_id'");
+    global $database, $dlgmodname, $tablename;
+    $data       = array();
+    $query_ext  = $database->query("SELECT `file_image`,`extensions` FROM `".TABLE_PREFIX.$tablename."_file_ext` WHERE `section_id` = '$section_id'");
     if($query_ext->numRows() > 0) {
         while($ext = $query_ext->fetchRow(MYSQL_ASSOC)) {
             $suffixes = explode(',', $ext['extensions']);
@@ -89,6 +92,20 @@ function dlg_ext2img($section_id)
     return $data;
 }
 
+function dlg_getdlsum($section_id)
+{
+    global $database, $dlgmodname, $tablename;
+    $query = "SELECT SUM(`dlcount`) AS `dlsum` "
+           . "FROM `".TABLE_PREFIX.$tablename."_files` AS t1 "
+           ;
+    $q = $database->query($query);
+    if($q->numRows()) {
+        $result = $q->fetchRow(MYSQL_ASSOC);
+        return $result['dlsum'];
+    }
+    return 0;
+}
+
 /**
  * get the number of active files; this also omits files that are in
  * inactive groups
@@ -99,10 +116,10 @@ function dlg_ext2img($section_id)
  **/
 function dlg_getfilescount($section_id)
 {
-    global $database;
+    global $database, $dlgmodname, $tablename;
     $query = "SELECT COUNT(`file_id`) AS `count` "
-           . "FROM `".TABLE_PREFIX."mod_download_gallery_files` AS t1 "
-           . "LEFT OUTER JOIN `".TABLE_PREFIX."mod_download_gallery_groups` AS t2 "
+           . "FROM `".TABLE_PREFIX.$tablename."_files` AS t1 "
+           . "LEFT OUTER JOIN `".TABLE_PREFIX.$tablename."_groups` AS t2 "
     	   . "ON t1.`group_id`=t2.`group_id` "
            . "WHERE t1.`section_id`=$section_id "
            . "AND t1.`active`=1 "
@@ -117,16 +134,23 @@ function dlg_getfilescount($section_id)
     return 0;
 }   // end function dlg_getfilescount()
 
+/**
+ * get file extensions
+ * @access public
+ * @param  integer  $fileext_id
+ * @param  integer  $section_id
+ * @return array
+ **/
 function dlg_getfileext($fileext_id,$section_id)
 {
-    global $database, $page_id;
-    $query_fileext 	= $database->query(
-        "SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_file_ext`
+    global $database, $page_id, $dlgmodname, $tablename;
+    $query_fileext = $database->query(
+        "SELECT * FROM `".TABLE_PREFIX.$tablename."_file_ext`
          WHERE `fileext_id` = '$fileext_id'
          AND `section_id`   = '$section_id'
          AND `page_id`      = '$page_id'"
     );
-    $extdetails 	= $query_fileext->fetchRow(MYSQL_ASSOC);
+    $extdetails = $query_fileext->fetchRow(MYSQL_ASSOC);
     return $extdetails;
 }   // end function dlg_getfileext()
 
@@ -138,10 +162,10 @@ function dlg_getfileext($fileext_id,$section_id)
  **/
 function dlg_getgroups($section_id,$active_only=true)
 {
-    global $database;
+    global $database, $dlgmodname, $tablename;
     $data = array('groups'=>array(),'gr2name'=>array());
     $query_groups = $database->query(
-        "SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_groups` WHERE `section_id` = '$section_id'"
+        "SELECT * FROM `".TABLE_PREFIX.$tablename."_groups` WHERE `section_id` = '$section_id'"
       . ( $active_only ? " AND active ='1'" : '' )
       . " ORDER BY `position` ASC"
     );
@@ -157,8 +181,8 @@ function dlg_getgroups($section_id,$active_only=true)
 // get settings
 function dlg_getsettings($section_id)
 {
-    global $page_id, $database;
-    $query_content = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_settings` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
+    global $page_id, $database, $dlgmodname, $tablename;
+    $query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_settings` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
     $row = $query_content->fetchRow(MYSQL_ASSOC);
     return $row;
 }
@@ -291,31 +315,31 @@ function hfs($size, $roundup, $decimals) {
 
 // create download dir and .htaccess file
 function make_dl_dir() {
-   make_dir(WB_PATH.MEDIA_DIRECTORY.'/download_gallery/');
+    global $dlgmodname;
+    make_dir(WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/');
 
-   // add .htaccess file to /media/download_gallery folder if not already exist
-   if (!file_exists(WB_PATH . MEDIA_DIRECTORY . '/download_gallery/.htaccess')
-	  or (filesize(WB_PATH . MEDIA_DIRECTORY . '/download_gallery/.htaccess') < 90))
-   {
-	  // create a .htaccess file to prevent execution of PHP, HMTL files
-	  $content = <<< EOT
+    // add .htaccess file to /media/download_gallery folder if not already exist
+    if(
+           !file_exists(WB_PATH . MEDIA_DIRECTORY . '/'.$dlgmodname.'/.htaccess')
+	    || (filesize(WB_PATH . MEDIA_DIRECTORY . '/'.$dlgmodname.'/.htaccess') < 90)
+    ) {
+	    // create a .htaccess file to prevent execution of PHP, HMTL files
+	    $content = <<< EOT
 <Files .htaccess>
 	order allow,deny
 	deny from all
 </Files>
 
 <Files ~ "\.(php|pl)$">  
-ForceType text/plain
+    ForceType text/plain
 </Files>
 
 Options -Indexes -ExecCGI
 EOT;
 
-	  $handle = fopen(WB_PATH . MEDIA_DIRECTORY . '/download_gallery/.htaccess', 'w');
-	  fwrite($handle, $content);
-	  fclose($handle);
-	  change_mode(WB_PATH . MEDIA_DIRECTORY . '/download_gallery/.htaccess', 'file');
-   };
+        $handle = fopen(WB_PATH . MEDIA_DIRECTORY . '/'.$dlgmodname.'/.htaccess', 'w');
+        fwrite($handle, $content);
+        fclose($handle);
+        change_mode(WB_PATH . MEDIA_DIRECTORY . '/'.$dlgmodname.'/.htaccess', 'file');
+    };
 }
-
-?>

@@ -2,7 +2,7 @@ if(typeof jQuery != 'undefined')
 {
     jQuery(document).ready(function($)
     {
-        if(typeof $.sortable !== 'undefined') {
+        if(typeof $.ui.sortable !== 'undefined') {
             $('tbody.ui-sortable').sortable({
                 items: 	'tr.draggable',
                 update: function(event, ui) {
@@ -22,13 +22,21 @@ if(typeof jQuery != 'undefined')
                     // for debugging you may activate this:
                     //console.log(data);
                     $.post(
-                        WB_URL+"/modules/download_gallery/dragdrop.php",
+                        DLGDRAGDROP,
                         data
                     );
     			}
     		});
         } else {
             $('.dragdrop_handle').removeClass('dragdrop_handle');
+        }
+        if( typeof $('input#title').val() != 'undefined') {
+            if($('input#title').val().length) {
+                $('span#use_filename_span').hide();
+            }
+            $('input#use_filename').change(function () {
+                 $('input#title').toggle(!this.checked);
+            }).change(); //ensure visible state matches initially
         }
     });
 }

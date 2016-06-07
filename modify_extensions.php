@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CMS module: Download Gallery WBCE
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  **/
 
@@ -12,11 +12,13 @@ require realpath( dirname(__FILE__).'/functions.php' );
 // check if this file was invoked by the expected module file
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+
 if (
        $referer
     && (
-           strpos($referer, WB_URL . '/modules/download_gallery/modify_settings.php') === false
-        && strpos($referer, WB_URL . '/modules/download_gallery/modify_extensions.php') === false
+           strpos($referer, WB_URL . '/modules/'.$dlgmodname.'/modify_settings.php') === false
+        && strpos($referer, WB_URL . '/modules/'.$dlgmodname.'/modify_extensions.php') === false
        )
 ) {
 	die(header('Location: ../../index.php'));
@@ -28,9 +30,9 @@ require WB_PATH.'/modules/admin.php';
 $admin = new admin('Pages', '', false, false);
 
 if(LANGUAGE_LOADED) {
-	require WB_PATH.'/modules/download_gallery/languages/EN.php';
-	if (file_exists (WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php';
+	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
+	if (file_exists (WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
 	}
 }
 
@@ -44,6 +46,7 @@ $data = array(
     'modify_link' => ADMIN_URL.'/pages/modify.php',
     'self_link'   => WB_URL.'/modules/'.$dir,
     'mod_version' => $module_version,
+    'infotext'    => NULL,
 );
 
 if (isset($_REQUEST['fileext_id'])) {
@@ -70,7 +73,7 @@ if(isset($_POST['file_ext'])) {
         //Remove the spaces
 		$checkStr = str_replace(" ","", $checkStr);
 		//Update the database
-		$database->query("UPDATE `".TABLE_PREFIX."mod_download_gallery_file_ext` "
+		$database->query("UPDATE `".TABLE_PREFIX.$tablename."_file_ext` "
 			. " SET `extensions` = '$checkStr' "
 			. " WHERE `fileext_id` = '$fileext_id' AND `page_id` = '$page_id'");
 		$data['infotext'] = $DGTEXT['FILE_STORED'];

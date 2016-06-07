@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CMS module: Download Gallery WBCE
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  **/
 
@@ -13,10 +13,13 @@ require realpath( dirname(__FILE__).'/functions.php' );
 require_once WB_PATH .'/framework/module.functions.php';
 require_once realpath( dirname(__FILE__).'/info.php' );
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
+
 if(LANGUAGE_LOADED) {
-	require WB_PATH.'/modules/download_gallery/languages/EN.php';
-	if (file_exists (WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php';
+	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
+	if (file_exists (WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
 	}
 }
 
@@ -25,8 +28,8 @@ $page_id    = (int) $page_id;
 $section_id = (int) $section_id;
 
 // delete empty records
-$database->query("DELETE FROM `".TABLE_PREFIX."mod_download_gallery_files`  WHERE `page_id` = '$page_id' AND `section_id` = '$section_id' AND `title`=''");
-$database->query("DELETE FROM `".TABLE_PREFIX."mod_download_gallery_groups` WHERE `page_id` = '$page_id' AND `section_id` = '$section_id' AND `title`=''");
+$database->query("DELETE FROM `".TABLE_PREFIX.$tablename."_files`  WHERE `page_id` = '$page_id' AND `section_id` = '$section_id' AND `title`=''");
+$database->query("DELETE FROM `".TABLE_PREFIX.$tablename."_groups` WHERE `page_id` = '$page_id' AND `section_id` = '$section_id' AND `title`=''");
 
 // initialize template data
 $dir  = pathinfo(dirname(__FILE__),PATHINFO_BASENAME);
@@ -42,6 +45,7 @@ $data = array(
     'ext2img'     => dlg_ext2img($section_id),
     'grfiles'     => array(),
     'dlpergroup'  => array(),
+    'dlsum'       => dlg_getdlsum($section_id),
 );
 
 // actions
@@ -63,7 +67,7 @@ if(isset($_GET['status']) && is_numeric($_GET['status'])) {
         // do nothing (invalid data)
     }
     if(isset($table) && isset($field)) {
-        $database->query("UPDATE `".TABLE_PREFIX."mod_download_gallery_".$table."` SET `active` = '$status' WHERE `".$field."` ='$id'");
+        $database->query("UPDATE `".TABLE_PREFIX.$tablename."_".$table."` SET `active` = '$status' WHERE `".$field."` ='$id'");
     }
 }
 
@@ -71,7 +75,7 @@ if(isset($_GET['status']) && is_numeric($_GET['status'])) {
 list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id,false);
 
 // get files
-$query_files = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `section_id` = '$section_id'");
+$query_files = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `section_id` = '$section_id'");
 if($query_files->numRows() > 0) {
 	$data['num_files'] = $query_files->numRows();
     while($file = $query_files->fetchRow(MYSQL_ASSOC)) {

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
 */
 
@@ -20,10 +20,10 @@ $update_when_modified = true; // Tells script to update when this page was last 
 require(WB_PATH.'/modules/admin.php');
 
 //move all fiels in group to no group
-$database->query("UPDATE `".TABLE_PREFIX."mod_download_gallery_files` SET `group_id` = '0' WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
+$database->query("UPDATE `".TABLE_PREFIX.$tablename."_files` SET `group_id` = '0' WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
 
 // Delete row
-$database->query("DELETE FROM `".TABLE_PREFIX."mod_download_gallery_groups` WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
+$database->query("DELETE FROM `".TABLE_PREFIX.$tablename."_groups` WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
 
 // Check if there is a db error, otherwise say successful
 if($database->is_error()) {

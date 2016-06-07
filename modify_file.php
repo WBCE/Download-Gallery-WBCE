@@ -1,16 +1,19 @@
 <?php
 
 /* 
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  */
 
 require_once '../../config.php';
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
+
 if(LANGUAGE_LOADED) {
-	require WB_PATH.'/modules/download_gallery/languages/EN.php';
-	if (file_exists (WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php';
+	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
+	if (file_exists (WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
 	}
 }
 
@@ -30,7 +33,7 @@ require_once WB_PATH.'/framework/functions.php';
 require_once realpath( dirname(__FILE__).'/functions.php' );
 
 // get file data
-$query_content = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `file_id` = '$file_id' AND `page_id` = '$page_id'");
+$query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `file_id` = '$file_id' AND `page_id` = '$page_id'");
 $fetch_content = $query_content->fetchRow(MYSQL_ASSOC);
 
 // initialize template data
@@ -54,20 +57,21 @@ if (!defined('WYSIWYG_EDITOR') || WYSIWYG_EDITOR=="none" || !file_exists(WB_PATH
 
 // list of existing files
 $wbpath      = str_replace('\\','/',WB_PATH);
-$basepath    = str_replace('\\','/',WB_PATH.MEDIA_DIRECTORY.'/download_gallery/');
+$basepath    = str_replace('\\','/',WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname);
 $folder_list = directory_list($basepath);
 array_push($folder_list,$basepath);
 sort($folder_list);
 
 foreach($folder_list as $name) {
-	$file_list = file_list($name);
+    // note: the file_list() method returns the full path
+	$file_list = file_list($name,array('index.php'));
 	sort($file_list);
 	foreach($file_list as $filename) {
 		$thumb_count = substr_count($filename, '/thumbs/');
 		if($thumb_count==0) {
             $data['files'][] = array(
                 WB_URL.str_replace($wbpath,'',$filename),
-                str_replace($basepath,'',$filename)
+                str_replace($basepath.'/','',$filename)
             );
 		}
 		$thumb_count="";

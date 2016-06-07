@@ -1,7 +1,7 @@
 <?php
 
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
 */
 
@@ -19,8 +19,11 @@ if(!isset($_GET['file_id']) OR !is_numeric($_GET['file_id'])) {
 $update_when_modified = true; // Tells script to update when this page was last updated
 require WB_PATH.'/modules/admin.php';
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
+
 // STEP 1:	Get post details
-$query_details = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `file_id` = '$file_id' AND `page_id` = '$page_id'");
+$query_details = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `file_id` = '$file_id' AND `page_id` = '$page_id'");
 if($query_details->numRows() > 0) {
 	$get_details = $query_details->fetchRow();
 } else {
@@ -32,24 +35,24 @@ $fname = $get_details['filename'];
 $ext   = $get_details['extension'];
 
 //check for multiple evtries using the same file name
-$query_duplicates = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `filename` = '$fname' AND `extension`='$ext'");
+$query_duplicates = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `filename` = '$fname' AND `extension`='$ext'");
 $dups=$query_duplicates->numRows();
 
 //only delete the file if there is 1 database entry (not used on multiple sections)
 if($dups==1){
 	// STEP 2:	Delete any files if they exists
-	$file = WB_PATH.MEDIA_DIRECTORY.'/download_gallery/' . $fname;
+	$file = WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/' . $fname;
 	if(file_exists($file) AND is_writable($file)) {
 		unlink($file);
 	}
 }
 
 // STEP 3:	Delete post
-$database->query("DELETE FROM `".TABLE_PREFIX."mod_download_gallery_files` WHERE `file_id` = '$file_id' LIMIT 1");
+$database->query("DELETE FROM `".TABLE_PREFIX.$tablename."_files` WHERE `file_id` = '$file_id' LIMIT 1");
 
 // STEP 4:	Clean up ordering
 require(WB_PATH.'/framework/class.order.php');
-$order = new order(TABLE_PREFIX.'mod_download_gallery_files', 'position', 'file_id', 'section_id');
+$order = new order(TABLE_PREFIX.$tablename.'_files', 'position', 'file_id', 'section_id');
 $order->clean($section_id);   // ??????
 
 // STEP 5:	Check if there is a db error, otherwise say successful

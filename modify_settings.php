@@ -1,18 +1,19 @@
 <?php
 
 /**
- * CMS module: Download Gallery WBCE
+ * CMS module: Download Gallery 3
  * Copyright and more information see file info.php
  **/
 
 require '../../config.php';
 require WB_PATH.'/modules/admin.php';
 require realpath( dirname(__FILE__).'/info.php' );
+require realpath( dirname(__FILE__).'/functions.php' );
 
 if(LANGUAGE_LOADED) {
-	require WB_PATH.'/modules/download_gallery/languages/EN.php';
-	if (file_exists (WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/download_gallery/languages/'.LANGUAGE.'.php';
+	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
+	if (file_exists (WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
 	}
 }
 
@@ -34,11 +35,11 @@ $data = array(
 );
 
 // Get General Settings
-$query_content = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_settings` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
+$query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_settings` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
 $data['settings'] = $query_content->fetchRow(MYSQL_ASSOC);
 
 // List Extension types
-$query_fileext 	= $database->query("SELECT * FROM `".TABLE_PREFIX."mod_download_gallery_file_ext` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
+$query_fileext 	= $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_file_ext` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
 if($query_fileext->numRows())
 {
     while($row = $query_fileext->fetchRow(MYSQL_ASSOC))

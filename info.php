@@ -30,17 +30,17 @@
  *
  */
 
-$module_name			= 'Download Gallery WBCE';
-$module_directory		= 'download_gallery';
+$module_name			= 'Download Gallery 3';
+$module_directory		= 'download_gallery_3';
 $module_function		= 'page';
-$module_version			= '2.99.5';
+$module_version			= '3.1.0Beta1';
 $module_platform 	    = '2.8';
 $wbce_platform 	        = '1.1';
 $module_status		    = 'beta';
 $module_author			= 'Hudge, Woudloper, M. Gallas, R. Smith, C. Sommer, F. Heyne, B. Martinovic';
 $module_license			= 'GNU General Public License'; 
 $module_description		= 'This page type is designed for making a download gallery page<br />'
-                        . 'See <a href="'.WB_URL.'/modules/download_gallery/help.php?page_id=1&amp;section_id=1">help file</a> for more information.'
+                        . 'See <a href="'.WB_URL.'/modules/'.$module_directory.'/help.php?page_id=1&amp;section_id=1">help file</a> for more information.'
                         ;
 $module_home            = 'https://github.com/WBCE/Download-Gallery-WBCE.git';
 $module_guid            = 'a691aeef-16f7-410b-8db4-2f074aa0c791';

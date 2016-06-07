@@ -1,6 +1,6 @@
 <?php
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright (C) 2004-2006, Ryan Djurovich
  * Improvements are copyright (c) 2009-2011 Frank Heyne
  * For more information see info.php
@@ -10,7 +10,9 @@ $DGTEXT['ASCENDING'] = 'Croissant';
 $DGTEXT['CLOSEWINDOW'] = 'Fermer la fenêtre';
 $DGTEXT['DESCENDING'] = 'Décroissant';
 $DGTEXT['DL_save'] = 'Show "Save as" dialogue';
+$DGTEXT['DL_SUM'] = 'Download sum';
 $DGTEXT['DL_view'] = 'Show file in browser';
+$DGTEXT['DLG_VERSION'] = 'Download Gallery Version';
 $DGTEXT['EXISTINGFILE'] = 'Media Directory File';
 $DGTEXT['EXTINFO'] = 'Grouper les fichiers par type lors d\'un tri par titre';
 $DGTEXT['EXTORDERING'] = 'Tri par extension';
@@ -65,7 +67,10 @@ $DGTEXT['THRELEASED'] = 'Release date';
 $DGTEXT['THSIZE'] = 'File Size';
 $DGTEXT['THTITLE'] = 'Description';
 $DGTEXT['TITLE'] = 'Tri par titre';
+$DGTEXT['TPLDIR'] = 'Use templates from directory';
+$DGTEXT['TPLCSS'] = 'Use default CSS';
 $DGTEXT['UPLOADFILE'] = 'Uploader le fichier';
+$DGTEXT['USE_FILENAME'] = 'Use filename';
 $DGTEXT['USERUPLOAD'] = 'Autoriser les utilisateurs à uploader';
 $DGTEXT['WHEN'] = 'Modifier la date';
 $DGTEXT['Wrong file extension'] = 'File extension not allowed';

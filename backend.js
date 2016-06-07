@@ -1,4 +1,5 @@
-console.log(typeof jQuery);
+// for debugging you may activate this:
+// console.log(typeof jQuery);
 
 if ( typeof jQuery == 'undefined' ) {
     var fileref=document.createElement("script")
@@ -15,10 +16,11 @@ dlgJQueryDefer(0);
 function dlgJQueryDefer(waittime) {
     waittime = waittime + 100;
     if(waittime>=maxwait) {
-         alert('no jQuery in 5000 milliseconds...');
+         console.log('no jQuery in 5000 milliseconds...');
     }
     else {
-console.log('Waiting for jQuery...');
+        // for debugging you may activate this:
+        //console.log('Waiting for jQuery...');
         if (window.jQuery) {
             if ( typeof jQuery.ui == 'undefined' ) {
                 var fileref=document.createElement("script")

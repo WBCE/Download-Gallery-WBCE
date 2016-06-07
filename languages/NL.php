@@ -1,6 +1,6 @@
 <?php
 /*
- * CMS module: Download Gallery 2
+ * CMS module: Download Gallery 3
  * Copyright (C) 2004-2006, Ryan Djurovich
  * Improvements are copyright (c) 2009-2011 Frank Heyne
  * For more information see info.php
@@ -10,7 +10,9 @@ $DGTEXT['ASCENDING'] = 'Oplopend';
 $DGTEXT['CLOSEWINDOW'] = 'Scherm sluiten';
 $DGTEXT['DESCENDING'] = 'Aflopend';
 $DGTEXT['DL_save'] = 'Laat "Opslaan als" dialoog zien';
+$DGTEXT['DL_SUM'] = 'Download sum';
 $DGTEXT['DL_view'] = 'Laat bestand in de browser zien';
+$DGTEXT['DLG_VERSION'] = 'Download Gallery Version';
 $DGTEXT['EXISTINGFILE'] = 'Media Directory bestand';
 $DGTEXT['EXTINFO'] = 'Groepeer bestanden op basis van type als ze georderend zijn op titel';
 $DGTEXT['EXTORDERING'] = 'Extensie volgorde';
@@ -65,7 +67,10 @@ $DGTEXT['THRELEASED'] = 'Release date';
 $DGTEXT['THSIZE'] = 'bestandsgrootte ';
 $DGTEXT['THTITLE'] = 'Omschrijving';
 $DGTEXT['TITLE'] = 'Op basis van titel ';
+$DGTEXT['TPLDIR'] = 'Use templates from directory';
+$DGTEXT['TPLCSS'] = 'Use default CSS';
 $DGTEXT['UPLOADFILE'] = 'Upload bestand';
+$DGTEXT['USE_FILENAME'] = 'Use filename';
 $DGTEXT['USERUPLOAD'] = 'User Upload';
 $DGTEXT['WHEN'] = 'laatste wijzigingsdatum';
 $DGTEXT['Wrong file extension'] = 'bestandsextensie niet toegestaan';
