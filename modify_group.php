@@ -8,6 +8,7 @@
 require_once '../../config.php';
 
 $dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
 
 if(LANGUAGE_LOADED) {
 	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
