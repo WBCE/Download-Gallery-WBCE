@@ -34,7 +34,7 @@ require_once realpath( dirname(__FILE__).'/functions.php' );
 
 // get file data
 $query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `file_id` = '$file_id' AND `page_id` = '$page_id'");
-$fetch_content = $query_content->fetchRow(MYSQL_ASSOC);
+$fetch_content = $query_content->fetchRow();
 
 // initialize template data
 $dir  = pathinfo(dirname(__FILE__),PATHINFO_BASENAME);

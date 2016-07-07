@@ -141,7 +141,7 @@ $query_files = $database->query(sprintf($query,TABLE_PREFIX,$tablename,TABLE_PRE
 
 if(is_object($query_files) && $query_files->numRows() > 0) {
 	$data['num_files'] = $query_files->numRows();
-    while($file = $query_files->fetchRow(MYSQL_ASSOC)) {
+    while($file = $query_files->fetchRow()) {
         $dldescription=$file['description'];
 		$wb->preprocess($dldescription);
         $file['description'] = $dldescription;

@@ -36,13 +36,13 @@ $data = array(
 
 // Get General Settings
 $query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_settings` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
-$data['settings'] = $query_content->fetchRow(MYSQL_ASSOC);
+$data['settings'] = $query_content->fetchRow();
 
 // List Extension types
 $query_fileext 	= $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_file_ext` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
 if($query_fileext->numRows())
 {
-    while($row = $query_fileext->fetchRow(MYSQL_ASSOC))
+    while($row = $query_fileext->fetchRow())
     {
         $data['fileext'][] = $row;
     }

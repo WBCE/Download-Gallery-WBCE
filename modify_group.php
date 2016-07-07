@@ -29,7 +29,7 @@ if(!$page_id || !$section_id || !$group_id) {
 require_once WB_PATH.'/modules/admin.php';
 
 $query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_groups` WHERE `group_id` = '$group_id' AND `page_id` = '$page_id'");
-$fetch_content = $query_content->fetchRow(MYSQL_ASSOC);
+$fetch_content = $query_content->fetchRow();
 
 // initialize template data
 $dir  = pathinfo(dirname(__FILE__),PATHINFO_BASENAME);

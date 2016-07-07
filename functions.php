@@ -23,7 +23,7 @@ function dlg_download($id,$section_id)
         'SELECT * FROM `%s%s_files` WHERE `section_id`=%d AND `file_id`="%d"',
         TABLE_PREFIX,$tablename,$section_id,$id
     ));
-    $r = $q->fetchRow(MYSQL_ASSOC);
+    $r = $q->fetchRow();
 
     if($r)
     {
@@ -81,7 +81,7 @@ function dlg_ext2img($section_id)
     $data       = array();
     $query_ext  = $database->query("SELECT `file_image`,`extensions` FROM `".TABLE_PREFIX.$tablename."_file_ext` WHERE `section_id` = '$section_id'");
     if($query_ext->numRows() > 0) {
-        while($ext = $query_ext->fetchRow(MYSQL_ASSOC)) {
+        while($ext = $query_ext->fetchRow()) {
             $suffixes = explode(',', $ext['extensions']);
             foreach(array_values($suffixes) as $suffix)
             {
@@ -100,7 +100,7 @@ function dlg_getdlsum($section_id)
            ;
     $q = $database->query($query);
     if($q->numRows()) {
-        $result = $q->fetchRow(MYSQL_ASSOC);
+        $result = $q->fetchRow();
         return $result['dlsum'];
     }
     return 0;
@@ -128,7 +128,7 @@ function dlg_getfilescount($section_id)
            ;
     $q = $database->query($query);
     if($q->numRows()) {
-        $result = $q->fetchRow(MYSQL_ASSOC);
+        $result = $q->fetchRow();
         return $result['count'];
     }
     return 0;
@@ -150,7 +150,7 @@ function dlg_getfileext($fileext_id,$section_id)
          AND `section_id`   = '$section_id'
          AND `page_id`      = '$page_id'"
     );
-    $extdetails = $query_fileext->fetchRow(MYSQL_ASSOC);
+    $extdetails = $query_fileext->fetchRow();
     return $extdetails;
 }   // end function dlg_getfileext()
 
@@ -170,7 +170,7 @@ function dlg_getgroups($section_id,$active_only=true)
       . " ORDER BY `position` ASC"
     );
     if($query_groups->numRows() > 0) {
-        while($group = $query_groups->fetchRow(MYSQL_ASSOC)) {
+        while($group = $query_groups->fetchRow()) {
             $data['groups'][] = $group;
             $data['gr2name'][$group['group_id']] = $group['title'];
         }
@@ -183,7 +183,7 @@ function dlg_getsettings($section_id)
 {
     global $page_id, $database, $dlgmodname, $tablename;
     $query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_settings` WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'");
-    $row = $query_content->fetchRow(MYSQL_ASSOC);
+    $row = $query_content->fetchRow();
     return $row;
 }
 

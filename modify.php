@@ -78,7 +78,7 @@ list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id,false);
 $query_files = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `section_id` = '$section_id'");
 if($query_files->numRows() > 0) {
 	$data['num_files'] = $query_files->numRows();
-    while($file = $query_files->fetchRow(MYSQL_ASSOC)) {
+    while($file = $query_files->fetchRow()) {
         $data['files'][] = $file;
         if(!isset($data['grfiles'][$file['group_id']])) $data['grfiles'][$file['group_id']] = 0;
         if(!isset($data['dlpergroup'][$file['group_id']])) $data['dlpergroup'][$file['group_id']] = 0;
