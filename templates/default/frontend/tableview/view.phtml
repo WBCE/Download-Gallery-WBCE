@@ -13,7 +13,7 @@
 
 <?php
     if($data->filecount != 0):
-        if($data->settings['search_filter']): /* add optional search box */
+        if($data->settings['search_filter'] == 'Y'): /* add optional search box */
 ?>
     <div>
         <div style="float:left">
@@ -42,6 +42,11 @@
     <table class="rwd-table">
         <?php $lastgroup = -1; ?>
         <?php include 'files_loop.phtml' ?>
+        <tfoot>
+            <tr>
+                <td colspan="6" class="hide_on_mobile"></td>
+            </tr>
+        </tfoot>
     </table><br />
 
 <?php if($data->filecount != 0): ?>

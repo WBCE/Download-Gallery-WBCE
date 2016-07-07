@@ -187,6 +187,20 @@ function dlg_getsettings($section_id)
     return $row;
 }
 
+// get template subdirs
+function dlg_gettpldirs()
+{
+    $tplbase = realpath(dirname(__FILE__).'/templates/default/frontend');
+    $dirlist = array();
+    $dh      = opendir($tplbase);
+    while (false !== ($filename = readdir($dh))) {
+        if(substr($filename,0,1)!='.' && is_dir($tplbase.'/'.$filename) && $filename != 'fonts') {
+            $dirlist[] = $filename;
+        }
+    }
+    return $dirlist;
+}
+
 // resolve upload error number
 function dlg_get_upload_error($error)
 {

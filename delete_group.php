@@ -7,6 +7,9 @@
 
 require '../../config.php';
 
+$dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
+
 // Get id
 $group_id = '';
 if(!isset($_GET['group_id']) OR !is_numeric($_GET['group_id'])) {

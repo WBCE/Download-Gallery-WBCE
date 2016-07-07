@@ -5,10 +5,10 @@
  * Copyright and more information see file info.php
  **/
 
-require '../../config.php';
-require WB_PATH.'/modules/admin.php';
-require realpath( dirname(__FILE__).'/info.php' );
-require realpath( dirname(__FILE__).'/functions.php' );
+require_once '../../config.php';
+require_once WB_PATH.'/modules/admin.php';
+require_once realpath( dirname(__FILE__).'/info.php' );
+require_once realpath( dirname(__FILE__).'/functions.php' );
 
 if(LANGUAGE_LOADED) {
 	require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
@@ -48,14 +48,7 @@ if($query_fileext->numRows())
     }
 }
 
-// get template subdirs
-$tplbase = realpath(dirname(__FILE__).'/templates/default/frontend');
-$dh      = opendir($tplbase);
-while (false !== ($filename = readdir($dh))) {
-    if(substr($filename,0,1)!='.' && is_dir($tplbase.'/'.$filename) && $filename != 'fonts') {
-        $data['tpldirs'][] = $filename;
-    }
-}
+$data['tpldirs'] = dlg_gettpldirs();
 
 $data = (object) $data;
 

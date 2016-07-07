@@ -6,8 +6,8 @@
  **/
 
 require_once '../../config.php';
-require realpath( dirname(__FILE__).'/info.php' );
-require realpath( dirname(__FILE__).'/functions.php' );
+require_once realpath( dirname(__FILE__).'/info.php' );
+require_once realpath( dirname(__FILE__).'/functions.php' );
 
 // check if this file was invoked by the expected module file
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';

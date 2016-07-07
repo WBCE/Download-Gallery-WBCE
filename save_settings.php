@@ -19,40 +19,47 @@ $friendly = array('&lt;', '&gt;', '?php');
 $raw      = array('<', '>', '');
 
 // STEP 1: Retrieve settings from POST vars
-if (isset($_POST['file_size_decimals']) AND is_numeric($_POST['file_size_decimals'])) {
+if (isset($_POST['file_size_decimals']) && is_numeric($_POST['file_size_decimals'])) {
     $file_size_decimals = $_POST['file_size_decimals'];
 } else {
     $file_size_decimals = '0';
 }
-if (isset($_POST['files_per_page']) AND is_numeric($_POST['files_per_page'])) {
+if (isset($_POST['files_per_page']) && is_numeric($_POST['files_per_page'])) {
     $files_per_page = $_POST['files_per_page'];
 } else {
     $files_per_page = '0';
 }
-if (isset($_POST['file_size_round']) AND is_numeric($_POST['file_size_round'])) {
+if (isset($_POST['file_size_round']) && is_numeric($_POST['file_size_round'])) {
     $file_size_roundup = $_POST['file_size_round'];
 } else {
     $file_size_roundup = '0';
 }
-if (isset($_POST['search_filter']) AND is_numeric($_POST['search_filter'])) {
+if (isset($_POST['search_filter']) && in_array($_POST['search_filter'],array('Y','N'))) {
     $search_filter = $_POST['search_filter'];
 } else {
-    $search_filter = '0';
+    $search_filter = 'N';
 }
-if (isset($_POST['ordering']) AND is_numeric($_POST['ordering'])) {
+if (isset($_POST['ordering']) && is_numeric($_POST['ordering'])) {
     $ordering = $_POST['ordering'];
 } else {
     $ordering = 0;
 }
-if (isset($_POST['orderby']) AND is_numeric($_POST['orderby'])) {
+if (isset($_POST['orderby']) && is_numeric($_POST['orderby'])) {
     $orderby = $_POST['orderby'];
 } else {
     $orderby = 0;
 }
-if (isset($_POST['extordering']) AND is_numeric($_POST['extordering'])) {
+if (isset($_POST['extordering']) && is_numeric($_POST['extordering'])) {
     $extordering = $_POST['extordering'];
 } else {
     $extordering = 0;
+}
+
+$tpldirs = dlg_gettpldirs();
+if(isset($_POST['tpldir']) && in_array($_POST['tpldir'],$tpldirs)) {
+    $tpldir = $_POST['tpldir'];
+} else {
+    $tpldir = 'tableview';
 }
 
 // Update settings
@@ -83,7 +90,8 @@ $query = "UPDATE `".TABLE_PREFIX.$tablename."_settings` SET
 	`file_size_decimals` = '$file_size_decimals',
 	`ordering` = '$ordering',
 	`extordering` = '$extordering',
-	`search_filter` = '$search_filter'
+	`search_filter` = '$search_filter',
+    `tpldir` = '$tpldir'
 	WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'";
 $database->query($query);
 

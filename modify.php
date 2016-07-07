@@ -7,8 +7,8 @@
 
 if (!defined('WB_PATH')) die(header('Location: index.php'));
 
-require realpath( dirname(__FILE__).'/info.php' );
-require realpath( dirname(__FILE__).'/functions.php' );
+require_once realpath( dirname(__FILE__).'/info.php' );
+require_once realpath( dirname(__FILE__).'/functions.php' );
 
 require_once WB_PATH .'/framework/module.functions.php';
 require_once realpath( dirname(__FILE__).'/info.php' );

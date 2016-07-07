@@ -6,6 +6,7 @@
  */
 
 $dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
 
 require_once WB_PATH.'/modules/'.$dlgmodname.'/functions.php';
 require_once WB_PATH.'/modules/'.$dlgmodname.'/info.php'; // allows to print the module version
