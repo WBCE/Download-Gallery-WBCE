@@ -33,7 +33,7 @@
 $module_name			= 'Download Gallery 3';
 $module_directory		= 'download_gallery_3';
 $module_function		= 'page';
-$module_version			= '3.1.2';
+$module_version			= '3.1.3';
 $module_platform 	    = '2.8';
 $wbce_platform 	        = '1.1';
 $module_status		    = 'beta';
