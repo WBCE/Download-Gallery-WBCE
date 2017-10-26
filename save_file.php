@@ -144,14 +144,16 @@ if ($released <> '') {
 // existing ./media file
 if(trim($existingfile!='')) {
     $size = 0;
-	$file_link  = $existingfile;
-	$path_parts = pathinfo($file_link);
-	$fileext    = $path_parts['extension'];
+    $file_link  = $existingfile;
+    $path_parts = pathinfo($file_link);
+    $fileext    = $path_parts['extension'];
     $filename   = $path_parts['basename'];
+    // get subdir
+    $subdir     = preg_replace('~.*/'.$dlgmodname.'/~i','',$file_link);
     if  ($remotelink == '') {
-        $size = filesize(WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$filename);
+        $size = filesize(WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$subdir);
     }
-	if(
+    if(
            (isset($_POST['delete_file']) && $_POST['delete_file'] != '')
         or (isset($_POST['delete_file2']) AND $_POST['delete_file2'] != '')
     ) {
