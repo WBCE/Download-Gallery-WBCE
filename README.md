@@ -1,5 +1,8 @@
 # Download-Gallery-WBCE
-This is a fork of the Download Gallery 2 with several fixes 
 
-# Important note
-This repository is _not_ complete yet! Please do _not_ try to install and use it until first release.
+The Download Gallery 3 or short DG3 is based on the Download Gallery 2 for Website Baker, but completely rewritten. It runs with 
+
+* WBCE (http://wbce.org)
+* BlackCat CMS (https://blackcat-cms.org)
+
+
