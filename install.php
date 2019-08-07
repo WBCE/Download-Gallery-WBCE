@@ -8,10 +8,10 @@
 if (!defined('WB_PATH')) die(header('Location: index.php'));
 
 $dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
-$tablename  = 'mod_'.$dlgmodname;
+$tablename  = TABLE_PREFIX.'mod_'.$dlgmodname;
 
 $mod_dl_gallery = '
-    CREATE TABLE IF NOT EXISTS `%s%s_files` (
+    CREATE TABLE IF NOT EXISTS `%s_files` (
     	`file_id` INT(11) NOT NULL AUTO_INCREMENT,
     	`section_id` INT(11) NOT NULL DEFAULT \'0\',
     	`page_id` INT(11) NOT NULL DEFAULT \'0\',
@@ -30,10 +30,10 @@ $mod_dl_gallery = '
     	`released` INT(11) NOT NULL DEFAULT \'0\',
     	PRIMARY KEY (`file_id`)
     );';
-$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX,$tablename));
+$database->query(sprintf($mod_dl_gallery,$tablename));
 
 $mod_dl_gallery = '
-    CREATE TABLE IF NOT EXISTS `%s%s_settings` (
+    CREATE TABLE IF NOT EXISTS `%s_settings` (
     	`section_id` INT(11) NOT NULL DEFAULT \'0\',
     	`page_id` INT(11) NOT NULL DEFAULT \'0\',
     	`files_per_page` INT(11) NOT NULL DEFAULT \'0\',
@@ -46,10 +46,10 @@ $mod_dl_gallery = '
     	`tplcss` ENUM(\'Y\',\'N\') NOT NULL DEFAULT \'Y\',
     	PRIMARY KEY (`section_id`)
     );';
-$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX,$tablename));
+$database->query(sprintf($mod_dl_gallery,$tablename));
 
 $mod_dl_gallery = '
-    CREATE TABLE IF NOT EXISTS `%s%s_groups` (
+    CREATE TABLE IF NOT EXISTS `%s_groups` (
     	`group_id` INT(11) NOT NULL AUTO_INCREMENT,
     	`section_id` INT(11) NOT NULL DEFAULT \'0\',
     	`page_id` INT(11) NOT NULL DEFAULT \'0\',
@@ -58,10 +58,10 @@ $mod_dl_gallery = '
     	`title` VARCHAR(255) NOT NULL DEFAULT \'\',
     	PRIMARY KEY (`group_id`)
 );';
-$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX,$tablename));
+$database->query(sprintf($mod_dl_gallery,$tablename));
 
 $mod_dl_gallery = '
-    CREATE TABLE IF NOT EXISTS `%s%s_file_ext` (
+    CREATE TABLE IF NOT EXISTS `%s_file_ext` (
     	`fileext_id` INT(11) NOT NULL AUTO_INCREMENT,
     	`section_id` INT(11) NOT NULL DEFAULT \'0\',
     	`page_id` INT(11) NOT NULL DEFAULT \'0\',
@@ -70,7 +70,7 @@ $mod_dl_gallery = '
     	`extensions` TEXT NOT NULL,
     	PRIMARY KEY (`fileext_id`)
     );';
-$database->query(sprintf($mod_dl_gallery,TABLE_PREFIX,$tablename));
+$database->query(sprintf($mod_dl_gallery,$tablename));
 
 // Insert info into the search table
 // Module query info

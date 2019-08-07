@@ -56,8 +56,8 @@ if (isset($_POST['extordering']) && is_numeric($_POST['extordering'])) {
 }
 
 $tpldirs = dlg_gettpldirs();
-if(isset($_POST['tpldir']) && in_array($_POST['tpldir'],$tpldirs)) {
-    $tpldir = $_POST['tpldir'];
+if(isset($_POST['template_dir']) && in_array($_POST['template_dir'],$tpldirs)) {
+    $tpldir = $_POST['template_dir'];
 } else {
     $tpldir = 'tableview';
 }
