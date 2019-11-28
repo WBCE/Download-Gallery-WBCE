@@ -4,8 +4,9 @@
  * Copyright and more information see file info.php
 */
 
-function download_gallery_search($func_vars) {
+function download_gallery_3_search($func_vars) {
 	extract($func_vars, EXTR_PREFIX_ALL, 'func');
+	$tablename  = 'mod_download_gallery_3';
 	
 	// how many lines of excerpt we want to have at most
 	$max_excerpt_num = $func_default_max_excerpt;
