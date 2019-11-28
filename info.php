@@ -22,25 +22,25 @@
 /*
  *
  * Changelog
- * 	Fix
+ *     Fix
  *  version 2.65. 03feb16 -  2.65.0 03feb16
  *  ! update to 2.65.0
- *	Fix XSS Vulnerabilities
- *	Evaki
+ *    Fix XSS Vulnerabilities
+ *    Evaki
  *
  */
 
-$module_name			  = 'Download Gallery 3';
-$module_directory		= 'download_gallery_3';
-$module_function		= 'page';
-$module_version			= '3.1.6';
-$module_platform 	  = '2.8';
-$wbce_platform 	    = '1.1';
-$module_status		  = 'stable';
-$module_author			= 'Hudge, Woudloper, M. Gallas, R. Smith, C. Sommer, F. Heyne, B. Martinovic';
-$module_license			= 'GNU General Public License'; 
-$module_description	= 'This page type is designed for making a download gallery page<br />'
+$module_name        = 'Download Gallery 3';
+$module_directory   = 'download_gallery_3';
+$module_function    = 'page';
+$module_version     = '3.1.6';
+$module_platform    = '2.8';
+$wbce_platform      = '1.1';
+$module_status      = 'stable';
+$module_author      = 'Hudge, Woudloper, M. Gallas, R. Smith, C. Sommer, F. Heyne, B. Martinovic';
+$module_license     = 'GNU General Public License';
+$module_description = 'This page type is designed for making a download gallery page<br />'
                     . 'See <a href="'.WB_URL.'/modules/'.$module_directory.'/help.php?page_id=1&amp;section_id=1">help file</a> for more information.'
                     ;
-$module_h           = 'https://github.com/WBCE/Download-Gallery-WBCE.git';
-$module_            = 'a691aeef-16f7-410b-8db4-2f074aa0c791';
+$module_home        = 'https://github.com/WBCE/Download-Gallery-WBCE.git';
+$module_guid        = 'a691aeef-16f7-410b-8db4-2f074aa0c791';
