@@ -1,0 +1,87 @@
+<div class="mod_downloadgallery" id="dlg<?php echo $section_id ?>">
+<?php if($data->settings['tplcss'] == 'Y'): /* add optional CSS to the header */ ?>
+    <script type="text/javascript">
+    //<![CDATA[
+        var fileref=document.createElement("link");
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", "<?php echo WB_URL ?>/modules/<?php echo $dlgmodname; ?>/templates/default/frontend/<?php echo $data->settings['tpldir'] ?>/style.css");
+        document.getElementsByTagName("head")[0].appendChild(fileref);
+    //]]>
+    </script>
+<?php endif; ?>
+
+<?php
+    if($data->filecount != 0):
+        if($data->settings['search_filter'] == 'Y'): /* add optional search box */
+?>
+    <div>
+        <div style="float:left">
+            <label for="dlg_filter_<?php echo $section_id ?>" title="<?php echo $DGTEXT['FILTER_INLINE_NOTE'] ?>"><span class="dlg-filter"></span></label>
+            <input class="filter" id="dlg_filter_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['FILTER'] ?>" />
+        </div>
+<?php if($data->filecount != $data->num_files): ?>
+        <div style="float:right;">
+            <form method="post" action="<?php echo $data->self_link ?>">
+                <input type="hidden" name="page" id="page" value="<?php echo $page?>" />
+                <label for="dlg_search_<?php echo $section_id ?>" title="<?php echo $DGTEXT['SEARCH_NOTE'] ?>"><span class="dlg-search"></span></label>
+                <input class="search" id="dlg_search_<?php echo $section_id ?>" name="dlg_search_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['SEARCH'] ?>" />
+                <input type="submit" value="Suchen" />
+            </form>
+        </div>
+<?php endif; /* $data->filecount != $data->num_files */ ?>
+    </div><br style="clear:both" />
+<?php if($data->searchfor): ?>
+    <div class="dlg_search_result">
+        <?php echo $DGTEXT['SEARCHMATCH'], ' ', $data->num_files, ' ', $DGTEXT['OUT_OF1'], ' "', $data->searchfor, '" ', $DGTEXT['OUT_OF2'], ' ', $DGTEXT['ITEMS']; ?>
+        <a class="dlg_button" href="<?php echo $data->self_link ?>">Suche zurücksetzen</a>
+    </div>
+<?php endif; ?>
+<?php endif; /* $data->settings['search_filter'] */ ?>
+
+        <?php include 'files_loop.phtml' ?>
+        <br style="clear:left" />
+
+
+<?php if($data->filecount != 0): ?>
+    <div class="center"><?php echo $DGTEXT['SHOWING'] ?></div><br />
+<?php endif; ?>
+
+<?php if($data->num_files != $data->filecount): /* show paging only if there are more files */ ?>
+    <nav role="navigation">
+		<ul class="bullets">
+            <li class="prev">
+                <?php if($data->prev): ?>
+                <a href="<?php echo $data->self_link ?>?page=<?php echo $data->prev?>">&laquo; <?php echo $DGTEXT['PREVIOUS'] ?></a>
+                <?php else: echo '&nbsp;'; endif; ?>
+            </li>
+<?php foreach($data->nav_pages as $number): ?>
+            <li<?php if($number == $data->page): ?> class="current"<?php endif; ?>>
+                <a href="<?php echo $data->self_link ?>?page=<?php echo $number?>"><?php echo $number?></a>
+            </li>
+<?php endforeach; ?>
+            <li class="next">
+                <?php if($data->next): ?>
+                <a href="<?php echo $data->self_link ?>?page=<?php echo $data->next?>"><?php echo $DGTEXT['NEXT'] ?> &raquo;</a>
+                <?php else: echo '&nbsp;'; endif; ?>
+            </li>
+        </ul>
+	</nav>
+<?php endif; /* $data->num_files != $data->filecount */ else: ?>
+    <div class="info"><?php echo $DGTEXT['FILE_NO_FILES'] ?></div>
+<?php endif; ?>
+
+    <script type="text/javascript">
+    //<![CDATA[
+        var boxes = document.getElementsByClassName("dlg3body");
+        var sizes = new Array();
+        for(var i=0; i<boxes.length; i++) {
+            sizes.push(boxes[i].clientHeight);
+        }
+        var height = Math.max.apply(null,sizes);
+        for(var i=0; i<boxes.length; i++) {
+            boxes[i].style.height = (height+15)+"px";
+        }
+    //]]>
+    </script>
+</div>

@@ -45,13 +45,16 @@
         			<td width="25%"><label for="search_filter"><?php echo $DGTEXT['SEARCHFILTER']; ?>:</label></td>
         			<td>
         		        <?php
-        		        if ($data->settings['search_filter'] == '1') {
-        		            $checked = 'checked="checked"';
+        		        if ($data->settings['search_filter'] == 'Y') {
+                        	$checkedY = 'checked="checked"';
+                        	$checkedN = '';
         		        } else {
-        		            $checked = '';
+                        	$checkedY = '';
+                        	$checkedN = 'checked="checked"';
         		        }
         		        ?>
-        		        <input type="checkbox" value="1" name="search_filter" id="search_filter" <?php echo $checked; ?> />
+                        <input type="radio" value="Y" name="search_filter" id="search_filterY" <?php echo $checkedY; ?> /> <?php echo $TEXT['YES']; ?><br />
+                        <input type="radio" value="N" name="search_filter" id="search_filterN" <?php echo $checkedN; ?> /> <?php echo $TEXT['NO']; ?>
         		    </td>
         		</tr>
         		<tr>

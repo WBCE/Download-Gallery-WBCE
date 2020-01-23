@@ -19,6 +19,10 @@ if(LANGUAGE_LOADED) {
 	}
 }
 
+// fix for root page
+global $page_id;
+if(empty($page_id)) { $page_id = PAGE_ID; }
+
 // handle download
 if(isset($_REQUEST['dl']))
 {

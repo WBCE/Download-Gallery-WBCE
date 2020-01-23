@@ -1,0 +1,71 @@
+<?php
+
+    foreach($data->files as $i=>$file):
+        if(in_array($file['extension'],array('jpg','jpeg','gif','png'))):
+            $link  = '<img src="'.$file['link'].'" alt="" />';
+            $isimg = true;
+        else:
+            $link  = '';
+            $isimg = false;
+        endif;
+        $image = ( isset($data->ext2img[$file['extension']]) ? $data->ext2img[$file['extension']] : 'unknown.gif' );
+/*
+        if($lastgroup != $file['group_id']): // print the group header
+            if($lastgroup != -1): echo "   </tbody>\n"; endif;
+
+
+Array
+(
+    [0] => 3
+    [file_id] => 3
+    [1] => 0
+    [group_id] => 0
+    [2] => adsf
+    [title] => adsf
+    [3] => http://localhost:8088/media/download_gallery_3/sub1/1.jpg
+    [link] => http://localhost:8088/media/download_gallery_3/sub1/1.jpg
+    [4] => <p>asdf</p>
+
+    [description] => <p>asdf</p>
+
+    [5] => 1
+    [modified_by] => 1
+    [6] => 1509031755
+    [modified_when] => 1509031755
+    [7] => 1.jpg
+    [filename] => 1.jpg
+    [8] => jpg
+    [extension] => jpg
+    [9] => 0
+    [dlcount] => 0
+    [10] => 5981
+    [size] => 5981
+    [11] => 0
+    [released] => 0
+)
+
+*/
+?>
+
+<div class="dlg3box">
+    <div class="dlg3headimg">
+        <?php echo $link ?>
+    </div>
+    <div class="dlg3title">
+        <h3 style="font-size: 1.4em;"><a href="<?php echo $data->self_link ?>?dl=<?php echo $file['file_id'] ?>"><?php echo $file['title'] ?></a></h3>
+    </div>
+    <div class="dlg3subhead">
+        <div style="margin: 5px 0 5px 0; font-weight: bold;"><?php if($file['extension']=='zip'): ?>.zip<?php endif; ?></div>
+    </div>
+    <div class="dlg3size">
+        <div style="margin: 5px 0 5px 0; font-weight: bold;"><?php echo ( ( $file['size'] > 0 ) ? human_file_size($file['size']) : 0 )?></div>
+    </div>
+    <div class="dlg3body">
+        <?php echo $file['description'] ?>
+    </div>
+    <div class="dlg3foot">
+        <a href="<?php echo $data->self_link ?>?dl=<?php echo $file['file_id'] ?>" class="dlg3btn">DOWNLOAD</a>
+    </div>
+</div>
+
+<?php endforeach; ?>
