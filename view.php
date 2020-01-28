@@ -19,10 +19,6 @@ if(LANGUAGE_LOADED) {
 	}
 }
 
-// fix for root page
-global $page_id;
-if(empty($page_id)) { $page_id = PAGE_ID; }
-
 // handle download
 if(isset($_REQUEST['dl']))
 {
@@ -33,6 +29,12 @@ if(isset($_REQUEST['dl']))
     // send file and exit
     dlg_download($_REQUEST['dl'],$section_id);
     exit;
+}
+
+// WBCE fix for root page
+global $page_id;
+if(empty($page_id) && !empty(PAGE_ID)) {
+    $page_id = PAGE_ID;
 }
 
 // initialize template data
@@ -51,9 +53,6 @@ $data = array(
     'next'        => NULL,
 );
 
-// get settings
-$data['settings'] = dlg_getsettings($section_id);
-
 // get groups
 list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id);
 
@@ -70,108 +69,66 @@ if($query_users->numRows() > 0) {
 	}
 }
 
-// fix settings
-if(!count($data['settings'])) {
-    // initialize vars that will be used later, but may not be set if the
-    // DB statement fails or has no data
-    include_once(WB_PATH.'/modules/'.$dlgmodname.'/functions.php');
-    $data['settings']['ordering'] = 0;
-	$data['settings']['extordering'] = 0;
-	$data['settings']['files_per_page'] = 0;
-	$data['settings']['file_size_decimals'] = 0;
-	$data['settings']['file_size_roundup'] = 0;
-	$data['settings']['ordering'] = 0;
-}
-
-if($data['settings']['ordering'] == '2' or $data['settings']['ordering'] == '3') {
-	$orderby = '`t1`.`title`';
-} else {
-	$orderby = '`t1`.`position`';
-}
-
-if ($data['settings']['ordering'] == '0' or $data['settings']['ordering'] == '2') {
-	$ordering = "ASC";
-} else {
-	$ordering = "DESC";
-}
-
-// begin checking user input
-$offset = 0;
-$page   = 1;
-if(isset($_GET['page']) && is_numeric($_GET['page'])) {
-    $page   = $_GET['page'];
-    $offset = $data['settings']['files_per_page'] * $_GET['page'] - 1;
-}
-
-// search
-$dlsearch = $data['searchfor'] = NULL;
+// quote search string
+$data['searchfor'] = null;
 if(isset($_POST['dlg_search_'.$section_id])) {
-    // Query for search results
     $data['searchfor'] = htmlentities($_POST['dlg_search_'.$section_id], ENT_QUOTES, 'UTF-8');
-    $dlsearch = " AND (`t1`.`title` LIKE '%%".$data['searchfor']."%%' OR `t1`.`description` LIKE '%%".$data['searchfor']."%%')";
 }
 
-// limit results? no limit for search!
-if($data['settings']['files_per_page'] != 0 && $dlsearch == '') {
-	$limit_sql = " LIMIT $offset, ".$data['settings']['files_per_page'];
-} else {
-	$limit_sql = "";
-}
+// get files
+dlg_getfiles($section_id,$data,true);
 
-// Query files (for this page)
-$query =
-"SELECT
-    `file_id`,
-    `t1`.`group_id`,
-    `t1`.`title`,
-    `link`,
-    `description`,
-    `modified_by`,
-    `modified_when`,
-    `filename`,
-    `extension`,
-    `dlcount`,
-    `size`,
-    `released`
-FROM `%s%s_files` AS t1
-LEFT OUTER JOIN `%s%s_groups` AS t2
-ON `t1`.`group_id` = `t2`.`group_id`
-WHERE `t1`.`section_id` = '$section_id'
-    AND `t1`.`active` = '1'
-    AND `t1`.`title` != ''
-    AND ( `t1`.`group_id`=0 OR `t2`.`active`=1 ) ".$dlsearch."
-ORDER BY `t2`.`position`, $orderby $ordering ".$limit_sql;
+// get total number of files (for paging)
+$data['filecount'] = count($data['files']);
 
-$query_files = $database->query(sprintf($query,TABLE_PREFIX,$tablename,TABLE_PREFIX,$tablename));
-
-if(is_object($query_files) && $query_files->numRows() > 0) {
-	$data['num_files'] = $query_files->numRows();
-    while($file = $query_files->fetchRow()) {
-        $dldescription=$file['description'];
-		$wb->preprocess($dldescription);
-        $file['description'] = $dldescription;
-        $data['files'][] = $file;
-    }
-}
-
-$DGTEXT['SHOWING'] = str_replace(
-    array('{{section}}','{{count}}','{{sum}}'),
-    array($section_id,$data['num_files'],$data['filecount']),
-    $DGTEXT['SHOWING']
-);
+// get settings
+$data['settings'] = dlg_getsettings($section_id);
 
 // pagination
-$number_of_pages = 1;
-$data['nav_pages'] = array();
-if($data['filecount'] > 0 && $data['num_files'] > 0 && $data['filecount'] > $data['num_files']  && $dlsearch == '' ) {
-    $number_of_pages = ceil( $data['filecount'] / $data['num_files'] );
-    for($i=1;$i<=$number_of_pages;$i++) {
-        $data['nav_pages'][$i] = $i;
+if($data['settings']['files_per_page'] > 0 && $data['filecount'] > 0 ) {
+    // total pages
+    $total_number_of_pages = 1;
+    // current page
+    $current_page = 1;
+    if(isset($_GET['page']) && intval($_GET['page']>0)) {
+        $current_page = intval($_GET['page']);
     }
-    $data['prev'] = ( $page > 1                ? $page - 1 : NULL );
-    $data['next'] = ( $page < $number_of_pages ? $page + 1 : NULL );
-    $data['page'] = $page;
+    $offset = 0;
+    // list of page links
+    $data['nav_pages'] = array();
+    $offset = ($current_page-1) * $data['settings']['files_per_page'];
+    $total_number_of_pages = ceil($data['filecount']/$data['settings']['files_per_page']);
+    for($p=1;$p<=$total_number_of_pages;$p++) {
+        $data['nav_pages'][$p] = $p;
+        $data['prev'] = (($current_page>1)                    ? $current_page - 1 : NULL );
+        $data['next'] = ($current_page<$total_number_of_pages ? $current_page + 1 : NULL );
+        $data['page'] = $current_page;
+    }
+    // extract files from array
+    $data['files'] = array_slice($data['files'],$offset,$data['settings']['files_per_page']);
+    
+    // at least one file in this group
+    foreach($data['files'] as $i => $file) {
+        if(!isset($data['files_in_this_group'][$file['group_id']])) {
+            $data['files_in_this_group'][$file['group_id']] = 0;
+        }
+        $data['files_in_this_group'][$file['group_id']]++;
+    }
+
+    $DGTEXT['SHOWING'] = str_replace(
+        array('{{section}}','{{count}}','{{sum}}'),
+        array($section_id,count($data['files']),$data['filecount']),
+        $DGTEXT['SHOWING']
+    );
+
+} else {
+    foreach($data['grfiles'] as $id => $num) {
+        $data['files_in_this_group'][$id] = $num;
+    }
 }
 
+$data['num_files'] = count($data['files']);
+
 $data = (object) $data;
+
 include dirname(__FILE__).'/templates/default/frontend/'.$data->settings['tpldir'].'/view.phtml';

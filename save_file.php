@@ -45,7 +45,10 @@ $released     =	$admin->add_slashes($admin->get_post('released'));
 if(($existingfile=="") && ($remotelink=="")) $existingfile = $old_link;
 
 // Get page link URL
-$query_page = $database->query("SELECT `level`,`link` FROM `".TABLE_PREFIX."pages` WHERE `page_id` = '$page_id'");
+$query_page = $database->query(sprintf(
+    "SELECT `level`,`link` FROM `%spages` WHERE `page_id`=%d",
+    TABLE_PREFIX, intval($page_id)
+));
 if(!$query_page->numRows())
 {
     $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], WB_URL.'/modules/'.$dlgmodname.'/modify_file.php?page_id='.$page_id.'&section_id='.$section_id);
@@ -56,17 +59,23 @@ $page_link  = $page['link'];
 
 // Check if the user uploaded a file or wants to delete one
 if (
-       (isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] != '')
+       isset($_FILES['file'])
+    && isset($_FILES['file']['error']) // error is always there, 0 on success
     && ($existingfile == '')
 ) {
-
     // check for upload error
     if($_FILES['file']['error'] != 0) {
-        $admin->print_error(dlg_get_upload_error($_FILES['file']['error']),WB_URL.'/modules/'.$dlgmodname.'/modify_file.php?page_id='.$page_id.'&section_id='.$section_id.'&file_id='.$file_id);
+        $admin->print_error(
+            dlg_get_upload_error($_FILES['file']['error']),
+            WB_URL.'/modules/'.$dlgmodname.'/modify_file.php?page_id='.$page_id.'&section_id='.$section_id.'&file_id='.$file_id
+        );
     }
 
 	// Get real filename and set new filename
-	$filename     = trim($_FILES['file']['name']);
+    if(!defined('CAT_PATH') && !function_exists('media_filename')) {
+        require_once __DIR__.'/../../framework/functions.php';
+    }
+    $filename     = media_filename(trim($_FILES['file']['name']));
 	$path_parts   = pathinfo($filename);
 	$fileext      = $path_parts['extension'];
 	$new_filename = WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$filename;
@@ -99,8 +108,15 @@ if ((isset($_POST['remote_link'])) && ($_POST['remote_link'] != '') && ($filenam
 	$new_filename = $filename;
     $size = dlg_curl_get_file_size($remotelink);
 
+    if(substr_count($fileext,'?')>0) {
+        list($fileext,$rest) = explode('?',$fileext,2);
+    }
+
 	// update file information in the database
-	$database->query("UPDATE `".TABLE_PREFIX.$tablename."_files` SET `extension`='$fileext',`filename`='$remotelink',`size`='$size' WHERE `file_id` = '$file_id' AND `page_id` = '$page_id'");
+	$database->query(sprintf(
+        "UPDATE `%s%s_files` SET `link`='%s', `extension`='%s',`filename`='%s',`size`='%s' WHERE `file_id`=%d AND `page_id`=%d",
+        TABLE_PREFIX, $tablename, $remotelink, $fileext, $remotelink, $size, intval($file_id), intval($page_id)
+    ));
     if($database->is_error()) {
         $admin->print_error($TEXT['DATABASE'].' '.$TEXT['ERROR'].': '.$database->get_error(),WB_URL.'/modules/'.$dlgmodname.'/modify_file.php?page_id='.$page_id.'&section_id='.$section_id);
     }

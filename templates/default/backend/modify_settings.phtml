@@ -46,15 +46,12 @@
         			<td>
         		        <?php
         		        if ($data->settings['search_filter'] == 'Y') {
-                        	$checkedY = 'checked="checked"';
-                        	$checkedN = '';
+        		            $checked = 'checked="checked"';
         		        } else {
-                        	$checkedY = '';
-                        	$checkedN = 'checked="checked"';
+        		            $checked = '';
         		        }
         		        ?>
-                        <input type="radio" value="Y" name="search_filter" id="search_filterY" <?php echo $checkedY; ?> /> <?php echo $TEXT['YES']; ?><br />
-                        <input type="radio" value="N" name="search_filter" id="search_filterN" <?php echo $checkedN; ?> /> <?php echo $TEXT['NO']; ?>
+        		        <input type="checkbox" value="Y" name="search_filter" id="search_filter" <?php echo $checked; ?> />
         		    </td>
         		</tr>
         		<tr>
@@ -119,115 +116,13 @@
                     </td>
                 </tr>
         		<tr>
-        			<td width="25%"><label for="ordering"><?php echo $DGTEXT['ORDERING']; ?>:</label></td>
+        			<td width="25%"><?php echo $DGTEXT['ORDERING']; ?>:</td>
         			<td>
-        				<select name="ordering" id="ordering">
-        					<?php
-        					if (
-        					    $data->settings['ordering'] == '0' or $data->settings['ordering'] == '2'
-                            ) {
-        						$selected_asc = 'selected="selected"';
-        						$selected_desc = '';
-        					} else {
-        						$selected_asc = '';
-        						$selected_desc = 'selected="selected"';
-        					}
-        					?>
-        					<option value="0" <?php echo $selected_asc; ?>><?php echo $DGTEXT['ASCENDING']; ?></option>
-        					<option value="1" <?php echo $selected_desc; ?>><?php echo $DGTEXT['DESCENDING']; ?></option>
-        				</select>
+        				<label for="ordering_1"><input type="radio" name="ordering" id="ordering_1" value="1"<?php if($data->settings['ordering']==1): ?> checked="checked"<?php endif; ?> /> <?php echo $DGTEXT['MANUAL'] ?></label><br />
+                        <label for="ordering_2"><input type="radio" name="ordering" id="ordering_2" value="2"<?php if($data->settings['ordering']==2): ?> checked="checked"<?php endif; ?> /> <?php echo $DGTEXT['TITLE'], ", ", $DGTEXT['ASCENDING'] ?></label><br />
+                        <label for="ordering_3"><input type="radio" name="ordering" id="ordering_3" value="3"<?php if($data->settings['ordering']==3): ?> checked="checked"<?php endif; ?> /> <?php echo $DGTEXT['TITLE'], ", ", $DGTEXT['DESCENDING'] ?></label><br />
         			</td>
         		</tr>
-        		<tr>
-        			<td width="25%"><label for="orderby"><?php echo $DGTEXT['ORDERBY']; ?>:</label></td>
-        			<td>
-        				<select name="orderby" id="orderby" onchange="process(this);">
-        	            <?php
-        	    		if ($data->settings['ordering'] == '0' or $data->settings['ordering'] == '1')	{
-        	                $selected_position = 'selected="selected"';
-        	                $selected_title = '';
-        	                $visible='none';
-        				} else {
-        	                $selected_position = '';
-        	                $selected_title = 'selected="selected"';
-          	                $visible='';
-        				}
-        	            ?>
-        	            <option value="0" <?php echo $selected_position; ?>><?php echo $DGTEXT['POSITION']; ?></option>
-        	            <option value="1" <?php echo $selected_title; ?>><?php echo $DGTEXT['TITLE']; ?></option>
-        				</select>
-        			</td>
-        		</tr>
-<?php
-/*
-        		<tr id="extorder" style="display:<?php echo $visible; ?>;">
-        			<td width="25%"><label for="extordering"><?php echo $DGTEXT['EXTORDERING']; ?>:</label></td>
-        			<td>
-        				<select name="extordering" id="extordering">
-        	            <?php
-        	            if ( $data->settings['extordering'] == '0' or $data->settings['extordering'] == '' ) {
-        	                $extselected_asc = 'selected="selected"';
-        	                $extselected_desc = '';
-        	                $extselected_none = '';
-        	            } elseif ($data->settings['extordering'] == '1' ) {
-        	                $extselected_asc = '';
-        	                $extselected_desc = 'selected="selected"';
-        	                $extselected_none = '';
-        	            } else {
-           	                $extselected_asc = '';
-        	                $extselected_desc = '';
-        	                $extselected_none = 'selected="selected"';
-        				}
-        	            ?>
-        	            <option value="9" <?php echo $extselected_none; ?>><?php echo $DGTEXT['NOSORT']; ?></option>
-        	            <option value="0" <?php echo $extselected_asc; ?>><?php echo $DGTEXT['ASCENDING']; ?></option>
-        	            <option value="1" <?php echo $extselected_desc; ?>><?php echo $DGTEXT['DESCENDING']; ?></option>
-        				</select> <?php echo $DGTEXT['EXTINFO']; ?>
-        			</td>
-        		</tr>
-        		<tr>
-        			<td width="25%"><?php echo $DGTEXT['USERUPLOAD']; ?>:</td>
-        			<td>
-        				<?php
-        					$uploadpub="";
-        					$uploadreg="";
-        					$uploadno="";
-        				if ($data->settings['userupload'] == '1') {
-        					$uploadpub="checked='checked'";
-        	                $visible2 = '';
-        				} elseif ($data->settings['userupload'] == '2') {
-        					$uploadreg="checked='checked'";
-        	                $visible2 = '';
-        				}else {
-        					$uploadno="checked='checked'";
-        	                $visible2 = 'none';
-        				}
-        				?>
-        				<input type="radio" name="userupload" class="userupload" value="0" <?php echo $uploadno; ?>  onchange="process2(this);" /><?php echo $DGTEXT['NOT']; ?>
-        				<input type="radio" name="userupload" class="userupload" value="2" <?php echo $uploadreg; ?> onchange="process2(this);" /><?php echo $DGTEXT['REGISTERED']; ?>
-        				<input type="radio" name="userupload" class="userupload" value="1" <?php echo $uploadpub; ?> onchange="process2(this);" /><?php echo $TEXT['PUBLIC']; ?>
-        			</td>
-        		</tr>
-        		<tr id="tr_captcha" style="display:<?php echo $visible2; ?>;">
-        			<td width="25%"><?php echo $TEXT['CAPTCHA_VERIFICATION']; ?>:</td>
-        			<td>
-        				<?php
-        					$use_captcha_true_checked = '';
-        					$use_captcha_false_checked = '';
-        					if ($fetch_content['use_captcha'] == '1') {
-        						$use_captcha_true_checked = "checked='checked'";
-        					} else {
-        						$use_captcha_false_checked = "checked='checked'";
-        					}
-        				?>
-        				<input type="radio" name="use_captcha" id="use_captcha_true" value="1" <?php echo $use_captcha_true_checked;  ?> />
-        				<label for="use_captcha_true"><?php echo $TEXT['ENABLED']; ?></label>
-        				<input type="radio" name="use_captcha" id="use_captcha_false" value="0" <?php echo $use_captcha_false_checked;  ?> />
-        				<label for="use_captcha_false"><?php echo $TEXT['DISABLED']; ?></label>
-        			</td>
-        		</tr>
-*/
-?>
         		<tr class="gradient2">
         			<td>
         				<input name="save" type="submit" value="<?php echo $TEXT['SAVE']; ?>" class="gradient1" />

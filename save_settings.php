@@ -44,17 +44,6 @@ if (isset($_POST['ordering']) && is_numeric($_POST['ordering'])) {
 } else {
     $ordering = 0;
 }
-if (isset($_POST['orderby']) && is_numeric($_POST['orderby'])) {
-    $orderby = $_POST['orderby'];
-} else {
-    $orderby = 0;
-}
-if (isset($_POST['extordering']) && is_numeric($_POST['extordering'])) {
-    $extordering = $_POST['extordering'];
-} else {
-    $extordering = 0;
-}
-
 $tpldirs = dlg_gettpldirs();
 if(isset($_POST['template_dir']) && in_array($_POST['template_dir'],$tpldirs)) {
     $tpldir = $_POST['template_dir'];
@@ -68,28 +57,13 @@ if(isset($_POST['template_dir']) && in_array($_POST['template_dir'],$tpldirs)) {
 1 - descending position
 2 - ascending title
 3 - descending title
-orderby:
-position=0
-title=1
-none=9
-
-['extordering']
-0 - extension ascending 
-1 - extension descending
-9 - extension no order
 */
-
-if($ordering==0 and $orderby==0){$ordering=0;}
-if($ordering==1 and $orderby==0){$ordering=1;}
-if($ordering==0 and $orderby==1){$ordering=2;}
-if($ordering==1 and $orderby==1){$ordering=3;}
 
 $query = "UPDATE `".TABLE_PREFIX.$tablename."_settings` SET
 	`files_per_page` = '$files_per_page',
 	`file_size_roundup` = '$file_size_roundup',
 	`file_size_decimals` = '$file_size_decimals',
 	`ordering` = '$ordering',
-	`extordering` = '$extordering',
 	`search_filter` = '$search_filter',
     `tpldir` = '$tpldir'
 	WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'";

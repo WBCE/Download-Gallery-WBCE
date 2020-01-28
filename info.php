@@ -9,8 +9,6 @@
  * @copyright WBCE Project (2015-)
  * @license GNU GPL2 (or any later version)
  *
- * Improvements Copyright (c) 2005-2013 Hudge, Woudloper, M. Gallas, R. Smith, C. Sommer, Frank Heyne
- *
  * Forked for WBCE in 2016; version starts with 3.0.0
  *
  * You should have received a copy of the GNU General Public License
@@ -19,25 +17,15 @@
  *
  * For part of the DEVELOPMENT HISTORY see the help file in the backend!
  */
-/*
- *
- * Changelog
- *     Fix
- *  version 2.65. 03feb16 -  2.65.0 03feb16
- *  ! update to 2.65.0
- *    Fix XSS Vulnerabilities
- *    Evaki
- *
- */
 
 $module_name        = 'Download Gallery 3';
 $module_directory   = 'download_gallery_3';
 $module_function    = 'page';
-$module_version     = '3.1.6';
+$module_version     = '3.1.9';
 $module_platform    = '2.8';
-$wbce_platform      = '1.1';
+$wbce_platform      = '1.4';
 $module_status      = 'stable';
-$module_author      = 'Hudge, Woudloper, M. Gallas, R. Smith, C. Sommer, F. Heyne, B. Martinovic';
+$module_author      = 'B. Martinovic';
 $module_license     = 'GNU General Public License';
 $module_description = 'This page type is designed for making a download gallery page<br />'
                     . 'See <a href="'.WB_URL.'/modules/'.$module_directory.'/help.php?page_id=1&amp;section_id=1">help file</a> for more information.'

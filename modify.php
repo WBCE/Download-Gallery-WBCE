@@ -48,6 +48,9 @@ $data = array(
     'dlsum'       => dlg_getdlsum($section_id),
 );
 
+// Get General Settings
+$data['settings'] = dlg_getsettings($section_id);
+
 // actions
 // toggle active state
 if(isset($_GET['status']) && is_numeric($_GET['status'])) {
@@ -67,28 +70,16 @@ if(isset($_GET['status']) && is_numeric($_GET['status'])) {
         // do nothing (invalid data)
     }
     if(isset($table) && isset($field)) {
-        $database->query("UPDATE `".TABLE_PREFIX.$tablename."_".$table."` SET `active` = '$status' WHERE `".$field."` ='$id'");
+        $database->query(sprintf(
+            "UPDATE `%s%s_%s` SET `active` = '%s' WHERE `%s`='%s'",
+            TABLE_PREFIX,$tablename,$table,$status,$field,$id
+        ));
     }
 }
 
 // get groups
-list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id,false);
-
-// get files
-$query_files = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `section_id` = '$section_id'");
-if($query_files->numRows() > 0) {
-	$data['num_files'] = $query_files->numRows();
-    while($file = $query_files->fetchRow()) {
-        $data['files'][] = $file;
-        if(!isset($data['grfiles'][$file['group_id']])) $data['grfiles'][$file['group_id']] = 0;
-        if(!isset($data['dlpergroup'][$file['group_id']])) $data['dlpergroup'][$file['group_id']] = 0;
-        $data['grfiles'][$file['group_id']]++;
-        $data['dlpergroup'][$file['group_id']] += $file['dlcount'];
-    }
-}
-
-// sort files by group and position
-$data['files'] = dlg_array_orderby($data['files'], 'group_id', SORT_ASC, 'position', SORT_ASC);
+list ( $data['groups'], $data['gr2name'] ) = dlg_getgroups($section_id,false,$data['settings']['ordering']);
+dlg_getfiles($section_id,$data,false);
 
 $data = (object) $data;
 

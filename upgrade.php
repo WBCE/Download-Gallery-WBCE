@@ -10,10 +10,7 @@ if (!defined('WB_PATH')) die(header('Location: index.php'));
 require_once WB_PATH.'/framework/functions.php';
 
 $dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
-
-//get settings table to see what needs to be created
-$settingstable = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_settings`");
-$settings = $settingstable->fetchRow();
+$tablename  = 'mod_'.$dlgmodname;
 
 // Remove old search entries
 $database->query("DELETE FROM `".TABLE_PREFIX."search` WHERE `name` = 'module' AND `value` = '$dlgmodname'");
@@ -71,6 +68,9 @@ $query_0=$database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_groups` WH
 	if($query_0->numRows() == 0) {
 		$database->query("INSERT INTO `".TABLE_PREFIX.$tablename."_groups` (`section_id`,`page_id`) VALUES ('0', '0')");
 	}
+
+$query_0=$database->query("ALTER TABLE `".TABLE_PREFIX.$tablename."_settings` ADD COLUMN `position` INT(11) NOT NULL DEFAULT 0 AFTER `ordering`");
+$query_0=$database->query("ALTER TABLE `".TABLE_PREFIX.$tablename."_settings` DROP COLUMN `extposition`");
 
 // update .htaccess file in /media/download_gallery folder 
 include_once WB_PATH.'/modules/'.$dlgmodname.'/functions.php';

@@ -11,6 +11,7 @@ require realpath(dirname(__FILE__).'/../../config.php');
 require_once WB_PATH.'/framework/class.admin.php';
 $admin = new admin('Modules', 'module_view', false, false);
 $dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
+$tablename  = 'mod_'.$dlgmodname;
 
 if (!($admin->is_authenticated() && $admin->get_permission($dlgmodname, 'module')))
 {
@@ -26,7 +27,7 @@ if(!isset($_POST['item_id'])) {
     }
     else {
         $group_id = ( is_numeric($_POST['group_id']) ? $_POST['group_id'] : NULL );
-        $prev_id  = ( is_numeric($_POST['prev_id'])  ? $_POST['prev_id']  : NULL ); // new position
+        $prev_id  = ( (isset($_POST['prev_id']) && is_numeric($_POST['prev_id'])) ? $_POST['prev_id']  : NULL ); // new position
         $o        = new order(TABLE_PREFIX.$tablename.'_groups', 'position', 'group_id', 'section_id');
         if($group_id) {
             if($prev_id) {
@@ -43,7 +44,7 @@ if(!isset($_POST['item_id'])) {
 else {
     $item_id  = ( is_numeric($_POST['item_id'])  ? $_POST['item_id']  : NULL );
     $group_id = ( is_numeric($_POST['group_id']) ? $_POST['group_id'] : NULL ); // new group
-    $prev_id  = ( is_numeric($_POST['prev_id'])  ? $_POST['prev_id']  : NULL ); // new position
+    $prev_id  = ( (isset($_POST['prev_id']) && is_numeric($_POST['prev_id'])) ? $_POST['prev_id'] : NULL ); // new position
     $o        = new order(TABLE_PREFIX.$tablename.'_files', 'position', 'file_id', 'group_id');
     if($item_id) {
         // group changed

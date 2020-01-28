@@ -35,7 +35,7 @@ div.mod_download_gallery .gradient1{
 div.mod_download_gallery input[type="text"],div.mod_download_gallery select{margin:auto;padding:1px 1px;min-width:250px;}
 div.mod_download_gallery input[type="button"],div.mod_download_gallery input[type="submit"] {width:200px;}
 
-div.mod_download_gallery .dragdrop_handle span{
+div.mod_download_gallery tr.draggable .dragdrop_handle span{
   content: '....';
   width: 10px;
   height: 20px;
@@ -43,7 +43,6 @@ div.mod_download_gallery .dragdrop_handle span{
   overflow: hidden;
   line-height: 5px;
   padding: 3px 4px;
-  cursor: move;
   vertical-align: middle;
   margin-top: -.7em;
   margin-right: .3em;
@@ -52,6 +51,9 @@ div.mod_download_gallery .dragdrop_handle span{
   letter-spacing: 2px;
   color: #cccccc;
   text-shadow: 1px 0 1px black;
+}
+div.mod_download_gallery tbody.ui-sortable tr.draggable .dragdrop_handle span{
+  cursor: move;
 }
 .dragdrop_handle span::after {
   content: '.. .. .. ..';

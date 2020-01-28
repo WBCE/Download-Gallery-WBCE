@@ -23,7 +23,7 @@
 <?php if($data->filecount != $data->num_files): ?>
         <div style="float:right;">
             <form method="post" action="<?php echo $data->self_link ?>">
-                <input type="hidden" name="page" id="page" value="<?php echo $page?>" />
+                <input type="hidden" name="page" id="page" value="<?php echo $current_page?>" />
                 <label for="dlg_search_<?php echo $section_id ?>" title="<?php echo $DGTEXT['SEARCH_NOTE'] ?>"><span class="dlg-search"></span></label>
                 <input class="search" id="dlg_search_<?php echo $section_id ?>" name="dlg_search_<?php echo $section_id ?>" placeholder="<?php echo $DGTEXT['SEARCH'] ?>" />
                 <input type="submit" value="Suchen" />
@@ -49,11 +49,8 @@
         </tfoot>
     </table><br />
 
-<?php if($data->filecount != 0): ?>
-    <div class="center"><?php echo $DGTEXT['SHOWING'] ?></div><br />
-<?php endif; ?>
-
 <?php if($data->num_files != $data->filecount): /* show paging only if there are more files */ ?>
+    <div class="center"><?php echo $DGTEXT['SHOWING'] ?></div><br />
     <nav role="navigation">
 		<ul class="bullets">
             <li class="prev">

@@ -33,7 +33,10 @@ require_once WB_PATH.'/framework/functions.php';
 require_once realpath( dirname(__FILE__).'/functions.php' );
 
 // get file data
-$query_content = $database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_files` WHERE `file_id` = '$file_id' AND `page_id` = '$page_id'");
+$query_content = $database->query(sprintf(
+    "SELECT * FROM `%s%s_files` WHERE `file_id`='%s' AND `page_id`='%s'",
+    TABLE_PREFIX,$tablename,$file_id,$page_id
+));
 $fetch_content = $query_content->fetchRow();
 
 // initialize template data
