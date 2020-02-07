@@ -247,6 +247,10 @@ function dlg_getfiles($section_id, &$data, $is_frontend=true)
         while ($file = $query_files->fetchRow()) {
             if ($is_frontend && isset($wb) && is_object($wb)) {
                 $file['description'] = $wb->preprocess($file['description']);
+                $file['external'] = false;
+                if (!preg_match('~^'.WB_URL.'~i',$file['link'])) {
+                    $file['external'] = true;
+                }
             }
             if($file['group_id']==0) {
                 array_unshift($data['files'],$file);

@@ -18,7 +18,7 @@ div.mod_downloadgallery .rwd-table{border-radius:.4em;overflow:hidden;}
 div.mod_downloadgallery .rwd-table tr{border-color:#46637f;}
 div.mod_downloadgallery .rwd-table .groupheader{border-top-left-radius:4px;border-top-right-radius:4px;text-align:center;border-bottom:1px solid #fff;}
 
-div.mod_downloadgallery div.center{text-align:center;}
+div.mod_downloadgallery div.center{text-align:center;font-size:.9em;}
 div.mod_downloadgallery div.dlg_search_result{border-radius:5px;border:1px solid #34495e;padding:8px;margin:15px auto;}
 div.mod_downloadgallery div.dlg_search_result a.dlg_button{padding:1px 5px;background-color:#34495E;color:#fff;border-radius:5px;float:right;}
 
@@ -43,17 +43,17 @@ div.mod_downloadgallery div.dlg_search_result a.dlg_button{padding:1px 5px;backg
 }
 
 div.mod_downloadgallery nav[role="navigation"] {
-  text-align: center;
+  text-align:center;
 }
 
+div.mod_downloadgallery nav{background-color:#fff;}
 div.mod_downloadgallery nav ul.bullets{list-style: none outside none;}
-div.mod_downloadgallery nav ul.bullets li{display:inline-block;width:30px;height:30px;line-height:30px;padding:0;margin:2px;background-color:#a6c3df;border:1px solid #34495E;border-radius:100%;z-index:2;position:relative;}
+div.mod_downloadgallery nav ul.bullets li{display:inline-block;width:30px;height:30px;line-height:30px;font-size:.9em;padding:0;margin:2px;background-color:#a6c3df;border:1px solid #34495E;border-radius:100%;z-index:2;position:relative;;white-space:nowrap}
 div.mod_downloadgallery nav ul.bullets li a{color:#000;}
 div.mod_downloadgallery nav ul.bullets li.current{background-color:#34495E;color:#fff;font-weight:900;}
 div.mod_downloadgallery nav ul.bullets li.current a{color:#fff;}
-div.mod_downloadgallery nav ul.bullets li.prev{width:100px;border-radius:50px;border-bottom-right-radius: 0;border-top-right-radius: 0;}
-
-div.mod_downloadgallery nav ul.bullets li.next{width:100px;border-radius:50px;border-bottom-left-radius:0;border-top-left-radius:0;position:relative;z-index: 0;}
+div.mod_downloadgallery nav ul.bullets li.prev{min-width:130px;border-radius:50px;border-bottom-right-radius: 0;border-top-right-radius: 0;}
+div.mod_downloadgallery nav ul.bullets li.next{min-width:130px;border-radius:50px;border-bottom-left-radius:0;border-top-left-radius:0;position:relative;z-index: 0;}
 div.mod_downloadgallery nav ul.bullets li.next::before, div.mod_downloadgallery nav ul.bullets li.prev::after{content:" ";display:inline-block !important;height:30px;width:30px;background-color:#ffffff;border-radius:50px;position:relative;z-index:-1;}
 div.mod_downloadgallery nav ul.bullets li.next::before{border-right:1px solid #34495e;float:left;margin-left:-15px;}
 div.mod_downloadgallery nav ul.bullets li.prev::after{border-left:1px solid #34495e;float:right;margin-right:-15px;}
