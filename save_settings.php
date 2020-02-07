@@ -51,6 +51,12 @@ if(isset($_POST['template_dir']) && in_array($_POST['template_dir'],$tpldirs)) {
     $tpldir = 'tableview';
 }
 
+$use_default_css = 'Y';
+if(!isset($_POST['use_default_css'])) {
+    $use_default_css = 'N';
+}
+
+
 // Update settings
 /*['ordering']
 0 - ascending position
@@ -65,7 +71,8 @@ $query = "UPDATE `".TABLE_PREFIX.$tablename."_settings` SET
 	`file_size_decimals` = '$file_size_decimals',
 	`ordering` = '$ordering',
 	`search_filter` = '$search_filter',
-    `tpldir` = '$tpldir'
+    `tpldir` = '$tpldir',
+    `tplcss` = '$use_default_css'
 	WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'";
 $database->query($query);
 

@@ -142,7 +142,7 @@ endforeach;
                 <label for="grswitch<?php echo $group['group_id'] ?>" data-on-label="<?php echo $TEXT['YES'] ?>" data-off-label="<?php echo $TEXT['NO'] ?>" onclick="toggleActive('group_id','<?php echo $group['group_id'] ?>','<?php echo $group['active'] ?>')"></label>
             </td>
             <td style="text-align:right;">
-                <a title="<?php echo $TEXT['DELETE'], ' ', $TEXT['GROUP'] ?>" href="<?php echo $data->self_link ?>/delete_group.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;group_id=<?php echo $group['group_id'] ?>" class="internal">
+                <a title="<?php echo $TEXT['DELETE'], ' ', $TEXT['GROUP'] ?>" href="javascript: confirm_link('<?php echo $TEXT['ARE_YOU_SURE'] ?>', '<?php echo $data->self_link ?>/delete_group.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;group_id=<?php echo $group['group_id'] ?>')" class="internal">
                     <img alt="[x]" src="<?php echo $data->self_link ?>/images/delete_16.png" />
                 </a>
                 <a title="<?php echo $TEXT['ADD'], ' ', $TEXT['FILE']?>" href="<?php echo $data->self_link ?>/add_file.php?page_id=<?php echo $page_id ?>&amp;section_id=<?php echo $section_id ?>&amp;group_id=<?php echo $group['group_id'] ?>" class="internal">

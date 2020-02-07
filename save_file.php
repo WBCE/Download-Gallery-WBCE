@@ -61,6 +61,7 @@ $page_link  = $page['link'];
 if (
        isset($_FILES['file'])
     && isset($_FILES['file']['error']) // error is always there, 0 on success
+    && $_FILES['file']['error'] != UPLOAD_ERR_NO_FILE
     && ($existingfile == '')
 ) {
     // check for upload error
