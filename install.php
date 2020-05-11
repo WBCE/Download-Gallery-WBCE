@@ -104,11 +104,11 @@ $query_body_code = " [TP]pages.page_id = [TP]".$tablename."_files.page_id AND [T
 			 [TP]pages.page_id = [TP]".$tablename."_files.page_id AND [TP]".$tablename."_files.filename [O] \'[W][STRING][W]\' AND [TP]pages.searching = \'1\'
 			 ";	
 
-$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`,`value`,`extra`) VALUES ('query_body', '$query_body_code', $dlgmodname)");
+$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`,`value`,`extra`) VALUES ('query_body', '$query_body_code', '$dlgmodname')");
 
 // Search query end
 $query_end_code = "";	
-$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`,`value`,`extra`) VALUES ('query_end', '$query_end_code', $dlgmodname)");
+$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`,`value`,`extra`) VALUES ('query_end', '$query_end_code', '$dlgmodname')");
 
 // Insert blank row (there needs to be at least on row for the search to work)
 $database->query("INSERT INTO `".TABLE_PREFIX.$tablename."_files` (`section_id`,`page_id`) VALUES ('0', '0')");
