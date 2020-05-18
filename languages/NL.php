@@ -71,6 +71,7 @@ $DGTEXT['TPLDIR'] = 'Use templates from directory';
 $DGTEXT['TPLCSS'] = 'Use default CSS';
 $DGTEXT['UPLOADFILE'] = 'Upload bestand';
 $DGTEXT['USE_FILENAME'] = 'Use filename';
+$DGTEXT['USE_DIR'] = 'Use only module directory for linked media files';
 $DGTEXT['USERUPLOAD'] = 'User Upload';
 $DGTEXT['WHEN'] = 'laatste wijzigingsdatum';
 $DGTEXT['Wrong file extension'] = 'bestandsextensie niet toegestaan';

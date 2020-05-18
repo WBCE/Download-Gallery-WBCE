@@ -71,6 +71,7 @@ $DGTEXT['TPLDIR'] = 'Use templates from directory';
 $DGTEXT['TPLCSS'] = 'Use default CSS';
 $DGTEXT['UPLOADFILE'] = 'Uploader le fichier';
 $DGTEXT['USE_FILENAME'] = 'Use filename';
+$DGTEXT['USE_DIR'] = 'Use only module directory for linked media files';
 $DGTEXT['USERUPLOAD'] = 'Autoriser les utilisateurs à uploader';
 $DGTEXT['WHEN'] = 'Modifier la date';
 $DGTEXT['Wrong file extension'] = 'File extension not allowed';

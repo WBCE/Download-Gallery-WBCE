@@ -39,6 +39,9 @@ $query_content = $database->query(sprintf(
 ));
 $fetch_content = $query_content->fetchRow();
 
+// get settings
+$settings = dlg_getsettings($section_id);
+
 // initialize template data
 $dir  = pathinfo(dirname(__FILE__),PATHINFO_BASENAME);
 $data = array_merge(
@@ -60,7 +63,11 @@ if (!defined('WYSIWYG_EDITOR') || WYSIWYG_EDITOR=="none" || !file_exists(WB_PATH
 
 // list of existing files
 $wbpath      = str_replace('\\','/',WB_PATH);
-$basepath    = str_replace('\\','/',WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname);
+if ($settings['use_dir']=='Y') {
+	$basepath    = str_replace('\\','/',WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname);
+} else {
+	$basepath    = str_replace('\\','/',WB_PATH.MEDIA_DIRECTORY);
+}
 $folder_list = directory_list($basepath);
 array_push($folder_list,$basepath);
 sort($folder_list);

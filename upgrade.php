@@ -71,6 +71,7 @@ $query_0=$database->query("SELECT * FROM `".TABLE_PREFIX.$tablename."_groups` WH
 
 $query_0=$database->query("ALTER TABLE `".TABLE_PREFIX.$tablename."_settings` ADD COLUMN `position` INT(11) NOT NULL DEFAULT 0 AFTER `ordering`");
 $query_0=$database->query("ALTER TABLE `".TABLE_PREFIX.$tablename."_settings` DROP COLUMN `extposition`");
+$query_0=$database->query("ALTER TABLE `".TABLE_PREFIX.$tablename."_settings` ADD COLUMN `use_dir` ENUM('Y','N') NOT NULL DEFAULT 'Y' AFTER `ordering`");
 
 // update .htaccess file in /media/download_gallery folder 
 include_once WB_PATH.'/modules/'.$dlgmodname.'/functions.php';

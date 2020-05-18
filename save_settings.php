@@ -19,6 +19,11 @@ $friendly = array('&lt;', '&gt;', '?php');
 $raw      = array('<', '>', '');
 
 // STEP 1: Retrieve settings from POST vars
+if (isset($_POST['use_dir']) && in_array($_POST['use_dir'],array('Y','N'))) {
+    $use_dir = $_POST['use_dir'];
+} else {
+    $use_dir = 'N';
+}
 if (isset($_POST['file_size_decimals']) && is_numeric($_POST['file_size_decimals'])) {
     $file_size_decimals = $_POST['file_size_decimals'];
 } else {
@@ -72,7 +77,8 @@ $query = "UPDATE `".TABLE_PREFIX.$tablename."_settings` SET
 	`ordering` = '$ordering',
 	`search_filter` = '$search_filter',
     `tpldir` = '$tpldir',
-    `tplcss` = '$use_default_css'
+    `tplcss` = '$use_default_css',
+	`use_dir` = '$use_dir'
 	WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'";
 $database->query($query);
 

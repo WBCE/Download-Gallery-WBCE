@@ -44,6 +44,7 @@ $mod_dl_gallery = '
     	`search_filter` ENUM(\'Y\',\'N\') NOT NULL DEFAULT \'Y\',
     	`tpldir` VARCHAR(50) NOT NULL DEFAULT \'tableview\',
     	`tplcss` ENUM(\'Y\',\'N\') NOT NULL DEFAULT \'Y\',
+		`use_dir` ENUM(\'Y\',\'N\') NOT NULL DEFAULT \'Y\',
     	PRIMARY KEY (`section_id`)
     );';
 $database->query(sprintf($mod_dl_gallery,TABLE_PREFIX,$tablename));

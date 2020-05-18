@@ -48,12 +48,22 @@ function dlg_download($id, $section_id)
         } else {
             // local
             // subdir?
-            $sub   = str_ireplace(
-                array(strtolower(WB_URL),strtolower(MEDIA_DIRECTORY).'/',strtolower($dlgmodname).'/'),
-                '',
-                $r['link']
-            );
-            $path  = WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$sub;
+			if ($settings['use_dir']=='Y') {
+					$sub   = str_ireplace(
+					array(strtolower(WB_URL),strtolower(MEDIA_DIRECTORY).'/',strtolower($dlgmodname).'/'),
+					'',
+					$r['link']
+				);
+				$path  = WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$sub;
+			} else {
+				$sub   = str_ireplace(
+					array(strtolower(WB_URL),strtolower(MEDIA_DIRECTORY).'/'),
+					'',
+					$r['link']
+				);
+				$path  = WB_PATH.MEDIA_DIRECTORY.'/'.$sub;
+			}
+            
 
             // open file
             $fh = @fopen($path, 'rb');
