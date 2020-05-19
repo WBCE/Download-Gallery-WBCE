@@ -33,6 +33,9 @@ $file_link  = '';
 $dlgmodname = str_replace(str_replace('\\','/',WB_PATH).'/modules/','',str_replace('\\','/',dirname(__FILE__)));
 $tablename  = 'mod_'.$dlgmodname;
 
+// get settings
+$settings = dlg_getsettings($section_id);
+
 // Validate all fields
 $title        = $admin->add_slashes(htmlspecialchars($admin->get_post('title')));
 $description  = $admin->add_slashes($admin->get_post('description'));
@@ -165,11 +168,19 @@ if(trim($existingfile!='')) {
     $path_parts = pathinfo($file_link);
     $fileext    = $path_parts['extension'];
     $filename   = $path_parts['basename'];
-    // get subdir
-    $subdir     = preg_replace('~.*/'.$dlgmodname.'/~i','',$file_link);
-    if  ($remotelink == '') {
-        $size = filesize(WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$subdir);
-    }
+	
+	if ($settings['use_dir']=='Y') {
+		// get subdir
+		$subdir = preg_replace('~.*/'.$dlgmodname.'/~i','',$file_link);
+		if  ($remotelink == '') {		
+			$size = filesize(WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$subdir);
+		}
+	} else {
+		
+		if  ($remotelink == '') {				
+			$size = filesize(str_replace(WB_URL,WB_PATH,$file_link));
+		}
+	}
     if(
            (isset($_POST['delete_file']) && $_POST['delete_file'] != '')
         or (isset($_POST['delete_file2']) AND $_POST['delete_file2'] != '')

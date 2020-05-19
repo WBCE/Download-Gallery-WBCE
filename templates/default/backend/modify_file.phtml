@@ -51,7 +51,13 @@
     					<select name="existingfile" id="existingfile">
     					    <option value=''>&nbsp;</option>
     					    <?php foreach(array_values($data->files) as $item): ?>
-                            <option value="<?php echo $item[0] ?>"><?php echo $item[1]; ?></option>
+                             <option value="<?php echo $item[0] ?>"><?php 
+							if (strlen($item[1])>50) {
+								echo substr($item[1],0,10).'...'.substr($item[1],-20); 
+							} else {
+								echo $item[1];
+							}
+							?></option>
                             <?php endforeach; ?>
     					</select>
     				</td>
