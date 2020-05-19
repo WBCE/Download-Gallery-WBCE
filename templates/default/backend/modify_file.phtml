@@ -25,7 +25,14 @@
         			<td><?php echo $DGTEXT['LOKALFILE']; ?>:</td>
     			    <?php if( $data->filename != '' && file_exists(WB_PATH.MEDIA_DIRECTORY.'/'.$dlgmodname.'/'.$data->filename )): ?>
     				<td>
-    					<?php echo $data->filename; ?><br />
+    					<?php 
+						$fnOut = $data->filename;
+						if (strlen($fnOut)>50) {
+								echo substr($fnOut,0,10).'...'.substr($fnOut,-20); 
+							} else {
+								echo $fnOut;
+							}
+						?><br />
     					<input type="checkbox" name="delete_file" id="delete_file" value="yes" /><label for="delete_file"><?php echo $TEXT['DELETE']; ?></label><br />
     					<input type="checkbox" name="delete_counter" id="delete_counter" value="yes" /><label for="delete_counter"><?php echo $DGTEXT['RESET_Counter']; ?></label>
     				</td>

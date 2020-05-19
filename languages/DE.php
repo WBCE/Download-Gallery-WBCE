@@ -43,6 +43,7 @@ $DGTEXT['NOSORT'] = 'keine Gruppierung';
 $DGTEXT['NOT'] = 'Gar nicht';
 $DGTEXT['NUMBER_FILES'] = 'Anzahl Dateien';
 $DGTEXT['NUMBER_GROUPS'] = 'Anzahl Gruppen';
+$DGTEXT['OFFER_DOWNLOAD'] = 'Dateien immer zum Download anbieten';
 $DGTEXT['ORDERING'] = 'Sortierreihenfolge der Dateien';
 $DGTEXT['OUT_OF1'] = 'Treffer f&uuml;r';
 $DGTEXT['OUT_OF2'] = 'in den';

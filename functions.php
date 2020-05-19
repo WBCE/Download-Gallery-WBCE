@@ -14,6 +14,40 @@ global $dlgmodname, $tablename;
 $dlgmodname = str_replace(str_replace('\\', '/', WB_PATH).'/modules/', '', str_replace('\\', '/', dirname(__FILE__)));
 $tablename  = 'mod_'.$dlgmodname;
 
+// get settings
+function dlg_getsettings($section_id)
+{
+    global $page_id, $database, $dlgmodname, $tablename;
+    $query_content = $database->query(sprintf(
+        "SELECT * FROM `%s%s_settings` ".
+        "WHERE `section_id`='%d' AND `page_id`='%d'",
+        TABLE_PREFIX,
+        $tablename,
+        $section_id,
+        $page_id
+    ));
+    $data = null;
+    if (is_object($query_content)) {
+        $data = $query_content->fetchRow();
+    }
+    // fix settings
+    if (!is_array($data) || count($data)==0) {
+        $data = array();
+        $data['ordering']           = 0;
+        $data['extordering']        = 0;
+        $data['files_per_page']     = 0;
+        $data['file_size_decimals'] = 0;
+        $data['file_size_roundup']  = 0;
+        $data['ordering']           = 0;
+        $data['tpldir']             = 'tableview';
+		$data['use_dir']			= 'Y';
+		$data['offer_download']		=' Y';
+    }
+    return $data;
+}
+
+
+
 // General Functions (used in multiple files)
 
 function dlg_download($id, $section_id)
@@ -40,6 +74,9 @@ function dlg_download($id, $section_id)
             $section_id,
             $id
         ));
+		
+		// get settings
+		$settings = dlg_getsettings($section_id);
 
         if (!preg_match('~^'.WB_URL.'~i',$r['link'])) {
             // remote
@@ -64,31 +101,34 @@ function dlg_download($id, $section_id)
 				$path  = WB_PATH.MEDIA_DIRECTORY.'/'.$sub;
 			}
             
-
-            // open file
-            $fh = @fopen($path, 'rb');
-            if (! $fh) {
-                return false;
-            }
-
-            if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
-                header('Content-Type: "application/octet-stream"');
-                header('Content-Disposition: attachment; filename="'.basename($path).'"');
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                header("Content-Transfer-Encoding: binary");
-                header('Pragma: public');
-                header("Content-Length: ".filesize($path));
-            } else {
-                header('Content-Type: "application/octet-stream"');
-                header('Content-Disposition: attachment; filename="'.basename($path).'"');
-                header("Content-Transfer-Encoding: binary");
-                header('Expires: 0');
-                header('Pragma: no-cache');
-                header("Content-Length: ".filesize($path));
-            }
-            fpassthru($fh);
-            fclose($fh);
+			if ($settings['offer_download']=='Y') {
+				// open file
+				$fh = @fopen($path, 'rb');
+				if (! $fh) {
+					return false;
+				}			
+				if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+					header('Content-Type: "application/octet-stream"');
+					header('Content-Disposition: attachment; filename="'.basename($path).'"');
+					header('Expires: 0');
+					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+					header("Content-Transfer-Encoding: binary");
+					header('Pragma: public');
+					header("Content-Length: ".filesize($path));
+				} else {
+					header('Content-Type: "application/octet-stream"');
+					header('Content-Disposition: attachment; filename="'.basename($path).'"');
+					header("Content-Transfer-Encoding: binary");
+					header('Expires: 0');
+					header('Pragma: no-cache');
+					header("Content-Length: ".filesize($path));
+				}			
+				fpassthru($fh);
+				fclose($fh);
+			} else {
+				$f = $r['link'];
+				header('Location:'.$f);
+			}
         }
     }
     return;
@@ -329,35 +369,7 @@ function dlg_getgroups($section_id, $active_only=true, $ordering=1)
     return array( $data['groups'], $data['gr2name'] );
 }
 
-// get settings
-function dlg_getsettings($section_id)
-{
-    global $page_id, $database, $dlgmodname, $tablename;
-    $query_content = $database->query(sprintf(
-        "SELECT * FROM `%s%s_settings` ".
-        "WHERE `section_id`='%d' AND `page_id`='%d'",
-        TABLE_PREFIX,
-        $tablename,
-        $section_id,
-        $page_id
-    ));
-    $data = null;
-    if (is_object($query_content)) {
-        $data = $query_content->fetchRow();
-    }
-    // fix settings
-    if (!is_array($data) || count($data)==0) {
-        $data = array();
-        $data['ordering']           = 0;
-        $data['extordering']        = 0;
-        $data['files_per_page']     = 0;
-        $data['file_size_decimals'] = 0;
-        $data['file_size_roundup']  = 0;
-        $data['ordering']           = 0;
-        $data['tpldir']             = 'tableview';
-    }
-    return $data;
-}
+
 
 // get template subdirs
 function dlg_gettpldirs()

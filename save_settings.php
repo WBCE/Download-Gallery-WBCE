@@ -24,6 +24,11 @@ if (isset($_POST['use_dir']) && in_array($_POST['use_dir'],array('Y','N'))) {
 } else {
     $use_dir = 'N';
 }
+if (isset($_POST['offer_download']) && in_array($_POST['offer_download'],array('Y','N'))) {
+    $offer_download = $_POST['offer_download'];
+} else {
+    $offer_download = 'N';
+}
 if (isset($_POST['file_size_decimals']) && is_numeric($_POST['file_size_decimals'])) {
     $file_size_decimals = $_POST['file_size_decimals'];
 } else {
@@ -78,7 +83,8 @@ $query = "UPDATE `".TABLE_PREFIX.$tablename."_settings` SET
 	`search_filter` = '$search_filter',
     `tpldir` = '$tpldir',
     `tplcss` = '$use_default_css',
-	`use_dir` = '$use_dir'
+	`use_dir` = '$use_dir',
+	`offer_download` ='$offer_download'
 	WHERE `section_id` = '$section_id' AND `page_id` = '$page_id'";
 $database->query($query);
 

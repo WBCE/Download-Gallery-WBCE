@@ -44,6 +44,7 @@ $DGTEXT['NOSORT'] = 'No Sort';
 $DGTEXT['NOT'] = 'No';
 $DGTEXT['NUMBER_FILES'] = 'File count';
 $DGTEXT['NUMBER_GROUPS'] = 'Group count';
+$DGTEXT['OFFER_DOWNLOAD'] = 'Offer always file download';
 $DGTEXT['ORDERING'] = 'Sort order of the files';
 $DGTEXT['OUT_OF1'] = 'hits for';
 $DGTEXT['OUT_OF2'] = 'within';
