@@ -295,8 +295,7 @@ function dlg_getfiles($section_id, &$data, $is_frontend=true)
         $data['current_files_count'] = $query_files->numRows();
         $data['files'] = array();
         while ($file = $query_files->fetchRow()) {
-            if ($is_frontend && isset($wb) && is_object($wb)) {
-                $file['description'] = $wb->preprocess($file['description']);
+            if ($is_frontend && isset($wb) && is_object($wb)) {                
                 $file['external'] = false;
                 if (!preg_match('~^'.WB_URL.'~i',$file['link'])) {
                     $file['external'] = true;
