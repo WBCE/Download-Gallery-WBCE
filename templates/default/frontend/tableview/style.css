@@ -1,7 +1,7 @@
-@import url(../style.css);
+
 /* hide some columns on mobile */
 @media screen and (max-width: 768px) {
-	div.mod_downloadgallery .rwd-table .hide_on_mobile{display:none;}
+    div.mod_downloadgallery .rwd-table .hide_on_mobile{display:none;}
     div.mod_downloadgallery .rwd-table .item_description{
       border-bottom:1px solid #000 !important;
       border-collapse:separate;
@@ -21,7 +21,6 @@ div.mod_downloadgallery .rwd-table .groupheader{border-top-left-radius:4px;borde
 div.mod_downloadgallery div.center{text-align:center;font-size:.9em;}
 div.mod_downloadgallery div.dlg_search_result{border-radius:5px;border:1px solid #34495e;padding:8px;margin:15px auto;}
 div.mod_downloadgallery div.dlg_search_result a.dlg_button{padding:1px 5px;background-color:#34495E;color:#fff;border-radius:5px;float:right;}
-
 
 @media (min-width: 480px) {
   div.mod_downloadgallery .rwd-table th, div.mod_downloadgallery .rwd-table td {
@@ -62,3 +61,5 @@ div.mod_downloadgallery nav ul.bullets li.prev::after{border-left:1px solid #344
 }
 @media only screen and (min-width: 1170px) {
 }
+
+div.mod_downloadgallery .dlg3hide{opacity:.3}

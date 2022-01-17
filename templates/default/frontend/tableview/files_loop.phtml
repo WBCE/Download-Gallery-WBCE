@@ -30,7 +30,7 @@
                     // set the icon for the current file type
                     $image = ( isset($data->ext2img[$file['extension']]) ? $data->ext2img[$file['extension']] : 'unknown.gif' );
 ?>
-        <tr<?php if($i % 2): echo ' class="row_a"'; endif; ?> id="td_<?php echo $file['file_id'] ?>">
+        <tr class="dlg3item<?php if($i % 2): echo ' row_a'; endif; ?>" id="td_<?php echo $file['file_id'] ?>">
             <td rowspan="2" style="vertical-align:top" class="hide_on_mobile">
                 <img src="<?php echo WB_URL ?>/modules/<?php echo $dlgmodname; ?>/images/<?php echo $image ?>" alt="" />
             </td>
