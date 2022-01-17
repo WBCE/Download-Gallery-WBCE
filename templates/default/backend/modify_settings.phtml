@@ -41,6 +41,32 @@
         			<td width="25%"><label for="files_per_page"><?php echo $DGTEXT['FILES_PER_PAGE']; ?>:</label></td>
         			<td><input type="text" id="files_per_page" name="files_per_page" value="<?php echo $data->settings['files_per_page']; ?>" style="width: 30px" /> 0 = <?php echo $TEXT['UNLIMITED']; ?></td>
         		</tr>
+				<tr>
+        			<td width="25%"><label for="use_dir"><?php echo $DGTEXT['USE_DIR']; ?>:</label></td>
+        			<td>
+        		        <?php
+        		        if ($data->settings['use_dir'] == 'Y') {
+        		            $checked = 'checked="checked"';
+        		        } else {
+        		            $checked = '';
+        		        }
+        		        ?>
+        		        <input type="checkbox" value="Y" name="use_dir" id="use_dir" <?php echo $checked; ?> />
+        		    </td>
+        		</tr>
+				<tr>
+        			<td width="25%"><label for="offer_download"><?php echo $DGTEXT['OFFER_DOWNLOAD']; ?>:</label></td>
+        			<td>
+        		        <?php
+        		        if ($data->settings['offer_download'] == 'Y') {
+        		            $checked = 'checked="checked"';
+        		        } else {
+        		            $checked = '';
+        		        }
+        		        ?>
+        		        <input type="checkbox" value="Y" name="offer_download" id="offer_download" <?php echo $checked; ?> />
+        		    </td>
+        		</tr>
         		<tr>
         			<td width="25%"><label for="search_filter"><?php echo $DGTEXT['SEARCHFILTER']; ?>:</label></td>
         			<td>
