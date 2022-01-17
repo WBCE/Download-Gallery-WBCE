@@ -2,7 +2,7 @@
     foreach($data->files as $i=>$file):
         $icon = $data->ext2img[$file['extension']];
         // if it's an image, show it
-        if(in_array(strtolower($file['extension']),array('jpg','jpeg','gif','png'))):
+        if(in_array(strtolower($file['extension']),$data->extensions)):
             $link  = '<img src="'.$file['link'].'" alt="" />';
             $isimg = true;
         // otherwise, show file type

@@ -12,11 +12,11 @@ require_once WB_PATH.'/modules/'.$dlgmodname.'/functions.php';
 require_once WB_PATH.'/modules/'.$dlgmodname.'/info.php'; // allows to print the module version
 
 if(LANGUAGE_LOADED) {
-	if(!file_exists(WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
-		require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
-	} else {
-		require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
-	}
+    if(!file_exists(WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php')) {
+        require WB_PATH.'/modules/'.$dlgmodname.'/languages/EN.php';
+    } else {
+        require WB_PATH.'/modules/'.$dlgmodname.'/languages/'.LANGUAGE.'.php';
+    }
 }
 
 // handle download
@@ -24,8 +24,9 @@ if(isset($_REQUEST['dl']))
 {
     header_remove();
     // remove any output buffers before sending the file
-    while (ob_get_level() > 0)
+    while (ob_get_level() > 0) {
         ob_end_clean();
+    }
     // send file and exit
     dlg_download($_REQUEST['dl'],$section_id);
     exit;
@@ -51,6 +52,7 @@ $data = array(
     'page'        => 1,
     'prev'        => NULL,
     'next'        => NULL,
+    'extensions'  => dlg_getExtensionsForType($section_id, 'images'),
 );
 
 // get groups

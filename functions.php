@@ -216,6 +216,23 @@ function dlg_getfileext($fileext_id, $section_id)
     return $extdetails;
 }   // end function dlg_getfileext()
 
+function dlg_getExtensionsForType(int $section_id, string $type) : array
+{
+    global $database, $tablename;
+    $result = [];
+    $q = $database->query(sprintf(
+        "SELECT * FROM `%s%s_file_ext`
+         WHERE `section_id` = %d
+         AND `file_type`      = '%s'",
+            TABLE_PREFIX, $tablename, $section_id, $type
+    ));
+    if(is_object($q) && $q->numRows()>0) {
+        $row = $q->fetchRow();
+        $result = explode(',',$row['extensions']);
+    }
+    return $result;
+}   // end function dlg_getExtensionsForType()
+
 /**
  *
  * @access public
